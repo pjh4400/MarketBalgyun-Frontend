@@ -7,7 +7,7 @@ const GeneralProducts = [
         name : "",
         cost : 0,
         price : 3800,
-        quantity : 1,
+        quantity : 12,
         place : 1,
         date : "2020-03-26 13:30:00"
     },
@@ -55,7 +55,7 @@ const GeneralProducts = [
         name : "순면소녀모자",
         cost : 20000,
         price : 17100,
-        quantity : 5,
+        quantity : 1,
         place : 1,
         date : "2020-03-26 13:30:00"
     }

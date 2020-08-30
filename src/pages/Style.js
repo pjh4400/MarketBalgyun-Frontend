@@ -3,13 +3,15 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        background: 'linear-gradient(180deg, #C3E47C 0%, #4EAE4E 100%)'
+        background: 'linear-gradient(180deg, #C3E47C 0%, #4EAE4E 100%)',
+        flexDirection: 'column',
+        alignItems: 'center',
     },
     paper: {
         background: '#FFFFFF',
         margin: theme.spacing(10),
         padding: theme.spacing(3),
-        display: 'flex',
+        width: '70%',
         flexDirection: 'column',
         alignItems: 'center',
     },
@@ -34,8 +36,8 @@ const useStyles = makeStyles((theme) => ({
     search: {
         background: '#4EAE4E',
         color: 'white',
-    }
-
+        width: '100%',
+    },
 }));
 
 export default useStyles;

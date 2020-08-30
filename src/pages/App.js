@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Home, RegisterCustomer, Sale } from './index.js';
 
-const App = ({store}) => {
+const App = () => {
     return (
         <BrowserRouter>
             <div>

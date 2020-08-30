@@ -43,7 +43,7 @@ const RegisterCustomer = () => {
 
     
     const onTasteHandler = (e) => {
-        seTaste(e.target.value);
+        setTaste(e.target.value);
      };
 
      const onBoolSMSHandler = (e) => {
@@ -82,6 +82,7 @@ const RegisterCustomer = () => {
 
     const onSubmitForm = (e) => {
         alert('정상적으로 등록되었습니다.' + name + phone);
+        console.log(e.target.name)
         e.preventDefault(); 
     }
 
