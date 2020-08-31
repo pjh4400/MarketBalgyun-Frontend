@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { Home, RegisterCustomer, Sale } from './index.js';
+import { Home, RegisterCustomer, SaleContainer, Payment} from './index.js';
 
 const App = () => {
     return (
@@ -8,7 +8,8 @@ const App = () => {
             <div>
                 <Route exact path="/" component={Home}/>
                 <Route path="/register-customer" component={RegisterCustomer}/>
-                <Route path="/sale" component={Sale}/>
+                <Route path="/sale" component={SaleContainer}/>
+                <Route path="/payment" component={Payment}/>
             </div>
         </BrowserRouter>
     );

@@ -20,7 +20,9 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
   },
 }));
-const SaleGeneralItem = ({ item, key }) => {
+
+
+const SaleGeneralItem = ({ item, key, onDeleteItem }) => {
   const classes = useStyles();
 
   return (
@@ -31,7 +33,7 @@ const SaleGeneralItem = ({ item, key }) => {
             <CardContent>
               <Typography variant="subtitle1" color="textSecondary" paragraph>
                 ID : {item.id}
-                <IconButton className={classes.clear}><ClearIcon /></IconButton>
+                <IconButton className={classes.clear} onClick={() =>onDeleteItem(item)}><ClearIcon /></IconButton>
               </Typography>
               <Typography component="h3" variant="h5">
                 {item.name || item.third_category}

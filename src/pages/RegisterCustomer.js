@@ -1,6 +1,5 @@
 import React, { useState }  from 'react';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -9,7 +8,6 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import useStyles from "./Style";
 
 
@@ -82,7 +80,6 @@ const RegisterCustomer = () => {
 
     const onSubmitForm = (e) => {
         alert('정상적으로 등록되었습니다.' + name + phone);
-        console.log(e.target.name)
         e.preventDefault(); 
     }
 

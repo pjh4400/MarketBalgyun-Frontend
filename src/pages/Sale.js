@@ -1,25 +1,14 @@
 import React, { useState } from 'react';
 import SaleGeneralItem from '../components/SaleGeneralItem';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from "@material-ui/core/InputAdornment";
+import { Container, Typography, Paper, Grid, Button, TextField, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
 import useStyles from './Style';
 import GeneralProducts from "../tempDB/GeneralProducts";
 
-const Sale = () => {
-    const [items, setItems] = useState([]);
-    const [mode, setMode] = useState("before");
-    const [sumPrice, setSumPrice] = useState(0);
+const Sale = ({items, price, onAddItem, onDeleteItem}) => {
     const [searchID, setSearchID] = useState("");
-
+   
     const classes = useStyles();
 
     const onSearchIDHandler = (e) => {
@@ -27,21 +16,14 @@ const Sale = () => {
     };
 
     const onSearchItem = (e) => {
+        e.preventDefault();
         let item = GeneralProducts.find(it => it.id == searchID);
         if (item === undefined) {
             alert("ID를 다시 입력해주세요." + searchID);
         }
         else {
-            setSumPrice(sumPrice + item.price);
-            setItems(items.concat(item));
+            onAddItem(item);
         }
-        e.preventDefault();
-    }
-
-    const onRemoveItem = (id) => {
-        setItems(items.filter(it => it.id !== id));
-        alert("판매하기 페이지로 이동");
-        e.preventDefault();
     }
 
     const onSaleComplete = (e) => {
@@ -77,13 +59,13 @@ const Sale = () => {
                 </form>
 
                 <Grid container spacing={2}>
-                    {items.map(item => (
-                        <SaleGeneralItem item={item} key={item.id} />
+                    {items && items.map(item => (
+                        <SaleGeneralItem item={item} key={item.id} onDeleteItem={onDeleteItem}/>
                     ))}
                 </Grid>
 
-                <Button className={classes.submit} type="submit"  size="large" onClick={onSaleComplete}>
-                    총 {sumPrice} 원 판매하기
+                <Button className={classes.submit} type="submit"  size="large" onClick={() => onSaleComplete}>
+                    총 {price} 원 판매하기
                 </Button>
             </Paper>
         </Container>
