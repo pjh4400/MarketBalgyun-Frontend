@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Sale from './Sale';
+import Sale from '../pages/Sale';
 import  { addItem, deleteItem } from '../modules/sales';
 
 

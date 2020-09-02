@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { Home, RegisterCustomer, SaleContainer, Payment} from './index.js';
+import { Home, Customer, Sale, Payment } from './index.js';
 
 const App = () => {
     return (
         <BrowserRouter>
             <div>
                 <Route exact path="/" component={Home}/>
-                <Route path="/register-customer" component={RegisterCustomer}/>
-                <Route path="/sale" component={SaleContainer}/>
+                <Route path="/register-customer" component={Customer}/>
+                <Route path="/sale" component={Sale}/>
                 <Route path="/payment" component={Payment}/>
             </div>
         </BrowserRouter>
