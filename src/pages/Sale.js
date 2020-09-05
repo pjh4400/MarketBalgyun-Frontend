@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import SaleGeneralItem from '../components/SaleGeneralItem';
 import { Container, Typography, Paper, Grid, Button, TextField, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import { Link } from 'react-router-dom';
 
 import useStyles from './Style';
 import GeneralProducts from "../tempDB/GeneralProducts";
 
-const Sale = ({items, price, onAddItem, onDeleteItem}) => {
+const Sale = ({ items, price, onAddItem, onDeleteItem }) => {
     const [searchID, setSearchID] = useState("");
-   
+
     const classes = useStyles();
 
     const onSearchIDHandler = (e) => {
@@ -28,7 +29,7 @@ const Sale = ({items, price, onAddItem, onDeleteItem}) => {
 
     const onSaleComplete = (e) => {
         alert("판매하기 페이지로 이동");
-        e.preventDefault();
+        history.push('/payment');
     }
 
 
@@ -60,13 +61,14 @@ const Sale = ({items, price, onAddItem, onDeleteItem}) => {
 
                 <Grid container spacing={2}>
                     {items && items.map(item => (
-                        <SaleGeneralItem item={item} key={item.id} onDeleteItem={onDeleteItem}/>
+                        <SaleGeneralItem item={item} key={item.id} onDeleteItem={onDeleteItem} />
                     ))}
                 </Grid>
-
-                <Button className={classes.submit} type="submit"  size="large" onClick={() => onSaleComplete}>
-                    총 {price} 원 판매하기
+                <Link to="/payment">
+                    <Button className={classes.submit} size="large">
+                        총 {price} 원 판매하기
                 </Button>
+                </Link>
             </Paper>
         </Container>
     );

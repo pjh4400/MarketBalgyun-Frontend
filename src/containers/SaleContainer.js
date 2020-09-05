@@ -1,23 +1,27 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Sale from '../pages/Sale';
 import  { addItem, deleteItem } from '../modules/sales';
 
 
-const SaleContainer = ( {
-    items, price, addItem, deleteItem
-}) => {
-    return <Sale items={items} price={price} onAddItem={addItem} onDeleteItem={deleteItem}/>;
-}
-
-
-export default connect(
-    ( {sales} ) => ({
+const SaleContainer = () => {
+    const { items, price } = useSelector( ({sales}) => ({
         items: sales.items,
         price: sales.price,
-    }),
-    {
-        addItem,
-        deleteItem,
-    },
-)(SaleContainer);
+    }));
+
+    const dispatch = useDispatch();
+    const onAddItem = useCallback(item => dispatch(addItem(item)), [dispatch]);
+    const onDeleteItem = useCallback(item => dispatch(deleteItem(item)), [dispatch]);
+
+    return (
+    <Sale 
+    items={items}
+    price={price} 
+    onAddItem={onAddItem} 
+    onDeleteItem={onDeleteItem}
+    />
+    );
+};
+
+export default React.memo(SaleContainer);

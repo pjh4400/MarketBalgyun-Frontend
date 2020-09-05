@@ -1,7 +1,7 @@
 const ADD_ITEM = 'sales/ADD_ITEM'; // 판매목록에 상품 추가
 const DELETE_ITEM = 'sales/DELETE_ITEM'; // 판매목록에서 상품 제거
-const DISCOUNT = 'sales/DISCOUNT'; // 할인 적용
-const POINT = 'sales/POINT'; // 포인트 적용
+const DISCOUNT_PERCENT = 'sales/DISCOUNT_PERCENT'; // 할인 적용
+const APPLY_POINT = 'sales/APPLY_POINT'; // 포인트 적용
 
 const initialState = {
     items : [],
@@ -34,6 +34,7 @@ function sales(state = initialState, action) {
                 items : state.items.filter(item => item.id !== action.item.id),
                 price : state.price - action.item.price,
             };
+
 
         default:
             return state;
