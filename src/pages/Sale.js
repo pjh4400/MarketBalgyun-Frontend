@@ -27,12 +27,6 @@ const Sale = ({ items, price, onAddItem, onDeleteItem }) => {
         }
     }
 
-    const onSaleComplete = (e) => {
-        alert("판매하기 페이지로 이동");
-        history.push('/payment');
-    }
-
-
     return (
         <Container component="main" maxwidth="xs" className={classes.root}>
             <Paper elevation={3} className={classes.paper}>

@@ -7,104 +7,47 @@ import Customers from '../tempDB/Customers';
 
 
 const CustomerInfo = ({ mode }) => {
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [likeCategory, setLikeCategory] = useState('');
-    const [taste, setTaste] = useState('');
-    const [boolSMS, setBoolSMS] = useState(false);
-    const [boolLecture, setBoolLecture] = useState(false);
-    const [something, setSomething] = useState('');
-    const [email, setEmail] = useState('');
-    const [birthday, setBirthday] = useState('');
-    const [gender, setGender] = useState('');
-    const [address, setAddress] = useState('');
-    const [mainNumber, setMainNumber] = useState('');
-    const [searchNumber, setSearchNumber] = useState('');
+    const [customer, setCustomer] = useState({
+        name: '',
+        phone : '',
+        taste : '',
+        boolSMS : false,
+        boolLecture : false,
+        likeCategory : '',
+        something : '',
+        email : '',
+        birthday : '',
+        gender : 'F',
+        address : '',
+        mainNumber : 1,
+        point: 0,
+    });
 
-    const [customer, setCustomer] = useState({});
-    
+    const onChangeHandler = (e) => {
+        e.preventDefault();
+        setCustomer({
+            ...customer,
+            [e.target.name] : e.target.type==='checkbox' ? e.target.checked : e.target.value,
+        });
+    }
+
     const classes = useStyles();
-
-    const onNameHandler = (e) => {
-        setName(e.target.value);
-    };
-
-    const onPhoneHandler = (e) => {
-        setPhone(e.target.value);
-    };
-
-    const onLikeCategoryHandler = (e) => {
-        setLikeCategory(e.target.value);
-    };
-
-
-    const onTasteHandler = (e) => {
-        setTaste(e.target.value);
-    };
-
-    const onBoolSMSHandler = (e) => {
-        setBoolSMSHandler(e.target.checked);
-    };
-
-    const onBoolLectureHandler = (e) => {
-        setBoolLecture(e.target.checked);
-    };
-
-    const onSomethingHandler = (e) => {
-        setSomething(e.target.value);
-    };
-
-    const onEmailHandler = (e) => {
-        setEmail(e.target.value);
-    };
-
-
-    const onBirthdayHandler = (e) => {
-        setBirthday(e.target.value);
-    };
-
-    const onGenderHandler = (e) => {
-        setGender(e.target.value);
-    };
-
-    const onAddressHandler = (e) => {
-        setAddress(e.target.value);
-    };
-
-    const onMainNumberHandler = (e) => {
-        setMainNumber(e.target.value);
-    };
 
 
     const onSubmitForm = (e) => {
+        // TODO : post
         alert('정상적으로 등록되었습니다.');
         e.preventDefault();
     }
 
-    const onSearchNumberHandler = (e) => {
-        setSearchNumber(e.target.value);
-    };
-
     const onSearchCustomer = (e) => {
-        let customer = Customers.find(customer => customer.phone.slice(-4) === searchNumber);
+        let customer = Customers.find(customer => customer.phone.slice(-4) === e.target.number.value);
         if (customer === undefined) {
             alert("해당 회원이 존재하지 않습니다.");
         }
         else {
             console.log(customer);
             setCustomer(customer);
-            setName(customer.name);
-            setPhone(customer.phone);
-            setLikeCategory(customer.likeCategory);
-            setTaste(customer.taste);
-            setBoolLecture(customer.boolLecture);
-            setBoolSMS(customer.boolSMS);
-            setSomething(customer.something);
-            setEmail(customer.email);
-            setBirthday(customer.birthday);
-            setGender(customer.gender);
-            setAddress(customer.address);
-            setMainNumber(customer.mainNumber);
             alert(customer.name + " : " + customer.phone);
         }
         e.preventDefault();
@@ -119,9 +62,7 @@ const CustomerInfo = ({ mode }) => {
                     variant="outlined"
                     fullWidth
                     label="휴대폰번호 뒤 네자리"
-                    name="number"
-                    onChange={onSearchNumberHandler}  
-                    value={searchNumber}    
+                    name="number" 
                     InputProps={{
                         endAdornment: (
                             <InputAdornment>
@@ -141,16 +82,16 @@ const CustomerInfo = ({ mode }) => {
                             fullWidth
                             label="고객명"
                             name="name"
-                            onChange={onNameHandler}
-                            value={name}
+                            value={customer.name}
+                            onChange={onChangeHandler}
                             autoFocus
                         />
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <TextField select label= "성별" variant="outlined" value={gender} onChange={onGenderHandler} className={classes.menuitem}>
-                            <MenuItem value={'F'}>여성</MenuItem>
-                            <MenuItem value={'M'}>남성</MenuItem>
+                        <TextField select label= "성별" variant="outlined" value={customer.gender} defaultValue={customer.gender} onChange={onChangeHandler} className={classes.menuitem}>
+                            <MenuItem value={"F"}>여성</MenuItem>
+                            <MenuItem value={"M"}>남성</MenuItem>
                         </TextField>
                     </Grid>
 
@@ -162,16 +103,16 @@ const CustomerInfo = ({ mode }) => {
                             fullWidth
                             helperText="예) 01011112222"
                             label="전화번호"
-                            name="phonenumber"
-                            onChange={onPhoneHandler}
-                            value={phone}
+                            name="phone"
+                            value={customer.phone}
+                            onChange={onChangeHandler}
                         />
 
                     </Grid>
 
                     <Grid item xs={12}>
                         <FormControlLabel
-                            control={<Checkbox value={boolSMS} onChange={onBoolSMSHandler} className={classes.checkbox} />}
+                            control={<Checkbox onChange={onChangeHandler} value={customer.boolSMS} className={classes.checkbox} />}
                             label="SMS수신동의"
                         />
                     </Grid>
@@ -184,8 +125,8 @@ const CustomerInfo = ({ mode }) => {
                             helperText="예) 브랜드그릇, 인테리어"
                             label="관심상품"
                             name="likeCategory"
-                            onChange={onLikeCategoryHandler}
-                            value={likeCategory}
+                            value={customer.likeCategory}
+                            onChange={onChangeHandler}
                         />
                     </Grid>
 
@@ -197,8 +138,8 @@ const CustomerInfo = ({ mode }) => {
                             helperText="예) 빈티지"
                             label="선호 스타일"
                             name="taste"
-                            onChange={onTasteHandler}
-                            value={taste}
+                            value={customer.taste}
+                            onChange={onChangeHandler}
                         />
                     </Grid>
 
@@ -211,8 +152,8 @@ const CustomerInfo = ({ mode }) => {
                             helperText="예) market@naver.com"
                             label="이메일"
                             name="email"
-                            onChange={onEmailHandler}
-                            value={email}
+                            value={customer.email}
+                            onChange={onChangeHandler}
                         />
                     </Grid>
 
@@ -224,8 +165,8 @@ const CustomerInfo = ({ mode }) => {
                             helperText="예) 980626"
                             label="생년월일"
                             name="birthday"
-                            onChange={onBirthdayHandler}
-                            value={birthday}
+                            value={customer.birthday}
+                            onChange={onChangeHandler}
                         />
                     </Grid>
 
@@ -236,20 +177,20 @@ const CustomerInfo = ({ mode }) => {
                             fullWidth
                             label="주소"
                             name="address"
-                            onChange={onAddressHandler}
-                            value={address}
+                            value={customer.address}
+                            onChange={onChangeHandler}
                         />
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
                         <FormControlLabel
-                            control={<Checkbox value={boolLecture} onChange={onBoolLectureHandler} className={classes.checkbox} />}
+                            control={<Checkbox onChange={onChangeHandler} name="boolLecture" value={customer.boolLecture} className={classes.checkbox} />}
                             label="강좌관심여부"
                         />
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <TextField select label="주거래매장" variant="outlined" value={mainNumber} onChange={onMainNumberHandler}>
+                        <TextField select label="주거래매장" variant="outlined" name="mainNumber" value={customer.mainNumber} onChange={onChangeHandler}>
                             <MenuItem value={1}>1호점</MenuItem>
                             <MenuItem value={2}>2호점</MenuItem>
                         </TextField>
@@ -262,8 +203,8 @@ const CustomerInfo = ({ mode }) => {
                             fullWidth
                             label="비고"
                             name="something"
-                            onChange={onSomethingHandler}
-                            value={something}
+                            value={customer.something}
+                            onChange={onChangeHandler}
                         />
                     </Grid>
 

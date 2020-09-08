@@ -26,7 +26,7 @@ const Customers = [
         birthday : "",
         gender : 'F',
         address : "",
-        mainNumber : "",
+        mainNumber : 1,
         point: 2700,
     },
 ]
