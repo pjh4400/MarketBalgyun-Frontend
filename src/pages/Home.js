@@ -1,19 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import {Container, Typography, Paper, Grid, List, ListItem} from '@material-ui/core';
+
 import useStyles from './Style';
 
 const Home = () => {
     const classes = useStyles();
 
     return (
-        <>
-            <Container className={classes.root}>
+        <Container className={classes.root}>
 
             <Paper component='main' elevation={3} className={classes.paper}>
                 
@@ -31,8 +26,7 @@ const Home = () => {
                     </Grid>
                 </Grid>
                 </Paper>
-            </Container>
-        </>
+         </Container>
     )
 }
 
