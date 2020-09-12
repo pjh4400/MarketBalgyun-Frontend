@@ -3,3 +3,5 @@ export { default as Customer } from './CustomerPage';
 export { default as Sale } from '../containers/SaleContainer';
 export { default as Payment} from '../containers/PaymentContainer';
 export { default as RegisterGeneralProduct } from './RegisterGeneralProduct';
+export { default as SignUp } from './SignUpPage';
+export { default as SignIn } from './SignInPage';
