@@ -19,6 +19,7 @@ const Home = () => {
                     <Grid item xs={12}>
                         <List>
                             <ListItem><NavLink to="/">Home</NavLink></ListItem>
+                            <ListItem><NavLink to="/register-general-product">일반상품등록</NavLink></ListItem>
                             <ListItem><NavLink to="/register-customer">회원관리</NavLink></ListItem>
                             <ListItem><NavLink to="/sale">상품판매</NavLink></ListItem>
                             <ListItem><NavLink to="/sign-up">직원가입</NavLink></ListItem>

@@ -23,23 +23,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const SaleGeneralItem = ({ item, key, onDeleteItem }) => {
-  const [quantity, setQuantity] = useState(1);
-
+const SaleGeneralItem = ({ item, key, onDeleteItem, onChangeQuantity }) => {
   const classes = useStyles();
-
 
   const onQuantityHandler = (e) => {
     e.preventDefault();
-    let tmpQuantity = Number(e.target.quantity.value);
-    if (tmpQuantity < 1) {
+    let quantity = Number(e.target.quantity.value);
+    if (quantity < 1) {
       alert("잘못된 입력입니다.");
     }
-    else if (tmpQuantity > item.quantity) {
+    else if (quantity > item.quantity) {
       alert(item.quantity + "개 이상 판매할 수 없습니다.");
     }
     else {
-      setQuantity(tmpQuantity);
+      onChangeQuantity(item,quantity);
     }
   }
 

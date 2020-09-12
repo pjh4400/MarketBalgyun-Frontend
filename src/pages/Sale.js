@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import useStyles from './Style';
 import GeneralProducts from "../tempDB/GeneralProducts";
 
-const Sale = ({ items, price, onAddItem, onDeleteItem }) => {
+const Sale = ({ items, price, onAddItem, onDeleteItem, onChangeQuantity }) => {
     const [searchID, setSearchID] = useState("");
 
     const classes = useStyles();
@@ -23,9 +23,10 @@ const Sale = ({ items, price, onAddItem, onDeleteItem }) => {
             alert("ID를 다시 입력해주세요." + searchID);
         }
         else {
-            onAddItem(item);
+            onAddItem(item, 1);
         }
     }
+
 
     return (
         <Container component="main" maxwidth="xs" className={classes.root}>
@@ -55,7 +56,7 @@ const Sale = ({ items, price, onAddItem, onDeleteItem }) => {
 
                 <Grid container spacing={2}>
                     {items && items.map(item => (
-                        <SaleGeneralItem item={item} key={item.id} onDeleteItem={onDeleteItem} />
+                        <SaleGeneralItem item={item} key={item.id} onDeleteItem={onDeleteItem} onChangeQuantity={onChangeQuantity}/>
                     ))}
                 </Grid>
                 <Link to="/payment">
