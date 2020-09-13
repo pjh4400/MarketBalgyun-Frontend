@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Typography, Paper, Grid, Button, TextField, InputAdornment } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Container, Typography, Paper, Grid, Button, TextField} from '@material-ui/core';
 
 import useStyles from './Style';
 import GeneralProducts from "../tempDB/GeneralProducts";
@@ -10,7 +8,6 @@ import Category from "../tempDB/Cateogry";
 
 
 const RegisterGeneralProduct = () => {
-    const [mode, setMode] = useState('before'); // before, after
     const [secondCategories, setSecondCategories] = useState([]);
     const [thirdCategories, setThirdCategories] = useState([]);
 
@@ -23,6 +20,7 @@ const RegisterGeneralProduct = () => {
         price: 0,
         quantity: 0,
         max_discount: 0,
+        place: 0,
         date: '',
     });
 
@@ -60,6 +58,7 @@ const RegisterGeneralProduct = () => {
     }
 
     const onSubmitProduct = (e) => {
+        alert("등록하시겠습니까?");
         e.preventDefault();
         console.log(product);
     }
@@ -167,6 +166,19 @@ const RegisterGeneralProduct = () => {
                                         label="수량"
                                         name="quantity"
                                         value={product.quantity}
+                                        onChange={onChangeHandler}
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <TextField
+                                        type="number"
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        label="재고위치"
+                                        name="place"
+                                        value={product.place}
                                         onChange={onChangeHandler}
                                     />
                                 </Grid>

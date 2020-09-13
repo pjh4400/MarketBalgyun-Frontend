@@ -38,6 +38,10 @@ const useStyles = makeStyles((theme) => ({
         color: 'white',
         width: '100%',
     },
+    item: {
+        margin: theme.spacing(2),
+        padding: theme.spacing(3),
+    }
 }));
 
 export default useStyles;

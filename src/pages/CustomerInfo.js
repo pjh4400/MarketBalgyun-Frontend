@@ -89,7 +89,7 @@ const CustomerInfo = ({ mode }) => {
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <TextField select label= "성별" variant="outlined" value={customer.gender} defaultValue={customer.gender} onChange={onChangeHandler} className={classes.menuitem}>
+                        <TextField select label= "성별" variant="outlined" name="gender" value={customer.gender} onChange={onChangeHandler} className={classes.menuitem}>
                             <MenuItem value={"F"}>여성</MenuItem>
                             <MenuItem value={"M"}>남성</MenuItem>
                         </TextField>
