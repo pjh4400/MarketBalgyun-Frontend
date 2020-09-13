@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Container, Paper, Typography, Grid, Button, Avatar, TextField, FormControlLabel, Link, MenuItem} from "@material-ui/core"
 
@@ -6,11 +6,30 @@ import { Container, Paper, Typography, Grid, Button, Avatar, TextField, FormCont
 import useStyles from './Style';
 
 const SignUpPage = () => {
+    const [form, setForm] = useState({
+        name: "",
+        position: "직원",
+        password: "",
+        password2: "",
+    })
     const classes = useStyles();
 
-    const onSubmitForm = (e) => {
-        alert('정상적으로 등록되었습니다.');
+
+    const onChangeHandler = (e) => {
         e.preventDefault();
+        setForm({
+            ...form,
+            [e.target.name] : e.target.type==='checkbox' ? e.target.checked : e.target.value,
+        });
+    }
+
+    const onSubmitForm = (e) => {
+        e.preventDefault();
+        if(form.password === form.password2){
+            alert('정상적으로 등록되었습니다.');
+        } else {
+            alert('비밀번호가 일치하지 않습니다.');
+        }
     }
 
     return (
@@ -22,7 +41,7 @@ const SignUpPage = () => {
                 </Avatar>
                 계정 등록
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={onSubmitForm}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -32,15 +51,16 @@ const SignUpPage = () => {
                                 fullWidth
                                 label="이름"
                                 autoFocus
+                                onChange={onChangeHandler}
                             />
                         </Grid>
 
                         <Grid item xs={12} sm={6}>
-                            <TextField select label="직책" variant="outlined" className={classes.menuitem}>
-                                <MenuItem >직원</MenuItem>
-                                <MenuItem >팀장</MenuItem>
-                                <MenuItem >대표</MenuItem>
-                                <MenuItem >아르바이트</MenuItem>
+                            <TextField select label="직책" variant="outlined" className={classes.menuitem} onChange={onChangeHandler}>
+                                <MenuItem value="직원" >직원</MenuItem>
+                                <MenuItem value="팀장">팀장</MenuItem>
+                                <MenuItem value="대표">대표</MenuItem>
+                                <MenuItem value="아르바이트">아르바이트</MenuItem>
                             </TextField>
                         </Grid>
 
@@ -52,7 +72,7 @@ const SignUpPage = () => {
                                 name="password"
                                 label="비밀번호"
                                 type="password"
-                                id="password"
+                                onChange={onChangeHandler}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -60,10 +80,10 @@ const SignUpPage = () => {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                name="password"
+                                name="password2"
                                 label="비밀번호 확인"
                                 type="password"
-                                id="password"
+                                onChange={onChangeHandler}
                             />
                         </Grid>
                     </Grid>
