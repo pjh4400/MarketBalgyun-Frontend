@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid, TextField, InputAdornment, Card, CardContent, IconButton, CardActionArea } from '@material-ui/core';
 
@@ -23,20 +23,44 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const SaleGeneralItem = ({ item, key, onDeleteItem, onChangeQuantity }) => {
+const SaleGeneralItem = ({ item, onDeleteItem, onChangePrice }) => {
+  const [price, setPrice] = useState(item.price);
+  const [quantity, setQuantity] = useState(1);
+  const [discount, setDiscount] = useState(0);
+
+  useEffect(() => {
+    let newPrice = item.price / 100 * ( 100 - discount) * quantity;
+    onChangePrice(price, newPrice);
+    setPrice(newPrice);
+  }, [quantity, discount]);
+
   const classes = useStyles();
 
   const onQuantityHandler = (e) => {
     e.preventDefault();
-    let quantity = Number(e.target.quantity.value);
-    if (quantity < 1) {
+    let tmpQty = Number(e.target.quantity.value);
+    if (tmpQty < 1) {
       alert("잘못된 입력입니다.");
     }
-    else if (quantity > item.quantity) {
+    else if (tmpQty > item.quantity) {
       alert(item.quantity + "개 이상 판매할 수 없습니다.");
     }
     else {
-      onChangeQuantity(item,quantity);
+      setQuantity(tmpQty);
+    }
+  }
+
+  const onDiscountHandler = (e) => {
+    e.preventDefault();
+    let tmpDiscount = Number(e.target.discount.value);
+    if (tmpDiscount < 0) {
+      alert("잘못된 입력입니다.");
+    }
+    else if (tmpDiscount > item.max_discount) {
+      alert(item.max_discount + "% 이상 할인 할 수 없습니다.");
+    }
+    else {
+      setDiscount(tmpDiscount);
     }
   }
 
@@ -48,18 +72,21 @@ const SaleGeneralItem = ({ item, key, onDeleteItem, onChangeQuantity }) => {
             <CardContent>
               <Typography variant="subtitle1" color="textSecondary" paragraph>
                 ID : {item.id}
-                <IconButton className={classes.clear} onClick={() => onDeleteItem(item)}><ClearIcon /></IconButton>
+                <IconButton className={classes.clear} onClick={() => onDeleteItem(item.id,price)}><ClearIcon /></IconButton>
               </Typography>
               <Typography component="h3" variant="h5">
                 {item.name || item.third_category}
               </Typography>
-              <Typography variant="subtitle1">
+              <Typography variant="body1">
                 재고 : {item.quantity}
               </Typography>
-              <Typography variant="subtitle1" color="primary">
+              <Typography variant="body1">
+                최대 할인율 : {item.max_discount}
+              </Typography>
+              <Typography variant="subtitle1" color="primary" paragraph>
                 가격 : {item.price} 원
             </Typography>
-              <form className={classes.form} onSubmit={onQuantityHandler}>
+              <form onSubmit={onQuantityHandler}>
                 <TextField
                   type="number"
                   variant="outlined"
@@ -76,6 +103,28 @@ const SaleGeneralItem = ({ item, key, onDeleteItem, onChangeQuantity }) => {
                   }}
                 />
               </form>
+
+              <form onSubmit={onDiscountHandler}>
+                <TextField
+                  type="number"
+                  variant="outlined"
+                  fullWidth
+                  label="할인율"
+                  name="discount"
+                  defaultValue="0"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment>
+                        <IconButton type="submit"><CheckCircleIcon /></IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </form>
+              <Typography variant="subtitle1" color="primary">
+                총 적용 가격 : {price} 원
+            </Typography>
+
             </CardContent>
           </div>
         </Card>

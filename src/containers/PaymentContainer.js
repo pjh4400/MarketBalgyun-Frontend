@@ -4,15 +4,15 @@ import Payment from '../pages/Payment';
 
 
 const PaymentContainer = () => {
-    const { items, price } = useSelector( ({sales}) => ({
+    const { items, sum_price } = useSelector( ({sales}) => ({
         items: sales.items,
-        price: sales.price,
+        sum_price: sales.sum_price,
     }));
 
 
     return (
     <Payment
-    price={price} 
+    sum_price={sum_price} 
     />
     );
 };

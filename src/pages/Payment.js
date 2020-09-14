@@ -23,21 +23,17 @@ const useStyles2 = makeStyles((theme) => ({
 }));
 
 
-const Payment = ({ price, onDiscount, onApplyPoint }) => {
+const Payment = ({ sum_price, onDiscount, onApplyPoint }) => {
+    const [membership, setMemberShip] = useState(false);
     const [customer, setCustomer] = useState({});
-    const [finalPrice, setFinalPrice] = useState(price);
+    const [finalPrice, setFinalPrice] = useState(sum_price);
 
-    const [discount, setDiscount] = useState(0);
     const [point, setPoint] = useState(0);
     const [card, setCard] = useState(0);
     const [cash, setCash] = useState(0);
 
     const classes = useStyles();
     const cardClasses = useStyles2();
-
-    useEffect(() => {
-        setFinalPrice(price - price / 100 * discount - point);
-    }, [discount, point]);
 
 
     useEffect(() => {
@@ -57,19 +53,6 @@ const Payment = ({ price, onDiscount, onApplyPoint }) => {
         setCard(cash);
     };
 
-    const onDiscountHandler = (e) => {
-        e.preventDefault();
-        let tmpDiscount = Number(e.target.discount.value);
-        if (tmpDiscount < 0) {
-            alert("잘못된 입력입니다.");
-        }
-        else if (tmpDiscount > 50) {
-            alert("최대 할인율은 50% 입니다.");
-        }
-        else {
-            setDiscount(tmpDiscount);
-        }
-    }
 
     const onApplyPointHandler = (e) => {
         e.preventDefault();
@@ -82,7 +65,7 @@ const Payment = ({ price, onDiscount, onApplyPoint }) => {
         }
         else {
             setPoint(tmpPoint);
-            setFinalPrice(price - price / 100 * discount - point);
+            setFinalPrice(sum_price - point);
         }
     }
 
@@ -93,6 +76,7 @@ const Payment = ({ price, onDiscount, onApplyPoint }) => {
         }
         else {
             setCustomer(customer);
+            setMemberShip(true);
             alert(customer.name + " : " + customer.phone);
         }
         e.preventDefault();
@@ -103,7 +87,7 @@ const Payment = ({ price, onDiscount, onApplyPoint }) => {
         <Container component="main" maxwidth="xs" className={classes.root}>
             <Paper elevation={3} className={classes.paper}>
                 <Typography component="h1" variant="h4" align="center" className={classes.header}>
-                    상품결제
+                    상품결제 총 {sum_price} 원
                 </Typography>
 
                 <Grid container spacing={2}>
@@ -137,59 +121,29 @@ const Payment = ({ price, onDiscount, onApplyPoint }) => {
                                         전화번호 : {customer && customer.phone} </Typography>
                                     <Typography variant="subtitle1">
                                         포인트 : {customer && customer.point} </Typography>
+                                    
+                                    { !membership || 
+                                     <form className={classes.form} onSubmit={onApplyPointHandler}>
+                                     <TextField
+                                         type="number"
+                                         variant="outlined"
+                                         fullWidth
+                                         label="포인트 적용 (p)"
+                                         name="point"
+                                         InputProps={{
+                                             endAdornment: (
+                                                 <InputAdornment>
+                                                     <IconButton type="submit"><CheckCircleIcon /></IconButton>
+                                                 </InputAdornment>
+                                             )
+                                         }}
+                                     />
+                                 </form> }                                  
                                 </CardContent>
                             </div>
                         </Card>
                     </Grid>
 
-                    <Grid item xs={12}>
-                        <Card className={cardClasses.card}>
-                            <div className={cardClasses.cardDetails}>
-                                <CardContent>
-                                    <Typography component="h3" variant="h5">
-                                        할인 적용 ( {price - finalPrice} 원 )
-                                    </Typography>
-                                    <Grid item xs={12} sm={6} className={cardClasses.twoComponents}>
-                                        <form className={classes.form} onSubmit={onDiscountHandler}>
-                                            <TextField
-                                                type="number"
-                                                variant="outlined"
-                                                fullWidth
-                                                label="할인율(%)"
-                                                name="discount"
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment>
-                                                            <IconButton type="submit"><CheckCircleIcon /></IconButton>
-                                                        </InputAdornment>
-                                                    )
-                                                }}
-                                            />
-                                        </form>
-                                    </Grid>
-
-                                    <Grid item xs={12} sm={6} className={cardClasses.twoComponents}>
-                                        <form className={classes.form} onSubmit={onApplyPointHandler}>
-                                            <TextField
-                                                type="number"
-                                                variant="outlined"
-                                                fullWidth
-                                                label="포인트 (p)"
-                                                name="point"
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment>
-                                                            <IconButton type="submit"><CheckCircleIcon /></IconButton>
-                                                        </InputAdornment>
-                                                    )
-                                                }}
-                                            />
-                                        </form>
-                                    </Grid>
-                                </CardContent>
-                            </div>
-                        </Card>
-                    </Grid>
 
                     <Grid item xs={12}>
                         <Card className={cardClasses.card}>
@@ -202,6 +156,7 @@ const Payment = ({ price, onDiscount, onApplyPoint }) => {
                                         <TextField
                                             type="number"
                                             variant="outlined"
+                                            size="small"
                                             required
                                             fullWidth
                                             label="카드 (원)"
@@ -219,6 +174,7 @@ const Payment = ({ price, onDiscount, onApplyPoint }) => {
                                         <TextField
                                             type="number"
                                             variant="outlined"
+                                            size="small"
                                             required
                                             fullWidth
                                             label="현금 (원)"

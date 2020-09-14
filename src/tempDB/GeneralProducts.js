@@ -8,6 +8,7 @@ const GeneralProducts = [
         cost : 0,
         price : 3800,
         quantity : 12,
+        max_discount : 50,
         place : 1,
         date : "2020-03-26 13:30:00"
     },
@@ -20,6 +21,7 @@ const GeneralProducts = [
         cost : 1000000,
         price : 799000,
         quantity : 1,
+        max_discount : 30,
         place : 1,
         date : "2020-03-26 13:30:00"
     },
@@ -32,6 +34,7 @@ const GeneralProducts = [
         cost : 100000,
         price : 40000,
         quantity : 1,
+        max_discount : 20,
         place : 1,
         date : "2020-03-26 13:30:00"
     },
@@ -44,6 +47,7 @@ const GeneralProducts = [
         cost : 100000,
         price : 37000,
         quantity : 4,
+        max_discount : 40,
         place : 1,
         date : "2020-03-26 13:30:00"
     },
@@ -56,6 +60,7 @@ const GeneralProducts = [
         cost : 20000,
         price : 17100,
         quantity : 1,
+        max_discount : 50,
         place : 1,
         date : "2020-03-26 13:30:00"
     }

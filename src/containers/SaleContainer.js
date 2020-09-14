@@ -1,29 +1,30 @@
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Sale from '../pages/Sale';
-import  { addItem, deleteItem, changeQuantity } from '../modules/sales';
+import  { addItem, deleteItem, changePrice } from '../modules/sales';
 
 
 const SaleContainer = () => {
-    const { items, price, quantities } = useSelector( ({sales}) => ({
+    const { items, sum_price } = useSelector( ({sales}) => ({
         items: sales.items,
-        price: sales.price,
-        quantities: sales.quantities,
+        sum_price: sales.sum_price,
     }));
 
     const dispatch = useDispatch();
     const onAddItem = useCallback(item => dispatch(addItem(item)), [dispatch]);
-    const onDeleteItem = useCallback(item => dispatch(deleteItem(item)), [dispatch]);
-    const onChangeQuantity = useCallback((item,quantity) => dispatch(changeQuantity(item, quantity)), [dispatch]);
+    const onDeleteItem = useCallback((id,price) => dispatch(deleteItem(id,price)), [dispatch]);
+    const onChangePrice = useCallback((prevPrice,newPrice) => dispatch(changePrice(prevPrice,newPrice)), [dispatch]);
 
+
+    
 
     return (
     <Sale 
     items={items}
-    price={price} 
+    sum_price={sum_price} 
     onAddItem={onAddItem} 
     onDeleteItem={onDeleteItem}
-    onChangeQuantity={onChangeQuantity}
+    onChangePrice={onChangePrice}
     />
     );
 };

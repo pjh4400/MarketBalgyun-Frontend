@@ -20,7 +20,7 @@ const RegisterGeneralProduct = () => {
         price: 0,
         quantity: 0,
         max_discount: 0,
-        place: 0,
+        place: 1,
         date: '',
     });
 
@@ -58,7 +58,6 @@ const RegisterGeneralProduct = () => {
     }
 
     const onSubmitProduct = (e) => {
-        alert("등록하시겠습니까?");
         e.preventDefault();
         console.log(product);
     }
