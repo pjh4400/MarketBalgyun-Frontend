@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import useStyles from './Style';
 import GeneralProducts from "../tempDB/GeneralProducts";
 
-const Sale = ({ items, price, onAddItem, onDeleteItem, onChangeQuantity }) => {
+const Sale = ({ items, sum_price, onAddItem, onDeleteItem, onChangePrice }) => {
     const [searchID, setSearchID] = useState("");
 
     const classes = useStyles();
@@ -56,12 +56,12 @@ const Sale = ({ items, price, onAddItem, onDeleteItem, onChangeQuantity }) => {
 
                 <Grid container spacing={2}>
                     {items && items.map(item => (
-                        <SaleGeneralItem item={item} key={item.id} onDeleteItem={onDeleteItem} onChangeQuantity={onChangeQuantity}/>
+                        <SaleGeneralItem item={item} key={item.id} onDeleteItem={onDeleteItem} onChangePrice={onChangePrice}/>
                     ))}
                 </Grid>
                 <Link to="/payment">
                     <Button className={classes.submit} size="large">
-                        총 {price} 원 판매하기
+                        총 {sum_price} 원 판매하기
                 </Button>
                 </Link>
             </Paper>

@@ -37,6 +37,11 @@ const Payment = ({ sum_price, onDiscount, onApplyPoint }) => {
 
 
     useEffect(() => {
+        setFinalPrice(sum_price - point);
+    },[point]);
+
+
+    useEffect(() => {
         setCash(finalPrice - card);
     }, [finalPrice, card]);
 
@@ -65,7 +70,6 @@ const Payment = ({ sum_price, onDiscount, onApplyPoint }) => {
         }
         else {
             setPoint(tmpPoint);
-            setFinalPrice(sum_price - point);
         }
     }
 
