@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Container, Typography, Paper, Grid, Button, TextField, MenuItem, InputAdornment } from '@material-ui/core';
+import { Container, Typography, Paper, Grid, Button, TextField, MenuItem, InputAdornment} from '@material-ui/core';
+import { Link } from 'react-router-dom'
 import SearchIcon from '@material-ui/icons/Search';
 
 import useStyles from './Style';
-import GeneralProducts from "../tempDB/GeneralProducts";
+import ConsignProducts from '../tempDB/ConsignProducts';
 import Customers from '../tempDB/Customers';
 
 
 const RegisterConsignProduct = () => {
+    const [mode, setMode] = useState('new'); // 새로 등록 시 'new', 기존 정보 조회 및 수정 시 'old'
     const [product, setProduct] = useState({
         name: '',
         quantity: 1,
@@ -24,7 +26,6 @@ const RegisterConsignProduct = () => {
     });
 
     const classes = useStyles();
-
 
     const onChangeHandler = (e) => {
         e.preventDefault();
@@ -114,6 +115,14 @@ const RegisterConsignProduct = () => {
                                             value={product.bank}
                                             onChange={onChangeHandler}
                                         />
+                                    </Grid>
+
+                                    <Grid container justify="flex-end">
+                                        <Grid item>
+                                            <Link to="/register-customer" variant="body2">
+                                                <Button className={classes.checkbox}>회원이 아니신가요? 회원등록</Button>
+                                            </Link>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
 
