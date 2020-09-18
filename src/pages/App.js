@@ -1,4 +1,5 @@
 import React from 'react';
+import { hot } from 'react-hot-loader/root'
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Home, Customer, Sale, Payment, SignUp, RegisterGeneralProduct, RegisterConsignProduct } from './index.js';
 
@@ -18,4 +19,4 @@ const App = () => {
     );
 }
 
-export default App;
+export default hot(App);

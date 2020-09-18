@@ -23,12 +23,11 @@ const theme = createMuiTheme({
     },
 });
 
-const Hot = hot(module)(App);
 
 ReactDOM.render(
     <Provider store={store}>
         <MuiThemeProvider theme={theme}
-        ><Hot />
+        ><App />
         </MuiThemeProvider>
     </Provider>,
     document.querySelector('#root')

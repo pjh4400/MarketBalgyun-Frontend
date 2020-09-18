@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+
 const port = process.env.PORT || 8080;
 
 module.exports = {
@@ -43,12 +44,18 @@ module.exports = {
     devtool: 'inline-source-map',
     devServer: {
         // 정적 파일 경로 설정
-        contentBase: path.join(__dirname, "./public/"),
+        proxy: {
+            "/api":{
+                target : "http://localhost:3000",
+                pathRewrite: {'^/api' : ''}
+            }
+          },
+        contentBase: path.join(__dirname, '/public/'),
         port: port,
         // 번들된 코드가 실제로 어디 있는지 서버에게 알려준다.
-        publicPath: "http://localhost:"+port+"/dist/",
+        publicPath: 'http://localhost:'+port+'/dist/',
         // devserver 에서만 핫로딩 가능하게
-        hotOnly: true
+        hotOnly: true,
       },
       plugins: [
         new webpack.HotModuleReplacementPlugin(),
