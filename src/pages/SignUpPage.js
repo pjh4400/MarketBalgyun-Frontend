@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { Container, Paper, Typography, Grid, Button, Avatar, TextField, FormControlLabel, Link, MenuItem} from "@material-ui/core"
+import { Container, Paper, Typography, Grid, Button, Avatar, TextField, Link, MenuItem} from "@material-ui/core"
 
 
 import useStyles from './Style';
@@ -34,6 +34,7 @@ const SignUpPage = () => {
             })
             .then( (response) => {
                 console.log(response);
+               history.replace('/');
             })
             .catch( (error) => {
                 console.log(error);
@@ -50,7 +51,7 @@ const SignUpPage = () => {
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
-                계정 등록
+                직원 등록
                 </Typography>
                 <form className={classes.form} noValidate onSubmit={onSubmitForm}>
                     <Grid container spacing={2}>

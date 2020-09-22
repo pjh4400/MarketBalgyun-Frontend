@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import SaleGeneralItem from '../components/SaleGeneralItem';
-import { Container, Typography, Paper, Grid, Button, TextField, InputAdornment } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+import { Container, Typography, Paper, Grid, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 import useStyles from './Style';
 import GeneralProducts from "../tempDB/GeneralProducts";
+import SearchProduct from '../components/SearchProduct';
 
 const Sale = ({ items, sum_price, onAddItem, onDeleteItem, onChangePrice }) => {
     const [searchID, setSearchID] = useState("");
@@ -18,13 +19,18 @@ const Sale = ({ items, sum_price, onAddItem, onDeleteItem, onChangePrice }) => {
 
     const onSearchItem = (e) => {
         e.preventDefault();
-        let item = GeneralProducts.find(it => it.id == searchID);
-        if (item === undefined) {
-            alert("ID를 다시 입력해주세요." + searchID);
-        }
-        else {
+        axios.get('api/general-product',{
+            id: searchID,
+        })
+        .then((res) => {
+            console.log(res);
+            const item = res.data;
             onAddItem(item, 1);
-        }
+        })
+        .catch( (error) => {
+            console.log(error);
+            alert("ID를 다시 입력해주세요." + searchID);
+        })
     }
 
 
@@ -35,24 +41,7 @@ const Sale = ({ items, sum_price, onAddItem, onDeleteItem, onChangePrice }) => {
                     상품판매
                 </Typography>
 
-                <form className={classes.form} onSubmit={onSearchItem}>
-                    <TextField
-                        type="text"
-                        variant="outlined"
-                        fullWidth
-                        label="ID"
-                        name="id"
-                        onChange={onSearchIDHandler}
-                        value={searchID}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment>
-                                    <Button type="submit"><SearchIcon /></Button>
-                                </InputAdornment>
-                            )
-                        }}
-                    />
-                </form>
+               <SearchProduct/>
 
                 <Grid container spacing={2}>
                     {items && items.map(item => (

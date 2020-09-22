@@ -3,7 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        minHeight: '100%',
         background: 'linear-gradient(180deg, #C3E47C 0%, #4EAE4E 100%)',
+        backgroundSize: 'cover',
         flexDirection: 'column',
         alignItems: 'center',
     },
@@ -11,12 +13,12 @@ const useStyles = makeStyles((theme) => ({
         background: '#FFFFFF',
         margin: theme.spacing(10),
         padding: theme.spacing(3),
-        width: '60%',
+        width: '70%',
         flexDirection: 'column',
         alignItems: 'center',
     },
     header: {
-        margin : theme.spacing(3, 0, 2),
+        margin: theme.spacing(3, 0, 2),
     },
     form: {
         width: '100%',
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     button: {
         '&:hover': {
             background: '#FFFFFF',
-           color: '#4EAE4E',
+            color: '#4EAE4E',
         },
     },
 }));

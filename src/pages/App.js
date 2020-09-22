@@ -1,19 +1,20 @@
 import React from 'react';
 import { hot } from 'react-hot-loader/root'
 import { BrowserRouter, Route } from 'react-router-dom';
-import { Home, Customer, Sale, Payment, SignUp, RegisterGeneralProduct, RegisterConsignProduct } from './index.js';
+import { Home, Customer, Sale, Payment, SignUp, SignIn, RegisterGeneralProduct, RegisterConsignProduct } from './index.js';
 
 const App = () => {
     return (
         <BrowserRouter>
             <div>
-                <Route exact path="/" component={Home}/>
-                <Route path="/register-customer" component={Customer}/>
-                <Route path="/sale" component={Sale}/>
-                <Route path="/payment" component={Payment}/>
-                <Route path="/sign-up" component={SignUp}/>
-                <Route path="/register-general-product" component={RegisterGeneralProduct}/>
-                <Route path="/register-consign-product" component={RegisterConsignProduct}/>
+                <Route exact path="/" component={Home} />
+                <Route path="/register-customer" component={Customer} />
+                <Route path="/sale" component={Sale} />
+                <Route path="/payment" component={Payment} />
+                <Route path="/sign-up" component={SignUp} />
+                <Route path="/sign-in" component={SignIn} />
+                <Route path="/register-general-product" component={RegisterGeneralProduct} />
+                <Route path="/register-consign-product" component={RegisterConsignProduct} />
             </div>
         </BrowserRouter>
     );
