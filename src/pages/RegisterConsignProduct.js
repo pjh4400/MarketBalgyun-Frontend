@@ -70,7 +70,6 @@ const RegisterConsignProduct = () => {
                                     위탁자 개인정보
                         </Typography>
                                 <Grid container spacing={2}>
-
                                     <Grid item xs={12}>
                                         <TextField
                                             type="number"

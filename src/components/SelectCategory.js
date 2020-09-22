@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Typography, Paper, Grid, Button, TextField, Divider, List, ListItem, ListItemText } from '@material-ui/core';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import useStyles from '../pages/Style';
 import FirstCategory from '../tempDB/FirstCategory';
@@ -72,7 +73,10 @@ const SelectCategory = () => {
                                 <Button value={category.first_category} onClick={onSelectFirstCategory} className={classes.button} fullWidth >
                                     {category.first_category}</Button>
                             </ListItem>
-                        ))}
+                        ))}]
+                        <ListItem>
+                            <Button>추가</Button>
+                        </ListItem>
                     </List>
                 </Grid>
 
