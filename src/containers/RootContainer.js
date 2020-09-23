@@ -17,6 +17,8 @@ const RootContainer = () => {
     <Home
       isLogin={isLogin}
       userName={userName}
+      onLogin={onLogin}
+      onLogOut={onLogout}
     />
   );
 };

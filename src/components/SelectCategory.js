@@ -73,9 +73,9 @@ const SelectCategory = () => {
                                 <Button value={category.first_category} onClick={onSelectFirstCategory} className={classes.button} fullWidth >
                                     {category.first_category}</Button>
                             </ListItem>
-                        ))}]
+                        ))}
                         <ListItem>
-                            <Button>추가</Button>
+                            <Button className={classes.button} fullWidth><AddCircleIcon fontSize='small'/> 추가</Button>
                         </ListItem>
                     </List>
                 </Grid>
@@ -93,6 +93,9 @@ const SelectCategory = () => {
                                 </Button>
                             </ListItem>
                         ))}
+                        {secondCategories && <ListItem>
+                            <Button value="" onClick={onSelectSecondCategory} className={classes.button} fullWidth>없음</Button>
+                        </ListItem>}
                     </List>
                 </Grid>
 
@@ -112,6 +115,14 @@ const SelectCategory = () => {
                                 }} className={classes.button} fullWidth>{thirdCategory.third_category}</Button>
                             </ListItem>
                         ))}
+                          <ListItem>
+                                <Button onClick={() => {
+                                    setProduct({
+                                        ...product,
+                                        third_category: ''
+                                    })
+                                }}className={classes.button} fullWidth>없음</Button>
+                            </ListItem>
                     </List>
 
                 </Grid>

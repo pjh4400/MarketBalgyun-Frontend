@@ -32,7 +32,7 @@ const SaleGeneralItem = ({ item, onDeleteItem, onChangePrice }) => {
     let newPrice = item.price / 100 * ( 100 - discount) * quantity;
     onChangePrice(price, newPrice);
     setPrice(newPrice);
-  }, [quantity, discount]);
+  }, [quantity, discount]); // 수량, 할인율 변경 시 총 가격 수정 및 반영
 
   const classes = useStyles();
 

@@ -3,6 +3,7 @@ import { Container, Typography, Paper, Grid, Button, Stepper, Step, StepLabel } 
 
 import useStyles from './Style';
 import SelectCategory from "../components/SelectCategory";
+import ProductInfo from "../components/ProductInfo";
 
 const steps = ['카테고리 선택', '상품 정보 입력'];
 
@@ -37,7 +38,7 @@ const RegisterGeneralProduct = () => {
             case 0:
                 return <SelectCategory />;
             case 1:
-                return <ProductInfo />;
+                return <ProductInfo setProduct={setProduct}/>;
             default:
                 throw new Error('Unknown step');
         }
@@ -50,11 +51,6 @@ const RegisterGeneralProduct = () => {
             ...product,
             [e.target.name]: e.target.value
         });
-    }
-
-    const onSubmitProduct = (e) => {
-        e.preventDefault();
-        console.log(product);
     }
 
 
@@ -82,7 +78,7 @@ const RegisterGeneralProduct = () => {
                 <Grid container justify="flex-end" className={classes.buttons}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} className={classes.button}>
-                      Back
+                      뒤로
                     </Button>
                   )}
                   <Button
@@ -91,7 +87,7 @@ const RegisterGeneralProduct = () => {
                     onClick={handleNext}
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                    {activeStep !== steps.length - 1 ? '상품등록' : '다음'}
                   </Button>
                   </Grid>
               </React.Fragment>

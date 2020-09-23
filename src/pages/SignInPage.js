@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router';
 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Container, Paper, Typography, Grid, Button, Avatar, TextField } from "@material-ui/core"
@@ -31,7 +32,7 @@ const SignInPage = () => {
       .then((response) => {
         console.log(response);
         login(name);
-        history.replace('/');
+        <Redirect to="/" />
       })
       .catch((error) => {
         console.log(error);
