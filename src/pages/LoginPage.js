@@ -8,7 +8,7 @@ import { login } from '../modules/auth';
 
 import useStyles from './Style';
 
-const SignInPage = () => {
+const LoginPage = () => {
   const [form, setForm] = useState({
     name: '',
     password: '',
@@ -93,5 +93,5 @@ const SignInPage = () => {
 
 
 
-export default SignInPage;
+export default LoginPage;
 

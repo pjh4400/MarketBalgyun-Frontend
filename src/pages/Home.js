@@ -39,7 +39,7 @@ const Home = (isLogin, userName, onLogin, onLogout) => {
                                 <>
                                     <ListItem><Button onClick={getLogout}>로그아웃</Button></ListItem>
 
-                                    <ListItem><NavLink to="/sign-in">로그인</NavLink></ListItem>
+                                    <ListItem><NavLink to="/login">로그인</NavLink></ListItem>
                                     <ListItem><NavLink to="/sign-up">직원등록</NavLink></ListItem>
                                 </>
 

@@ -5,5 +5,5 @@ export { default as Payment} from '../containers/PaymentContainer';
 export { default as RegisterGeneralProduct } from './RegisterGeneralProduct';
 export { default as RegisterConsignProduct } from './RegisterConsignProduct';
 export { default as SignUp } from './SignUpPage';
-export { default as SignIn } from './SignInPage';
+export { default as Login } from './LoginPage';
 
