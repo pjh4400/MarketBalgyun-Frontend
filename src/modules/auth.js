@@ -21,7 +21,7 @@ function auth(state = initialState, action) {
       return {
         ...state,
         isLogin : true,
-        userName : state.userName,
+        userName : action.userName,
       };
 
     case LOGOUT:
