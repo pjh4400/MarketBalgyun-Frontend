@@ -1,133 +1,104 @@
-import React, { useState } from 'react';
-import { Container, Typography, Paper, Grid, Button, TextField, Divider, List, ListItem, ListItemText } from '@material-ui/core';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import React, { useState, useEffect } from 'react';
+import { Typography, Grid, Button, Divider, List, ListItem} from '@material-ui/core';
+import axios from 'axios';
 
 import useStyles from '../pages/Style';
-import FirstCategory from '../tempDB/FirstCategory';
-import SecondCategory from '../tempDB/SecondCategory';
-import ThirdCategory from '../tempDB/ThirdCategory';
 
 
-const SelectCategory = () => {
-    const [secondCategories, setSecondCategories] = useState([]);
-    const [thirdCategories, setThirdCategories] = useState([]);
+const SelectCategory = ({ info, onSelectCategory }) => {
+    const [firstDB, setFirstDB] = useState([]);
+    const [secondDB, setSecondDB] = useState([]);
+    const [thirdDB, setThirdDB] = useState([]);
 
-    const [product, setProduct] = useState({
+
+    const [category, setCategory] = useState({
         first_category: '',
         second_category: '',
         third_category: '',
     });
 
+    const [secondCategories, setSecondCategories] = useState([]);
+    const [thirdCategories, setThirdCategories] = useState([]);
+
+
     const classes = useStyles();
 
+    useEffect(() => {
+        axios.get('api/generalCategory', {})
+            .then((res) => {
+                setFirstDB(res.data.first_category);
+                setSecondDB(res.data.second_category);
+                setThirdDB(res.data.third_category);
+                //console.log(firstDB);
+                //console.log(secondDB);
+                //console.log(thirdDB);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, []);
 
     const onSelectFirstCategory = (e) => {
         let firstCategory = e.currentTarget.value;
-        setProduct({
+        setCategory({
             first_category: firstCategory,
             second_category: '',
             third_category: '',
         });
-        let secondCategory = SecondCategory.filter(category => category.first_category === firstCategory);
-        setSecondCategories(secondCategory);
-        setThirdCategories([]);
     }
 
     const onSelectSecondCategory = (e) => {
         let secondCategory = e.currentTarget.value;
-        setProduct({
-            ...product,
+        setCategory({
+            ...category,
             second_category: secondCategory,
             third_category: '',
         });
-        let thirdCategory = ThirdCategory.filter(category => category.second_category === secondCategory);
-        setThirdCategories(thirdCategory);
     }
 
-
-    const onChangeHandler = (e) => {
-        e.preventDefault();
-        setProduct({
-            ...product,
-            [e.target.name]: e.target.value
-        });
-    }
-
-    const onSubmitProduct = (e) => {
-        e.preventDefault();
-        console.log(product);
+    const onNextStep = (e) => {
+        onSelectCategory(category.first_category, category.second_category, category.third_category);
     }
 
 
     return (
-        <>
-            <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
-                    <Typography variant="h6" align="center" >
-                        대분류
+        <Grid container spacing={2}>
+            <Grid item xs={12} sm={4}>
+                <Typography variant="h6" align="center" >
+                    대분류
                     </Typography>
-                    <Divider />
-                    <List>
-                        {FirstCategory.map((category) => (
-                            <ListItem key={category.first_category}> 
-                                <Button value={category.first_category} onClick={onSelectFirstCategory} className={classes.button} fullWidth >
-                                    {category.first_category}</Button>
-                            </ListItem>
-                        ))}
-                        <ListItem>
-                            <Button className={classes.button} fullWidth><AddCircleIcon fontSize='small'/> 추가</Button>
+                <Divider />
+                <List>
+                    {firstDB && firstDB.map((category) => (
+                        <ListItem key={category.FirstCategory}>
+                            <Button value={category.FirstCategory} onClick={onSelectFirstCategory} className={classes.button} fullWidth >
+                                {category.FirstCategory}</Button>
                         </ListItem>
-                    </List>
-                </Grid>
+                    ))}
+                </List>
+            </Grid>
 
-                <Grid item xs={12} sm={4}>
-                    <Typography variant="h6" align="center">
-                        중분류
+            <Grid item xs={12} sm={4}>
+                <Typography variant="h6" align="center">
+                    중분류
                     </Typography>
-                    <Divider />
-                    <List>
-                        {secondCategories && secondCategories.map((secondCategory) => (
-                            <ListItem key={secondCategory.second_category} >
-                                <Button value={secondCategory.second_category} onClick={onSelectSecondCategory} className={classes.button} fullWidth>
-                                    {secondCategory.second_category}
-                                </Button>
-                            </ListItem>
-                        ))}
-                        {secondCategories && <ListItem>
-                            <Button value="" onClick={onSelectSecondCategory} className={classes.button} fullWidth>없음</Button>
-                        </ListItem>}
-                    </List>
-                </Grid>
+                <Divider />
+            </Grid>
 
-                <Grid item xs={12} sm={4}>
-                    <Typography variant="h6" align="center">
-                        소분류
+
+            <Grid item xs={12} sm={4}>
+                <Typography variant="h6" align="center">
+                    소분류
                     </Typography>
-                    <Divider />
-                    <List>
-                        {thirdCategories && thirdCategories.map(thirdCategory => (
-                            <ListItem key={thirdCategory.third_category}>
-                                <Button onClick={() => {
-                                    setProduct({
-                                        ...product,
-                                        third_category: thirdCategory.third_category
-                                    })
-                                }} className={classes.button} fullWidth>{thirdCategory.third_category}</Button>
-                            </ListItem>
-                        ))}
-                          <ListItem>
-                                <Button onClick={() => {
-                                    setProduct({
-                                        ...product,
-                                        third_category: ''
-                                    })
-                                }}className={classes.button} fullWidth>없음</Button>
-                            </ListItem>
-                    </List>
+                <Divider />
+            </Grid>
 
-                </Grid>
-            </Grid >
-        </>
+            <Grid container justify="flex-end">
+                <Button onClick={onNextStep} className={classes.next}>
+                    다음
+                  </Button>
+            </Grid>
+        </Grid >
     );
 }
 

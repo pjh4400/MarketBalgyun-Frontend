@@ -35,10 +35,10 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         margin: theme.spacing(3, 0, 2),
     },
-    search: {
+    next: {
         background: '#4EAE4E',
         color: 'white',
-        width: '100%',
+        margin: theme.spacing(2,0.5,0,0),
     },
     item: {
         margin: theme.spacing(2),
@@ -50,6 +50,12 @@ const useStyles = makeStyles((theme) => ({
             color: '#4EAE4E',
         },
     },
+    avatar: {
+        padding: theme.spacing(1),
+        margin: theme.spacing(1),
+        alignItems: 'center',
+        display: 'inline',
+    }
 }));
 
 export default useStyles;

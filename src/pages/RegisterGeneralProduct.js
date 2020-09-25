@@ -1,101 +1,65 @@
-import React, { useState } from 'react';
-import { Container, Typography, Paper, Grid, Button, Stepper, Step, StepLabel } from '@material-ui/core';
+import React, { useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { Container, Typography, Paper,  Stepper, Step, StepLabel } from '@material-ui/core';
 
 import useStyles from './Style';
 import SelectCategory from "../components/SelectCategory";
 import ProductInfo from "../components/ProductInfo";
+import { selectCategory, previousStep } from '../modules/product';
+
+
 
 const steps = ['카테고리 선택', '상품 정보 입력'];
 
 const RegisterGeneralProduct = () => {
-    const [product, setProduct] = useState({
-        first_category: '',
-        second_category: '',
-        third_category: '',
-        name: '',
-        cost: 0,
-        price: 0,
-        quantity: 0,
-        max_discount: 0,
-        place: 1,
-        date: '',
-    });
+  const { info, step } = useSelector(({ product }) => ({
+    info: product.info,
+    step: product.step,
+  }));
 
-    const classes = useStyles();
+  const dispatch = useDispatch();
+  const onSelectCategory = useCallback((first, second, third) => dispatch(selectCategory(first, second, third)), [dispatch]);
+  const onPreviousStep = useCallback(() => dispatch(previousStep()),[dispatch]);
 
-    const [activeStep, setActiveStep] = useState(0);
+  const classes = useStyles();
 
-    const handleNext = () => {
-      setActiveStep(activeStep + 1);
-    };
-  
-    const handleBack = () => {
-      setActiveStep(activeStep - 1);
-    };
 
-    const getStepContent = (step) => {
-        switch (step) {
-            case 0:
-                return <SelectCategory />;
-            case 1:
-                return <ProductInfo setProduct={setProduct}/>;
-            default:
-                throw new Error('Unknown step');
-        }
+  const getStepContent = (step) => {
+    switch (step) {
+      case 0:
+        return <SelectCategory onSelectCategory={onSelectCategory} />;
+      case 1:
+        return <ProductInfo info={info} onPreviousStep={onPreviousStep}/>;
+      default:
+        throw new Error('Unknown step');
     }
+  }
 
 
-    const onChangeHandler = (e) => {
-        e.preventDefault();
-        setProduct({
-            ...product,
-            [e.target.name]: e.target.value
-        });
-    }
 
+  return (
+    <Container className={classes.root}>
 
-    return (
-        <Container className={classes.root}>
+      <Paper component='main' elevation={3} className={classes.paper}>
 
-            <Paper component='main' elevation={3} className={classes.paper}>
-
-                <Typography variant="h4" align="center" className={classes.header}>
-                    일반상품등록
+        <Typography variant="h4" align="center" className={classes.header}>
+          일반상품등록
                 </Typography>
-                <Stepper activeStep={activeStep} className={classes.item}>
-                    {steps.map((label) => (
-                        <Step key={label}>
-                            <StepLabel>{label}</StepLabel>
-                        </Step>
-                    ))}
-                </Stepper>
-                {activeStep === steps.length ? (
-              <React.Fragment>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                {getStepContent(activeStep)}
-                <Grid container justify="flex-end" className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      뒤로
-                    </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep !== steps.length - 1 ? '상품등록' : '다음'}
-                  </Button>
-                  </Grid>
-              </React.Fragment>
-            )}
-            </Paper>
-        </Container >
+        <Stepper activeStep={step} className={classes.item}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
 
-    );
+        {getStepContent(step)}
+
+      </Paper>
+    </Container >
+
+  );
 }
 
 export default RegisterGeneralProduct;

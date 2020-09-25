@@ -22,8 +22,8 @@ const SearchProduct = ({ onAddItem }) => {
             }
         })
             .then((res) => {
-                console.log(res);
-                const item = res.data;
+                console.log(res.data[0]);
+                const item = res.data[0];
                 onAddItem(item, 1);
             })
             .catch((error) => {

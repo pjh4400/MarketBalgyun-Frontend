@@ -2,36 +2,17 @@ import React, { useState } from 'react';
 import SaleGeneralItem from '../components/SaleGeneralItem';
 import { Container, Typography, Paper, Grid, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 import useStyles from './Style';
-import GeneralProducts from "../tempDB/GeneralProducts";
 import SearchProduct from '../components/SearchProduct';
 
 const Sale = ({ items, sum_price, onAddItem, onDeleteItem, onChangePrice }) => {
     const [searchID, setSearchID] = useState("");
-
     const classes = useStyles();
 
     const onSearchIDHandler = (e) => {
         setSearchID(e.target.value);
     };
-
-    const onSearchItem = (e) => {
-        e.preventDefault();
-        axios.get('api/general-product',{
-            id: searchID,
-        })
-        .then((res) => {
-            console.log(res);
-            const item = res.data;
-            onAddItem(item, 1);
-        })
-        .catch( (error) => {
-            console.log(error);
-            alert("ID를 다시 입력해주세요." + searchID);
-        })
-    }
 
 
     return (
@@ -41,7 +22,7 @@ const Sale = ({ items, sum_price, onAddItem, onDeleteItem, onChangePrice }) => {
                     상품판매
                 </Typography>
 
-               <SearchProduct/>
+               <SearchProduct onAddItem={onAddItem}/>
 
                 <Grid container spacing={2}>
                     {items && items.map(item => (

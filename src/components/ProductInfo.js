@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useStyles from '../pages/Style';
-import { Typography, Grid, TextField, Button,InputAdornment, Card, CardContent, IconButton, CardActionArea } from '@material-ui/core';
+import { Typography, Grid, TextField, Button } from '@material-ui/core';
+import axios from 'axios';
 
+const ProductInfo = ({ info, onPreviousStep }) => {
+    const classes = useStyles();
 
-const ProductInfo = () => {
     const [product, setProduct] = useState({
+        first_category: info.first_category,
+        second_category: info.second_category,
+        third_category: info.third_category,
         name: '',
         cost: 0,
         price: 0,
         quantity: 0,
         max_discount: 0,
         place: 1,
-        date: '',
+        company: '',
     });
-
-    const classes = useStyles();
 
     const onChangeHandler = (e) => {
         e.preventDefault();
@@ -24,10 +27,18 @@ const ProductInfo = () => {
         });
     }
 
+
     const onSubmitProduct = (e) => {
         e.preventDefault();
-        // To do : 상품 정보 전체 백에 주기
         console.log(product);
+        axios.post('api/generalProduct',product)
+        .then( (response) => {
+            console.log(response);
+           
+        })
+        .catch( (error) => {
+            console.log(error);
+        })
     }
 
     return (
@@ -117,7 +128,24 @@ const ProductInfo = () => {
                             />
                         </Grid>
 
-                        <Button className={classes.submit} size="large" type="submit">상품등록</Button>
+                        <Grid item xs={12}>
+                            <TextField
+                                type="text"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                label="매입처"
+                                name="company"
+                                value={product.company}
+                                onChange={onChangeHandler}
+                            />
+                        </Grid>
+
+                    </Grid>
+
+                    <Grid container justify="flex-end">
+                        <Button className={classes.next} onClick={onPreviousStep}>이전</Button>
+                        <Button className={classes.next} type="submit">상품등록</Button>
                     </Grid>
                 </form>
             </Grid>
