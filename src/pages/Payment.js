@@ -23,7 +23,7 @@ const useStyles2 = makeStyles((theme) => ({
 }));
 
 
-const Payment = ({ sum_price, onDiscount, onApplyPoint }) => {
+const Payment = ({ sum_price }) => {
     const [membership, setMemberShip] = useState(false);
     const [customer, setCustomer] = useState({});
     const [finalPrice, setFinalPrice] = useState(sum_price);

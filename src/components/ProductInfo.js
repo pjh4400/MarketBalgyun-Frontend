@@ -32,9 +32,8 @@ const ProductInfo = ({ info, onPreviousStep }) => {
         e.preventDefault();
         console.log(product);
         axios.post('api/generalProduct',product)
-        .then( (response) => {
-            console.log(response);
-           
+        .then( (res) => {
+            console.log(res);
         })
         .catch( (error) => {
             console.log(error);

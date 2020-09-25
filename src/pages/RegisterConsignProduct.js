@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Container, Typography, Paper, Grid, Button, TextField, MenuItem, InputAdornment} from '@material-ui/core';
+import { Container, Typography, Paper, Grid, Button, TextField, MenuItem, InputAdornment, IconButton } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 import SearchIcon from '@material-ui/icons/Search';
+import ClearIcon from '@material-ui/icons/clear';
+import axios from 'axios';
 
 import useStyles from './Style';
-import ConsignProducts from '../tempDB/ConsignProducts';
-import Customers from '../tempDB/Customers';
 
 
 const RegisterConsignProduct = () => {
     const [mode, setMode] = useState('new'); // 새로 등록 시 'new', 기존 정보 조회 및 수정 시 'old'
+    const [consignerPhone, setConsignerPhone] = useState('');
+    const [consignerName, setConsignerName] = useState('');
     const [product, setProduct] = useState({
         name: '',
         quantity: 1,
@@ -27,6 +29,12 @@ const RegisterConsignProduct = () => {
 
     const classes = useStyles();
 
+    const onChangePhone = (e) => {
+        e.preventDefault();
+        setConsignerPhone(e.target.value);
+
+    }
+
     const onChangeHandler = (e) => {
         e.preventDefault();
         setProduct({
@@ -35,21 +43,53 @@ const RegisterConsignProduct = () => {
         });
     }
 
-    const onSearchCustomer = (e) => {
-        let customer = Customers.find(customer => customer.phone.slice(-4) === product.consigner_phone);
-        if (customer === undefined) {
-            alert("해당 회원이 존재하지 않습니다.");
-        }
-        else {
-            console.log(customer);
-            alert(customer.name + " : " + customer.phone);
-        }
+    const onDeleteCustomer = (e) => {
         e.preventDefault();
+        setConsignerName('');
+        setConsignerPhone('');
+        setProduct({
+            ...product,
+            consigner_phone: '',
+        })
+    }
+
+    const onSearchCustomer = (e) => {
+        axios.get('api/customer', {
+            params: {
+                phone: consignerPhone,
+            }
+        })
+            .then((res) => {
+                if (res.data === "No Customer") {
+                    alert("해당 회원이 존재하지 않습니다.");
+                }
+                else {
+                    console.log(res.data[0]);
+                    setConsignerName(res.data[0].name);
+                    setProduct({
+                        ...product,
+                        consigner_phone: consignerPhone,
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
     }
 
     const onSubmitProduct = (e) => {
         e.preventDefault();
         console.log(product);
+        axios.post('api/consignProduct', product)
+            .then((res) => {
+                if(res==='Posting Success'){
+                    alert('정상적으로 등록되었습니다.');
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
 
@@ -70,20 +110,37 @@ const RegisterConsignProduct = () => {
                                     위탁자 개인정보
                         </Typography>
                                 <Grid container spacing={2}>
-                                    <Grid item xs={12}>
+                                    <Grid item xs={12} sm={8}>
                                         <TextField
                                             type="number"
                                             variant="outlined"
                                             required
                                             fullWidth
                                             label="위탁자 휴대폰번호 뒤 4자리"
-                                            name="consigner_phone"
-                                            value={product.consigner_phone}
-                                            onChange={onChangeHandler}
+                                            value={consignerPhone}
+                                            onChange={onChangePhone}
                                             InputProps={{
                                                 endAdornment: (
                                                     <InputAdornment>
-                                                        <Button onClick={onSearchCustomer}><SearchIcon /></Button>
+                                                        <IconButton onClick={onSearchCustomer}><SearchIcon /></IconButton>
+                                                    </InputAdornment>
+                                                )
+                                            }}
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={4}>
+                                        <TextField
+                                            type="text"
+                                            helperText="위탁자 성함(자동입력)"
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            value={consignerName}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment>
+                                                        <IconButton onClick={onDeleteCustomer}><ClearIcon /></IconButton>
                                                     </InputAdornment>
                                                 )
                                             }}
