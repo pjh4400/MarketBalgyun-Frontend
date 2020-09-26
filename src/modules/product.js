@@ -1,5 +1,6 @@
 const SELECT_CATEGORY = 'product/SELECT_CATEOGRY'; // 카테고리선택
 const PREVIOUS_STEP = 'product/PREVIOUS_STEP'; // 이전으로 가기
+const EXIST_NAMES = 'product/EXIST_NAMES'; // 이미 있는 상품명 받아오기
 
 const initialState = {
     info: {
@@ -8,10 +9,11 @@ const initialState = {
         third_category: '',
     },
     step: 0,
+    exist_names: [],
 }
 
 
-export const selectCategory = (first, second, third, id) => ({
+export const selectCategory = (first, second, third) => ({
     type: SELECT_CATEGORY,
     first,
     second,
@@ -21,6 +23,11 @@ export const selectCategory = (first, second, third, id) => ({
 
 export const previousStep = () => ({
     type: PREVIOUS_STEP,
+})
+
+export const existNames = (names) => ({
+    type: EXIST_NAMES,
+    names,
 })
 
 
@@ -41,8 +48,14 @@ function product(state = initialState, action) {
         case PREVIOUS_STEP:
             return {
                 ...state,
-                step : 0,
+                step: 0,
             };
+
+        case EXIST_NAMES:
+            return {
+                ...state,
+                exist_names: action.names,
+            }
 
         default:
             return state;

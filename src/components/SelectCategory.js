@@ -5,7 +5,7 @@ import axios from 'axios';
 import useStyles from '../pages/Style';
 
 
-const SelectCategory = ({ onSelectCategory }) => {
+const SelectCategory = ({ onSelectCategory, onExistNames }) => {
     const [firstDB, setFirstDB] = useState([]);
     const [secondDB, setSecondDB] = useState([]);
     const [thirdDB, setThirdDB] = useState([]);
@@ -29,9 +29,6 @@ const SelectCategory = ({ onSelectCategory }) => {
                 setFirstDB(res.data.first_category);
                 setSecondDB(res.data.second_category);
                 setThirdDB(res.data.third_category);
-                //console.log(firstDB);
-                //console.log(secondDB);
-                //console.log(thirdDB);
             })
             .catch((error) => {
                 console.log(error);
@@ -69,6 +66,16 @@ const SelectCategory = ({ onSelectCategory }) => {
     const onNextStep = (e) => {
         onSelectCategory(category.first_category, category.second_category, category.third_category);
         console.log(category);
+        axios.post('api/generalCategory',{
+            id : category.third_category
+        })
+        .then( (res) => {
+            console.log(res);
+            onExistNames(res.data);
+        })
+        .catch( (error) => {
+            console.log(error);
+        })
     }
 
 

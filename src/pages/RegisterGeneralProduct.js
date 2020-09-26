@@ -6,7 +6,7 @@ import { Container, Typography, Paper, Stepper, Step, StepLabel } from '@materia
 import useStyles from './Style';
 import SelectCategory from "../components/SelectCategory";
 import ProductInfo from "../components/ProductInfo";
-import { selectCategory, previousStep } from '../modules/product';
+import { selectCategory, previousStep, existNames } from '../modules/product';
 import Navigation from '../components/Navigation';
 
 
@@ -14,14 +14,16 @@ import Navigation from '../components/Navigation';
 const steps = ['카테고리 선택', '상품 정보 입력'];
 
 const RegisterGeneralProduct = () => {
-  const { info, step } = useSelector(({ product }) => ({
+  const { info, step, names } = useSelector(({ product }) => ({
     info: product.info,
     step: product.step,
+    names: product.names,
   }));
 
   const dispatch = useDispatch();
   const onSelectCategory = useCallback((first, second, third) => dispatch(selectCategory(first, second, third)), [dispatch]);
   const onPreviousStep = useCallback(() => dispatch(previousStep()), [dispatch]);
+  const onExistNames = useCallback((names) => dispatch(existNames(names)), [dispatch]);
 
   const classes = useStyles();
 
@@ -29,9 +31,9 @@ const RegisterGeneralProduct = () => {
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <SelectCategory onSelectCategory={onSelectCategory} />;
+        return <SelectCategory onSelectCategory={onSelectCategory} onExistNames={onExistNames}/>;
       case 1:
-        return <ProductInfo info={info} onPreviousStep={onPreviousStep} />;
+        return <ProductInfo info={info} names={names} onPreviousStep={onPreviousStep} />;
       default:
         throw new Error('Unknown step');
     }

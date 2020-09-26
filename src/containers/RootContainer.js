@@ -4,6 +4,7 @@ import { login, logout } from '../modules/auth';
 import axios from 'axios';
 
 import { Container, Typography, Paper, Grid, Button } from '@material-ui/core';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import Login from '../pages/Login';
 import useStyles from '../pages/Style';
@@ -52,16 +53,22 @@ const RootContainer = () => {
               <Navigation userName={userName} /> : <Login onLogin={onLogin} />
             }
           </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" align="center" className={classes.header}>
-              로그인 상태 : {userName}
-              <Button onClick={getLogout} className={classes.next}> 로그아웃</Button>
-
-        </Typography>
-          </Grid>
-
-          {userName==='관리자' && <Admin />}
         </Grid>
+        {userName &&
+          <Grid container spacing={2} direction="row" alignItems="center">
+            <Grid item xs={12} >
+                <AccountCircleIcon fontSize="large" className={classes.avatar} />
+
+            </Grid>
+            <Grid item xs={12}>
+                 <Typography variant="h6" align="center">            현재 로그인 직원 : {userName}
+</Typography>
+            </Grid>
+            <Button onClick={getLogout} className={classes.next}> 로그아웃</Button>
+          </Grid>}
+
+        {userName === '관리자' && <Admin />}
+
       </Paper>
     </Container>
   );
