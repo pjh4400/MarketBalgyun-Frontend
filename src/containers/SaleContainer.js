@@ -7,6 +7,7 @@ import SaleGeneralItem from '../components/SaleGeneralItem';
 
 import { Container, Typography, Paper, Grid, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import Navigation from '../components/Navigation';
 
 import useStyles from '../pages/Style';
 
@@ -29,7 +30,8 @@ const SaleContainer = () => {
                 <Typography component="h1" variant="h4" align="center" className={classes.header}>
                     상품판매
                 </Typography>
-
+                
+                <Navigation />
                <SearchProduct onAddItem={onAddItem}/>
 
                 <Grid container spacing={2}>

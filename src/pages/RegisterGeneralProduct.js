@@ -1,12 +1,13 @@
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Container, Typography, Paper,  Stepper, Step, StepLabel } from '@material-ui/core';
+import { Container, Typography, Paper, Stepper, Step, StepLabel } from '@material-ui/core';
 
 import useStyles from './Style';
 import SelectCategory from "../components/SelectCategory";
 import ProductInfo from "../components/ProductInfo";
 import { selectCategory, previousStep } from '../modules/product';
+import Navigation from '../components/Navigation';
 
 
 
@@ -20,7 +21,7 @@ const RegisterGeneralProduct = () => {
 
   const dispatch = useDispatch();
   const onSelectCategory = useCallback((first, second, third) => dispatch(selectCategory(first, second, third)), [dispatch]);
-  const onPreviousStep = useCallback(() => dispatch(previousStep()),[dispatch]);
+  const onPreviousStep = useCallback(() => dispatch(previousStep()), [dispatch]);
 
   const classes = useStyles();
 
@@ -30,7 +31,7 @@ const RegisterGeneralProduct = () => {
       case 0:
         return <SelectCategory onSelectCategory={onSelectCategory} />;
       case 1:
-        return <ProductInfo info={info} onPreviousStep={onPreviousStep}/>;
+        return <ProductInfo info={info} onPreviousStep={onPreviousStep} />;
       default:
         throw new Error('Unknown step');
     }
@@ -46,6 +47,7 @@ const RegisterGeneralProduct = () => {
         <Typography variant="h4" align="center" className={classes.header}>
           일반상품등록
                 </Typography>
+        <Navigation />
         <Stepper activeStep={step} className={classes.item}>
           {steps.map((label) => (
             <Step key={label}>

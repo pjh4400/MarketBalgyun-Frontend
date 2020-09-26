@@ -105,7 +105,6 @@ const ProductInfo = ({ info, onPreviousStep }) => {
                             <TextField
                                 type="number"
                                 variant="outlined"
-                                required
                                 fullWidth
                                 label="재고위치"
                                 name="place"
@@ -118,7 +117,6 @@ const ProductInfo = ({ info, onPreviousStep }) => {
                             <TextField
                                 type="number"
                                 variant="outlined"
-                                required
                                 fullWidth
                                 label="최대할인율(%)"
                                 name="max_discount"
@@ -131,7 +129,6 @@ const ProductInfo = ({ info, onPreviousStep }) => {
                             <TextField
                                 type="text"
                                 variant="outlined"
-                                required
                                 fullWidth
                                 label="매입처"
                                 name="company"

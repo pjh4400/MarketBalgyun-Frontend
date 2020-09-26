@@ -8,6 +8,7 @@ import { Container, Typography, Paper, Grid, Button } from '@material-ui/core';
 import Login from '../pages/Login';
 import useStyles from '../pages/Style';
 import Navigation from '../components/Navigation';
+import Admin from '../components/Admin';
 
 const RootContainer = () => {
   const { isLogin, userName } = useSelector(({ auth }) => ({
@@ -54,10 +55,12 @@ const RootContainer = () => {
           <Grid item xs={12}>
             <Typography variant="h6" align="center" className={classes.header}>
               로그인 상태 : {userName}
-        </Typography>
-            <Button onClick={getLogout} className={classes.next}> 로그아웃</Button>
+              <Button onClick={getLogout} className={classes.next}> 로그아웃</Button>
 
+        </Typography>
           </Grid>
+
+          {userName==='관리자' && <Admin />}
         </Grid>
       </Paper>
     </Container>

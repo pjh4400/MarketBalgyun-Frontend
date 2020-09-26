@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/clear';
 import axios from 'axios';
-
+import Navigation from '../components/Navigation';
 import useStyles from './Style';
 
 
@@ -101,6 +101,7 @@ const RegisterConsignProduct = () => {
                 <Typography variant="h4" align="center" className={classes.header}>
                     위탁상품등록
                 </Typography>
+                <Navigation/>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <form className={classes.form} onSubmit={onSubmitProduct}>

@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Container,Paper, Typography, Button, TextField, FormControlLabel, Checkbox, Grid, MenuItem, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
-import useStyles from "./Style";
+import Navigation from '../components/Navigation';
+import useStyles from './Style';
 import axios from 'axios';
 
 
@@ -120,6 +121,8 @@ const CustomerPage = () => {
                 <Typography component="h1" variant="h4" align="center" className={classes.header}>
                     회원관리
             </Typography>
+            <Navigation />
+
 
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>

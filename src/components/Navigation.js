@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Navigation = ({ userName }) => {
+const Navigation = () => {
     const classes = useStyles();
 
     const getLogout = (e) => {
@@ -44,7 +44,6 @@ const Navigation = ({ userName }) => {
         <Grid item xs={12} className={classes.navbar}>
         <ButtonGroup className={classes.group}>
             <Button component={NavLink} to="/" className={classes.navitem}>홈</Button>
-            {userName === '관리자' && <Button component={NavLink} to="/admin" className={classes.navitem}>직원관리</Button>}
             <Button component={NavLink} to="/general-product" className={classes.navitem}>일반상품관리</Button>
             <Button component={NavLink} to="/consign-product" className={classes.navitem}>위탁상품관리</Button>
             <Button component={NavLink} to="/register-customer" className={classes.navitem}>회원관리</Button>
