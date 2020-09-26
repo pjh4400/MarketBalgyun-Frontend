@@ -48,11 +48,15 @@ const RootContainer = () => {
             {isLogin ?
               // To DO : 로그인 후에 다른 화면 선택지 보이도록 (로그인 안했을때는 로그인 밖에 없음)
               // 직원등록은 관리자 계정만 가능
-              <>
-                <Button onClick={getLogout}>{userName} 로그아웃</Button>
-                <Navigation userName={userName}/>
-              </> : <Login onLogin={onLogin} />
+              <Navigation userName={userName} /> : <Login onLogin={onLogin} />
             }
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6" align="center" className={classes.header}>
+              로그인 상태 : {userName}
+        </Typography>
+            <Button onClick={getLogout} className={classes.next}> 로그아웃</Button>
+
           </Grid>
         </Grid>
       </Paper>
