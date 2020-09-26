@@ -11,7 +11,7 @@ const initialState = {
 }
 
 
-export const selectCategory = (first, second, third) => ({
+export const selectCategory = (first, second, third, id) => ({
     type: SELECT_CATEGORY,
     first,
     second,

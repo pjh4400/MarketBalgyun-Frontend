@@ -5,7 +5,7 @@ import axios from 'axios';
 import useStyles from '../pages/Style';
 
 
-const SelectCategory = ({ info, onSelectCategory }) => {
+const SelectCategory = ({ onSelectCategory }) => {
     const [firstDB, setFirstDB] = useState([]);
     const [secondDB, setSecondDB] = useState([]);
     const [thirdDB, setThirdDB] = useState([]);
@@ -39,25 +39,36 @@ const SelectCategory = ({ info, onSelectCategory }) => {
     }, []);
 
     const onSelectFirstCategory = (e) => {
-        let firstCategory = e.currentTarget.value;
+        let firstID = e.currentTarget.value;
         setCategory({
-            first_category: firstCategory,
+            first_category: firstID,
             second_category: '',
             third_category: '',
         });
+        setSecondCategories(secondDB.filter(category => category.ID.startsWith(firstID)));
     }
 
     const onSelectSecondCategory = (e) => {
-        let secondCategory = e.currentTarget.value;
+        let secondID = e.currentTarget.value;
         setCategory({
             ...category,
-            second_category: secondCategory,
+            second_category: secondID,
             third_category: '',
+        });
+        setThirdCategories(thirdDB.filter(category => category.ID.startsWith(secondID)));
+    }
+
+    const onSelectThirdCategory = (e) => {
+        setCategory({
+            ...category,
+            third_category: e.currentTarget.value,
         });
     }
 
+
     const onNextStep = (e) => {
         onSelectCategory(category.first_category, category.second_category, category.third_category);
+        console.log(category);
     }
 
 
@@ -71,7 +82,7 @@ const SelectCategory = ({ info, onSelectCategory }) => {
                 <List>
                     {firstDB && firstDB.map((category) => (
                         <ListItem key={category.FirstCategory}>
-                            <Button value={category.FirstCategory} onClick={onSelectFirstCategory} className={classes.button} fullWidth >
+                            <Button value={category.ID} onClick={onSelectFirstCategory} className={classes.button} fullWidth >
                                 {category.FirstCategory}</Button>
                         </ListItem>
                     ))}
@@ -83,6 +94,12 @@ const SelectCategory = ({ info, onSelectCategory }) => {
                     중분류
                     </Typography>
                 <Divider />
+                {category.first_category && secondCategories.map((category) => (
+                        <ListItem key={category.SecondCategory}>
+                            <Button value={category.ID} onClick={onSelectSecondCategory} className={classes.button} fullWidth >
+                                {category.SecondCategory}</Button>
+                        </ListItem>
+                    ))}
             </Grid>
 
 
@@ -91,6 +108,12 @@ const SelectCategory = ({ info, onSelectCategory }) => {
                     소분류
                     </Typography>
                 <Divider />
+                {category.second_category && thirdCategories.map((category) => (
+                        <ListItem key={category.ThirdCategory}>
+                            <Button value={category.ID} onClick={onSelectThirdCategory} className={classes.button} fullWidth >
+                                {category.ThirdCategory}</Button>
+                        </ListItem>
+                    ))}
             </Grid>
 
             <Grid container justify="flex-end">
