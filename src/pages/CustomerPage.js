@@ -9,7 +9,6 @@ import axios from 'axios';
 
 const CustomerPage = () => {
     const [mode, setMode] = useState('new');
-    const [searchPhone, setSearchPhone] = useState('');
     const [customer, setCustomer] = useState({
         name: '',
         phone: '',
@@ -52,11 +51,8 @@ const CustomerPage = () => {
             account_owner: '',
             time: '',
         });
-    }, [searchPhone === '']);
-
-    useEffect(() => {
-        setSearchPhone('');
     }, [mode === 'new']);
+
 
     const onChangeHandler = (e) => {
         e.preventDefault();
@@ -103,7 +99,6 @@ const CustomerPage = () => {
 
     const onSearchCustomer = (e) => {
         e.preventDefault();
-        setSearchPhone(e.target.number.value);
         axios.get('api/customer', {
             params: {
                 phone: e.target.number.value,

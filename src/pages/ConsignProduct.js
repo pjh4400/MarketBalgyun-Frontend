@@ -8,7 +8,7 @@ import useStyles from './Style';
 
 
 const ConsignProduct = () => {
-    const [mode, setMode] = useState('new'); // 새로 등록 시 'new', 기존 정보 조회 및 수정 시 'old'
+    const [mode, setMode] = useState('new'); // 새로 등록 시 'new', 기존 정보 조회 및 수정 시 'old', 상품 선택후 'old2'
     const [product, setProduct] = useState({
         id: '',
         name: '',
@@ -55,7 +55,7 @@ const ConsignProduct = () => {
             account: '',
             account_owner: '',
         });
-    }, [mode]); // 모드 바뀌면 초기화
+    }, [mode === 'new']); // 상품 등록 시 초기화
 
 
     const onChangeHandler = (e) => {
@@ -89,6 +89,7 @@ const ConsignProduct = () => {
                         ...product,
                         consigner: tmp.name,
                     });
+                    setMode('old2');
                 }
             })
             .catch((error) => {
@@ -142,6 +143,7 @@ const ConsignProduct = () => {
                     }).catch((error) => {
                         console.log(error);
                     })
+                    setMode('old2');
                 }
             })
             .catch((error) => {
@@ -164,7 +166,7 @@ const ConsignProduct = () => {
                     })
                 break;
 
-            case 'old':
+            case 'old2':
                 axios.put('api/consignProduct', product)
                     .then((res) => {
                         alert('수정되었습니다.');
@@ -223,7 +225,7 @@ const ConsignProduct = () => {
                     </Button>
                     </Grid>
 
-                    {mode === "old" ?
+                    {mode !== "new" ?
                         <form className={classes.form} onSubmit={onSearchProduct}>
                             <TextField
                                 type="text"
@@ -241,165 +243,168 @@ const ConsignProduct = () => {
                             />
                         </form> : <></>}
 
-                    <Grid item xs={12}>
-                        <Paper variant="outlined" className={classes.item}>
-                            <Typography variant="h6" align="center" paragraph>
-                                위탁자 개인정보
+
+                    {mode !== "old" &&
+                        <Grid item xs={12}>
+                            <Paper variant="outlined" className={classes.item}>
+                                <Typography variant="h6" align="center" paragraph>
+                                    위탁자 개인정보
                         </Typography>
-                            <Grid container spacing={2}>
-                                {mode === 'new' &&
-                                    <form className={classes.form} onSubmit={onSearchCustomer}>
-                                        <TextField
-                                            type="number"
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            label="위탁자 휴대폰번호 뒤 4자리"
-                                            name="phone"
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment>
-                                                        <IconButton type="submit"><SearchIcon /></IconButton>
-                                                    </InputAdornment>
-                                                )
-                                            }}
-                                        />
-                                    </form>
-
-
-                                }
-
-                                {consignerInfo()}
-                                
-                                {mode === 'new' &&
-                                    <Grid container justify="flex-end">
-                                        <Grid item>
-                                            <Link to="/register-customer" variant="body2">
-                                                <Button className={classes.checkbox}>회원이 아니신가요? 회원등록</Button>
-                                            </Link>
-                                        </Grid>
-                                    </Grid>
-                                }
-
-                            </Grid>
-
-                        </Paper>
-
-                        <Paper variant="outlined" className={classes.item}>
-
-                            <Typography variant="h6" align="center" paragraph>
-                                상품정보
-                        </Typography>
-                            <form className={classes.form} onSubmit={onSubmitProduct}>
                                 <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={8}>
-                                        <TextField
-                                            type="text"
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            label="상품명"
-                                            name="name"
-                                            value={product.name}
-                                            onChange={onChangeHandler}
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs={12} sm={4}>
-                                        <TextField
-                                            type="number"
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            label="수량"
-                                            name="quantity"
-                                            value={product.quantity}
-                                            onChange={onChangeHandler}
-                                            InputProps={{
-                                                inputProps: { min: 1 }
-                                            }}
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs={12} sm={4}>
-                                        <TextField
-                                            type="number"
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            label="감정가(판매가격)"
-                                            name="price"
-                                            value={product.price}
-                                            onChange={onChangeHandler}
-                                        />
-                                    </Grid>
+                                    {mode === 'new' &&
+                                        <form className={classes.form} onSubmit={onSearchCustomer}>
+                                            <TextField
+                                                type="number"
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                label="위탁자 휴대폰번호 뒤 4자리"
+                                                name="phone"
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <InputAdornment>
+                                                            <IconButton type="submit"><SearchIcon /></IconButton>
+                                                        </InputAdornment>
+                                                    )
+                                                }}
+                                            />
+                                        </form>
 
 
-                                    <Grid item xs={12} sm={4}>
-                                        <TextField
-                                            type="number"
-                                            variant="outlined"
-                                            fullWidth
-                                            label="희망가(고객희망)"
-                                            name="wanted_price"
-                                            value={product.wanted_price}
-                                            onChange={onChangeHandler}
-                                        />
-                                    </Grid>
+                                    }
 
-                                    <Grid item xs={12} sm={4}>
-                                        <TextField select label="고객정산방법" variant="outlined" name="accountable" value={product.accountable} onChange={onChangeHandler} className={classes.menuitem}>
-                                            <MenuItem value={false}>포인트</MenuItem>
-                                            <MenuItem value={true}>계좌이체</MenuItem>
-                                        </TextField>
-                                    </Grid>
+                                    {consignerInfo()}
 
+                                    {mode === 'new' &&
+                                        <Grid container justify="flex-end">
+                                            <Grid item>
+                                                <Link to="/register-customer" variant="body2">
+                                                    <Button className={classes.checkbox}>회원이 아니신가요? 회원등록</Button>
+                                                </Link>
+                                            </Grid>
+                                        </Grid>
+                                    }
 
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            type="number"
-                                            variant="outlined"
-                                            fullWidth
-                                            label="재고위치"
-                                            name="place"
-                                            value={product.place}
-                                            onChange={onChangeHandler}
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            type="number"
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            label="최대할인율"
-                                            name="max_discount"
-                                            value={product.max_discount}
-                                            onChange={onChangeHandler}
-                                            InputProps={{
-                                                inputProps: { min: 0, max: 100 }
-                                            }}
-                                        />
-                                    </Grid>
-
-                                    <Grid item xs={12}>
-                                        <TextField
-                                            type="text"
-                                            variant="outlined"
-                                            fullWidth
-                                            label="제품에 대한 사연"
-                                            name="story"
-                                            value={product.story}
-                                            onChange={onChangeHandler}
-                                        />
-                                    </Grid>
                                 </Grid>
 
-                                <Button className={classes.submit} size="large" type="submit">{mode === 'new' ? '상품등록' : '상품수정'}</Button>
-                            </form>
-                        </Paper>
-                    </Grid>
+                            </Paper>
+
+                            <Paper variant="outlined" className={classes.item}>
+
+                                <Typography variant="h6" align="center" paragraph>
+                                    상품정보
+                        </Typography>
+                                <form className={classes.form} onSubmit={onSubmitProduct}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} sm={8}>
+                                            <TextField
+                                                type="text"
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                label="상품명"
+                                                name="name"
+                                                value={product.name}
+                                                onChange={onChangeHandler}
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField
+                                                type="number"
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                label="수량"
+                                                name="quantity"
+                                                value={product.quantity}
+                                                onChange={onChangeHandler}
+                                                InputProps={{
+                                                    inputProps: { min: 1 }
+                                                }}
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField
+                                                type="number"
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                label="감정가(판매가격)"
+                                                name="price"
+                                                value={product.price}
+                                                onChange={onChangeHandler}
+                                            />
+                                        </Grid>
+
+
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField
+                                                type="number"
+                                                variant="outlined"
+                                                fullWidth
+                                                label="희망가(고객희망)"
+                                                name="wanted_price"
+                                                value={product.wanted_price}
+                                                onChange={onChangeHandler}
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField select label="고객정산방법" variant="outlined" name="accountable" value={product.accountable} onChange={onChangeHandler} className={classes.menuitem}>
+                                                <MenuItem value={false}>포인트</MenuItem>
+                                                <MenuItem value={true}>계좌이체</MenuItem>
+                                            </TextField>
+                                        </Grid>
+
+
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField
+                                                type="number"
+                                                variant="outlined"
+                                                fullWidth
+                                                label="재고위치"
+                                                name="place"
+                                                value={product.place}
+                                                onChange={onChangeHandler}
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField
+                                                type="number"
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                label="최대할인율"
+                                                name="max_discount"
+                                                value={product.max_discount}
+                                                onChange={onChangeHandler}
+                                                InputProps={{
+                                                    inputProps: { min: 0, max: 100 }
+                                                }}
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                type="text"
+                                                variant="outlined"
+                                                fullWidth
+                                                label="제품에 대한 사연"
+                                                name="story"
+                                                value={product.story}
+                                                onChange={onChangeHandler}
+                                            />
+                                        </Grid>
+                                    </Grid>
+
+                                    <Button className={classes.submit} size="large" type="submit">{mode === 'new' ? '상품등록' : '상품수정'}</Button>
+                                </form>
+                            </Paper>
+                        </Grid>
+                    }
                 </Grid>
 
             </Paper>
