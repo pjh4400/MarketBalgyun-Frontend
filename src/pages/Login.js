@@ -28,11 +28,15 @@ const Login = ({onLogin}) => {
       password: form.password,
     })
       .then((res) => {
-        console.log(res.data);
-        onLogin(res.data.payLoad.name);
+        if(res.data.message==='로그인 성공'){
+          onLogin(res.data.payLoad.name);
+        } else{
+          alert(res.data.message);
+        }
       })
       .catch((error) => {
         console.log(error);
+        console.log(error.status);
       })
 
   }

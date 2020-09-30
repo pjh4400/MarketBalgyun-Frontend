@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useStyles from '../pages/Style';
-import { Typography, Grid, TextField, Button } from '@material-ui/core';
+import { Typography, Grid, TextField, Button, List } from '@material-ui/core';
 import axios from 'axios';
 
 const ProductInfo = ({ info, onPreviousStep }) => {
     const classes = useStyles();
 
+    const [exist, setExist] = useState([]);
+
     const [product, setProduct] = useState({
         first_category: info.first_category,
         second_category: info.second_category,
         third_category: info.third_category,
+        id: info.id,
         name: '',
         cost: 0,
         price: 0,
@@ -18,6 +21,21 @@ const ProductInfo = ({ info, onPreviousStep }) => {
         place: 1,
         company: '',
     });
+
+    useEffect(() => {
+        console.log(info.id);
+        axios.get('api/generalProduct', {
+            id : info.id
+        })
+            .then((res) => {
+                console.log(res);
+                setExist(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, []);
+
 
     const onChangeHandler = (e) => {
         e.preventDefault();
@@ -46,6 +64,8 @@ const ProductInfo = ({ info, onPreviousStep }) => {
                 <Typography variant="h6" align="center" className={classes.header}>
                     상품정보
             </Typography>
+
+            <List style={{maxHeight: '100%', overflow: 'auto'}} />
 
                 <form className={classes.form} onSubmit={onSubmitProduct}>
                     <Grid container spacing={2}>

@@ -4,9 +4,7 @@ import axios from 'axios';
 
 import useStyles from '../pages/Style';
 
-
-const SelectCategory = ({ onSelectCategory, onExistNames }) => {
-    const [firstDB, setFirstDB] = useState([]);
+const SelectCategory = ({ onSelectCategory }) => {
     const [secondDB, setSecondDB] = useState([]);
     const [thirdDB, setThirdDB] = useState([]);
 
@@ -17,6 +15,7 @@ const SelectCategory = ({ onSelectCategory, onExistNames }) => {
         third_category: '',
     });
 
+    const [firstCategories, setFirstCategories] = useState([]);
     const [secondCategories, setSecondCategories] = useState([]);
     const [thirdCategories, setThirdCategories] = useState([]);
 
@@ -26,7 +25,7 @@ const SelectCategory = ({ onSelectCategory, onExistNames }) => {
     useEffect(() => {
         axios.get('api/generalCategory', {})
             .then((res) => {
-                setFirstDB(res.data.first_category);
+                setFirstCategories(res.data.first_category);
                 setSecondDB(res.data.second_category);
                 setThirdDB(res.data.third_category);
             })
@@ -62,20 +61,8 @@ const SelectCategory = ({ onSelectCategory, onExistNames }) => {
         });
     }
 
-
-    const onNextStep = (e) => {
+    const onNextStep = () => {
         onSelectCategory(category.first_category, category.second_category, category.third_category);
-        console.log(category);
-        axios.post('api/generalCategory',{
-            id : category.third_category
-        })
-        .then( (res) => {
-            console.log(res);
-            onExistNames(res.data);
-        })
-        .catch( (error) => {
-            console.log(error);
-        })
     }
 
 
@@ -87,7 +74,7 @@ const SelectCategory = ({ onSelectCategory, onExistNames }) => {
                     </Typography>
                 <Divider />
                 <List>
-                    {firstDB && firstDB.map((category) => (
+                    {firstCategories && firstCategories.map((category) => (
                         <ListItem key={category.FirstCategory}>
                             <Button value={category.ID} onClick={onSelectFirstCategory} className={classes.button} fullWidth >
                                 {category.FirstCategory}</Button>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Paper, Grid, Button, TextField, InputAdornment, Card, CardContent, IconButton } from '@material-ui/core';
-import { useSelector } from 'react-redux';
 import SearchIcon from '@material-ui/icons/Search';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
@@ -9,136 +8,12 @@ import axios from 'axios';
 
 import useStyles from './Style';
 
-
-const useStyles2 = makeStyles((theme) => ({
-    card: {
-        width: "100%",
-    },
-    cardDetails: {
-        flex: 1,
-    },
-    twoComponents: {
-        display: 'inline-flex',
-        padding: 10,
-    }
-}));
-
-
-const Payment = () => {
-    const { items, sum_price, userName } = useSelector( ({auth, sales}) => ({
-        userName: auth.userName,
-        items: sales.items,
-        sum_price: sales.sum_price,
-    }));
-
-    const [membership, setMemberShip] = useState(false);
-    const [customer, setCustomer] = useState({
-        name: '',
-        phone: '',
-        point: 0
-    });
-    const [finalPrice, setFinalPrice] = useState(sum_price);
-
-    const [point, setPoint] = useState(0);
-    const [card, setCard] = useState(0);
-    const [cash, setCash] = useState(0);
-
-    const classes = useStyles();
-    const cardClasses = useStyles2();
-
-
-    useEffect(() => {
-        setFinalPrice(sum_price - point);
-    }, [point]);
-
-
-    useEffect(() => {
-        setCash(finalPrice - card);
-    }, [finalPrice, card]);
-
-
-    const onCardHandler = (e) => {
-        setCard(e.target.value);
-    };
-
-    const onCashHandler = (e) => {
-        setCash(e.target.value);
-    };
-
-    const onExchange = () => {
-        setCard(cash);
-    };
-
-
-    const onApplyPointHandler = (e) => {
-        e.preventDefault();
-        let tmpPoint = Number(e.target.point.value);
-        if (tmpPoint < 0) {
-            alert("잘못된 입력입니다.");
-        }
-        else if (tmpPoint > customer.point) {
-            alert("최대 사용 가능 포인트는 " + customer.point + "p 입니다.");
-        }
-        else {
-            setPoint(tmpPoint);
-        }
-    }
-
-    const onSearchCustomer = (e) => {
-        e.preventDefault();
-        axios.get('api/customer', {
-            params: {
-                phone: e.target.phone.value,
-            }
-        })
-            .then((res) => {
-                if (res.data === "No Customer") {
-                    setCustomer({
-                        name: '',
-                        phone: '',
-                        point: 0,
-                    });
-                    alert("해당 회원이 없습니다.");
-                }
-                else {
-                    setCustomer({
-                        name: res.data[0].name,
-                        phone: res.data[0].phone,
-                        point: res.data[0].point,
-                    });
-                    setMemberShip(true);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
-
-    const onSubmitPay = () => {
-
-        axios.post('api/saledProduct',{
-            items: items,
-            sum_price: sum_price,
-            customer_name: customer.name,
-            customer_phone: customer.phone,
-            point: point,
-            card: card,
-            cash: cash,
-            staff: userName,
-        })
-        .then( (res) => {
-            console.log(res.data);
-        })
-        .catch( (error) => {
-            console.log(error);
-        })
-    }
-
+const ConsignInfo = () => {
     return (
         <Container component="main" maxwidth="xs" className={classes.root}>
             <Paper elevation={3} className={classes.paper}>
                 <Typography component="h1" variant="h4" align="center" className={classes.header}>
-                    상품결제 총 {sum_price} 원
+                    위탁자 정보
                 </Typography>
 
                 <Grid container spacing={2}>
@@ -247,9 +122,6 @@ const Payment = () => {
             </Paper>
         </Container>
     );
+}
 
-};
-
-
-
-export default Payment;
+export default ConsignInfo;

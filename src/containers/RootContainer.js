@@ -45,14 +45,17 @@ const RootContainer = () => {
           마켓발견
         </Typography>
 
+
         {isLogin ?
           <Grid container spacing={2}>
-              <Navigation userName={userName} />
+            <Navigation userName={userName} />
             <Grid item xs={12}>
-              <AccountCircleIcon fontSize="large" className={classes.avatar}/>
-              <Typography variant="h6" align="center"> 현재 로그인 직원 : {userName}</Typography>
+              <Paper variant="outlined" className={classes.item}>
+                <AccountCircleIcon fontSize="large" className={classes.avatar} />
+                <Typography variant="h6" align="center"> 현재 로그인 직원 : {userName}</Typography>
+                <Button onClick={getLogout} className={classes.next}> 로그아웃</Button>
+              </Paper>
             </Grid>
-            <Button onClick={getLogout} className={classes.next}> 로그아웃</Button>
           </Grid>
           : <Login onLogin={onLogin} />
         }

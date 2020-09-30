@@ -69,7 +69,7 @@ const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
 
   return (
     <Grid item xs={12} sm={6}>
-      <CardActionArea component="a" href="#">
+      <CardActionArea>
         <Card className={classes.card}>
           <div className={classes.cardDetails}>
             <CardContent>
