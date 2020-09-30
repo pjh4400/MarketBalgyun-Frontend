@@ -52,7 +52,7 @@ module.exports = {
         hotOnly: true,
         proxy: {
             '/api':{
-                target : 'http://localhost:3000',
+                target : 'https://marketback.herokuapp.com',
                 pathRewrite: {'^/api' : ''},
                 changeOrigin: true,
             },
