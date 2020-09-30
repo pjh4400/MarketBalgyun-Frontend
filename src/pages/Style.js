@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     next: {
         background: '#4EAE4E',
         color: 'white',
-        margin: theme.spacing(2,0.5,0,0),
+        margin: theme.spacing(1),
     },
     item: {
         margin: theme.spacing(2),

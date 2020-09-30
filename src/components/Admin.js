@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 
-import { Container, Paper, Typography, Grid, Button, Avatar } from "@material-ui/core"
+import { Typography, Grid, Button, Avatar } from "@material-ui/core"
 import SignUp from '../pages/SignUp';
 import SignOut from '../pages/SignOut';
 
@@ -16,8 +15,8 @@ const Admin = () => {
 
     const getContent = () => {
         switch (mode) {
-            case '직원 등록': return <SignUp />
-            case '직원 수정/삭제': return <SignOut />
+            case 'signup': return <SignUp />
+            case 'signout': return <SignOut />
             default: <></>
         }
     }
@@ -31,14 +30,14 @@ const Admin = () => {
                 </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-                <Button className={classes.submit} size="large" onClick={() => { setMode('직원 등록'); }}>
+                <Button className={classes.submit} size="large" onClick={() => { setMode('signup'); }}>
                     직원 등록
                     </Button>
             </Grid>
 
             <Grid item xs={12} sm={6}>
-                <Button className={classes.submit} size="large" onClick={() => { setMode('직원 수정/삭제'); }}>
-                    직원 수정/삭제
+                <Button className={classes.submit} size="large" onClick={() => { setMode('signout'); }}>
+                    직원 삭제
                     </Button>
             </Grid>
 

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import {Typography, Grid, Button, TextField, MenuItem, InputAdornment } from "@material-ui/core"
-import SearchIcon from '@material-ui/icons/Search';
+import { Grid, Button, TextField } from "@material-ui/core"
 import useStyles from './Style';
 
 const SignOut = () => {
@@ -14,99 +13,72 @@ const SignOut = () => {
         setName(e.target.value);
     }
 
-    const onSearchEmployee = (e) => {
+
+    const onDeleteEmployee = (e) => {
         e.preventDefault();
         axios.get('/api/user', {
             params: {
                 name: name
             }
         }).then((res) => {
-            alert('직원 ' + name + ' 을(를) 찾았습니다.');
-            setLevel(res.data[0].level);
-            console.log(res);
-        })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
-
-    const onDeleteEmployee = (e) => {
-        e.preventDefault();
-        axios.delete('api/user', {
-            params: {
-                name: name
+            console.log(res.data);
+            if (res.data === 'No User') {
+                alert('해당 직원이 없습니다.');
             }
+            else {
+                if (confirm("직원 '" + name + "'을(를) 삭제하시겠습니까?")) {
+                    axios.delete('api/user', {
+                        params: {
+                            name: name
+                        }
+                    })
+                        .then((res) => {
+                            console.log(res);
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+                }
+            }
+
         })
-            .then((res) => {
-                console.log(res);
-            })
             .catch((error) => {
                 console.log(error);
             })
+
+
     }
 
-    const onChangeHandler = (e) => {
-        e.preventDefault();
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value,
-        });
-    }
 
-    const onSubmitForm = (e) => {
-        e.preventDefault();
-        if (form.password === form.password2) {
-            alert('정상적으로 등록되었습니다.');
-            axios.put('api/user', {
-                name: form.name,
-                password: form.password,
-                level: form.level,
-            })
-                .then((res) => {
-                    console.log(res);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-        } else {
-            alert('비밀번호가 일치하지 않습니다.');
-        }
-    }
+
 
     return (
-        <form className={classes.form} noValidate onSubmit={onSubmitForm}>
-            <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        type="text"
-                        variant="outlined"
-                        fullWidth
-                        label="직원이름"
-                        name="name"
-                        onChange={onChangeName}
-                        value={name}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment>
-                                    <Button onClick={onSearchEmployee}><SearchIcon /></Button>
-                                </InputAdornment>
-                            )
-                        }}
-                    />
-                </Grid>
+        <Grid container spacing={2} alignItems="center" className={classes.item}>
+            <Grid item xs={12} sm={8}>
+                <TextField
+                    type="text"
+                    variant="outlined"
+                    fullWidth
+                    label="직원이름"
+                    name="name"
+                    onChange={onChangeName}
+                    value={name}
+                />
             </Grid>
-            <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={onDeleteEmployee}
-            >
-                직원삭제
+            <Grid item xs={12} sm={4}>
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    className={classes.next}
+                    onClick={onDeleteEmployee}
+                >
+                    직원삭제
           </Button>
-        </form>
-
+            </Grid>
+        </Grid>
     );
 }
 

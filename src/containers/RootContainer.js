@@ -24,18 +24,18 @@ const RootContainer = () => {
   const classes = useStyles();
 
   const getLogout = (e) => {
-    alert("로그아웃하시겠습니까?");
-    e.preventDefault();
-    axios.get('api/auth/log-out', {
-    })
-      .then((res) => {
-        console.log(res);
-        onLogout();
-        <Redirect to="/" />
+    if(confirm("로그아웃하시겠습니까?")){
+      axios.get('api/auth/log-out', {
       })
-      .catch((error) => {
-        console.log(error);
-      })
+        .then((res) => {
+          console.log(res);
+          onLogout();
+          <Redirect to="/" />
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
   }
 
   return (
@@ -47,16 +47,21 @@ const RootContainer = () => {
 
 
         {isLogin ?
-          <Grid container spacing={2}>
+          <>
             <Navigation userName={userName} />
-            <Grid item xs={12}>
-              <Paper variant="outlined" className={classes.item}>
-                <AccountCircleIcon fontSize="large" className={classes.avatar} />
-                <Typography variant="h6" align="center"> 현재 로그인 직원 : {userName}</Typography>
-                <Button onClick={getLogout} className={classes.next}> 로그아웃</Button>
-              </Paper>
-            </Grid>
-          </Grid>
+            <Paper variant="outlined" className={classes.item}>
+              <Grid container justify="center" className={classes.form}>
+                  <AccountCircleIcon fontSize="large" />
+                  <Typography variant="h6" align="center"> 현재 로그인 직원 : {userName}</Typography>
+              </Grid>
+              <Grid container justify="flex-end">
+                <Grid item>
+                  <Button onClick={getLogout} className={classes.next}> 로그아웃</Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          </>
+
           : <Login onLogin={onLogin} />
         }
 
