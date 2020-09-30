@@ -67,7 +67,6 @@ const ConsignProduct = () => {
 
 
     const onSearchCustomer = (e) => {
-        e.preventDefault();
         axios.get('api/customer', {
             params: {
                 phone: e.target.phone.value,
@@ -89,12 +88,12 @@ const ConsignProduct = () => {
                         ...product,
                         consigner: tmp.name,
                     });
-                    setMode('old2');
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
+        e.preventDefault();
 
     }
 
@@ -155,25 +154,29 @@ const ConsignProduct = () => {
         e.preventDefault();
         switch (mode) {
             case 'new':
-                axios.post('api/consignProduct', product)
-                    .then((res) => {
-                        if (res.data === 'Posting Success') {
-                            alert('정상적으로 등록되었습니다.');
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
+                if (confirm('등록하시겠습니까?')) {
+                    axios.post('api/consignProduct', product)
+                        .then((res) => {
+                            if (res.data === 'Posting Success') {
+                                alert('정상적으로 등록되었습니다.');
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+                }
                 break;
 
             case 'old2':
-                axios.put('api/consignProduct', product)
-                    .then((res) => {
-                        alert('수정되었습니다.');
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
+                if (confirm('수정하시겠습니까?')) {
+                    axios.put('api/consignProduct', product)
+                        .then((res) => {
+                            alert('수정되었습니다.');
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+                }
                 break;
 
             default:
@@ -225,7 +228,7 @@ const ConsignProduct = () => {
                     </Button>
                     </Grid>
 
-                    {mode !== "new" ?
+                    {mode !== "new" &&
                         <form className={classes.form} onSubmit={onSearchProduct}>
                             <TextField
                                 type="text"
@@ -241,7 +244,7 @@ const ConsignProduct = () => {
                                     )
                                 }}
                             />
-                        </form> : <></>}
+                        </form>}
 
 
                     {mode !== "old" &&
@@ -251,7 +254,8 @@ const ConsignProduct = () => {
                                     위탁자 개인정보
                         </Typography>
                                 <Grid container spacing={2}>
-                                    {mode === 'new' &&
+
+                                    {mode !== 'old2' &&
                                         <form className={classes.form} onSubmit={onSearchCustomer}>
                                             <TextField
                                                 type="number"
@@ -269,9 +273,10 @@ const ConsignProduct = () => {
                                                 }}
                                             />
                                         </form>
-
-
                                     }
+
+
+
 
                                     {consignerInfo()}
 
@@ -361,7 +366,7 @@ const ConsignProduct = () => {
 
                                         <Grid item xs={12} sm={6}>
                                             <TextField
-                                                type="number"
+                                                type="text"
                                                 variant="outlined"
                                                 fullWidth
                                                 label="재고위치"
