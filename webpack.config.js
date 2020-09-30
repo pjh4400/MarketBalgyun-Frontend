@@ -42,6 +42,7 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     devServer: {
+        historyApiFallback: true,
         // 정적 파일 경로 설정
         contentBase: path.join(__dirname, '/public/'),
         port: port,

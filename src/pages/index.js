@@ -4,5 +4,3 @@ export { default as Sale } from '../containers/SaleContainer';
 export { default as Payment} from '../containers/PaymentContainer';
 export { default as RegisterGeneralProduct } from './RegisterGeneralProduct';
 export { default as ConsignProduct } from './ConsignProduct';
-export { default as Login } from './Login';
-

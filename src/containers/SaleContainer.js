@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import  { addItem, deleteItem, changePrice } from '../modules/sales';
+import  { addItem, deleteItem, changeInfo } from '../modules/sales';
 
 import SearchProduct from '../components/SearchProduct';
-import SaleGeneralItem from '../components/SaleGeneralItem';
+import SaleItem from '../components/SaleItem';
 
 import { Container, Typography, Paper, Grid, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
@@ -22,7 +22,7 @@ const SaleContainer = () => {
     const dispatch = useDispatch();
     const onAddItem = useCallback(item => dispatch(addItem(item)), [dispatch]);
     const onDeleteItem = useCallback((id,price) => dispatch(deleteItem(id,price)), [dispatch]);
-    const onChangePrice = useCallback((prevPrice,newPrice) => dispatch(changePrice(prevPrice,newPrice)), [dispatch]);
+    const onChangeInfo = useCallback((id, quantity, discount, prePrice, newPrice) => dispatch(changeInfo(id, quantity, discount, prePrice, newPrice)), [dispatch]);
 
     return (
         <Container component="main" maxwidth="xs" className={classes.root}>
@@ -36,7 +36,7 @@ const SaleContainer = () => {
 
                 <Grid container spacing={2}>
                     {items && items.map(item => (
-                        <SaleGeneralItem item={item} key={item.id} onDeleteItem={onDeleteItem} onChangePrice={onChangePrice}/>
+                        <SaleItem item={item} key={item.id} onDeleteItem={onDeleteItem} onChangeInfo={onChangeInfo}/>
                     ))}
                 </Grid>
                 <Link to="/payment">

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Customers from '../tempDB/Customers';
 import { Container, Typography, Paper, Grid, Button, TextField, InputAdornment, Card, CardContent, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 
 import useStyles from './Style';
 
@@ -23,9 +23,13 @@ const useStyles2 = makeStyles((theme) => ({
 }));
 
 
-const Payment = ({ sum_price }) => {
+const Payment = ({ items, sum_price }) => {
     const [membership, setMemberShip] = useState(false);
-    const [customer, setCustomer] = useState({});
+    const [customer, setCustomer] = useState({
+        name: '',
+        phone: '',
+        point: 0
+    });
     const [finalPrice, setFinalPrice] = useState(sum_price);
 
     const [point, setPoint] = useState(0);
@@ -38,7 +42,7 @@ const Payment = ({ sum_price }) => {
 
     useEffect(() => {
         setFinalPrice(sum_price - point);
-    },[point]);
+    }, [point]);
 
 
     useEffect(() => {
@@ -74,18 +78,51 @@ const Payment = ({ sum_price }) => {
     }
 
     const onSearchCustomer = (e) => {
-        let customer = Customers.find(customer => customer.phone.slice(-4) === e.target.phone.value);
-        if (customer === undefined) {
-            alert("해당 회원이 존재하지 않습니다." + e.target.phone.value);
-        }
-        else {
-            setCustomer(customer);
-            setMemberShip(true);
-            alert(customer.name + " : " + customer.phone);
-        }
         e.preventDefault();
+        axios.get('api/customer', {
+            params: {
+                phone: e.target.phone.value,
+            }
+        })
+            .then((res) => {
+                if (res.data === "No Customer") {
+                    setCustomer({
+                        name: '',
+                        phone: '',
+                        point: 0,
+                    });
+                    alert("해당 회원이 없습니다.");
+                }
+                else {
+                    setCustomer({
+                        name: res.data[0].name,
+                        phone: res.data[0].phone,
+                        point: res.data[0].point,
+                    });
+                    setMemberShip(true);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
+    const onSubmitPay = () => {
+        axios.post('api/saledProduct',{
+            items: items,
+            sum_price: sum_price,
+            customer: customer,
+            point: point,
+            card: card,
+            cash: cash,
+        })
+        .then( (res) => {
+            console.log(res.data);
+        })
+        .catch( (error) => {
+            console.log(error);
+        })
+    }
 
     return (
         <Container component="main" maxwidth="xs" className={classes.root}>
@@ -98,8 +135,8 @@ const Payment = ({ sum_price }) => {
 
                     <Grid item xs={12}>
                         <Card className={cardClasses.card}>
-                            <div className={cardClasses.cardDetails}>
-                                <CardContent>
+                            <CardContent>
+                                <div className={cardClasses.cardDetails}>
                                     <Typography component="h3" variant="h5">
                                         구매자 정보
                                     </Typography>
@@ -120,31 +157,31 @@ const Payment = ({ sum_price }) => {
                                         />
                                     </form>
                                     <Typography variant="subtitle1">
-                                        이름 : {customer && customer.name} </Typography>
+                                        이름 : {membership && customer.name} </Typography>
                                     <Typography variant="subtitle1">
-                                        전화번호 : {customer && customer.phone} </Typography>
+                                        전화번호 : {membership && customer.phone} </Typography>
                                     <Typography variant="subtitle1">
-                                        포인트 : {customer && customer.point} </Typography>
-                                    
-                                    { !membership || 
-                                     <form className={classes.form} onSubmit={onApplyPointHandler}>
-                                     <TextField
-                                         type="number"
-                                         variant="outlined"
-                                         fullWidth
-                                         label="포인트 적용 (p)"
-                                         name="point"
-                                         InputProps={{
-                                             endAdornment: (
-                                                 <InputAdornment>
-                                                     <IconButton type="submit"><CheckCircleIcon /></IconButton>
-                                                 </InputAdornment>
-                                             )
-                                         }}
-                                     />
-                                 </form> }                                  
-                                </CardContent>
-                            </div>
+                                        포인트 : {membership && customer.point} </Typography>
+
+                                    {!membership ||
+                                        <form className={classes.form} onSubmit={onApplyPointHandler}>
+                                            <TextField
+                                                type="number"
+                                                variant="outlined"
+                                                fullWidth
+                                                label="포인트 적용 (p)"
+                                                name="point"
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <InputAdornment>
+                                                            <IconButton type="submit"><CheckCircleIcon /></IconButton>
+                                                        </InputAdornment>
+                                                    )
+                                                }}
+                                            />
+                                        </form>}
+                                </div>
+                            </CardContent>
                         </Card>
                     </Grid>
 
@@ -193,7 +230,7 @@ const Payment = ({ sum_price }) => {
                         </Card>
                     </Grid>
 
-                    <Button className={classes.submit} size="large">
+                    <Button className={classes.submit} size="large" onClick={onSubmitPay}>
                         총 {finalPrice} 원 판매하기
                     </Button>
                 </Grid>

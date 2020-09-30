@@ -12,6 +12,7 @@ const PaymentContainer = () => {
 
     return (
     <Payment
+    items={items}
     sum_price={sum_price} 
     />
     );

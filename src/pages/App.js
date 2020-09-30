@@ -10,7 +10,6 @@ const App = () => {
                 <Route path="/register-customer" component={Customer} />
                 <Route path="/sale" component={Sale} />
                 <Route path="/payment" component={Payment} />
-                <Route path="/login" component={Login} />
                 <Route path="/general-product" component={RegisterGeneralProduct} />
                 <Route path="/consign-product" component={ConsignProduct} />
             </div>

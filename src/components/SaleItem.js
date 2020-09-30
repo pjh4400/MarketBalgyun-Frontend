@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid, TextField, InputAdornment, Card, CardContent, IconButton, CardActionArea } from '@material-ui/core';
 
@@ -23,17 +23,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const SaleGeneralItem = ({ item, onDeleteItem, onChangePrice }) => {
+const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
   const [price, setPrice] = useState(item.price);
   const [quantity, setQuantity] = useState(1);
   const [discount, setDiscount] = useState(0);
-
-  useEffect(() => {
-    let newPrice = item.price / 100 * ( 100 - discount) * quantity;
-    onChangePrice(price, newPrice);
-    setPrice(newPrice);
-  }, [quantity, discount]); // 수량, 할인율 변경 시 총 가격 수정 및 반영
-
+  
   const classes = useStyles();
 
   const onQuantityHandler = (e) => {
@@ -47,8 +41,13 @@ const SaleGeneralItem = ({ item, onDeleteItem, onChangePrice }) => {
     }
     else {
       setQuantity(tmpQty);
+      let newPrice = Math.floor(item.price / 100 * ( 100 - discount) * tmpQty / 10) * 10;
+      console.log(newPrice);
+      onChangeInfo(item.id, tmpQty, discount, price, newPrice);
+      setPrice(newPrice);
     }
   }
+
 
   const onDiscountHandler = (e) => {
     e.preventDefault();
@@ -61,6 +60,10 @@ const SaleGeneralItem = ({ item, onDeleteItem, onChangePrice }) => {
     }
     else {
       setDiscount(tmpDiscount);
+      let newPrice = Math.floor(item.price / 100 * ( 100 - tmpDiscount) * quantity / 10) * 10;
+      console.log(newPrice);
+      onChangeInfo(item.id, quantity, tmpDiscount, price, newPrice);
+      setPrice(newPrice);
     }
   }
 
@@ -86,14 +89,14 @@ const SaleGeneralItem = ({ item, onDeleteItem, onChangePrice }) => {
               <Typography variant="subtitle1" color="primary" paragraph>
                 가격 : {item.price} 원
             </Typography>
-              <form onSubmit={onQuantityHandler}>
+              <form noValidate onSubmit={onQuantityHandler}>
                 <TextField
                   type="number"
                   variant="outlined"
                   fullWidth
                   label="수량"
                   name="quantity"
-                  defaultValue="1"
+                  defaultValue={1}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment>
@@ -104,14 +107,14 @@ const SaleGeneralItem = ({ item, onDeleteItem, onChangePrice }) => {
                 />
               </form>
 
-              <form onSubmit={onDiscountHandler}>
+              <form noValidate onSubmit={onDiscountHandler}>
                 <TextField
                   type="number"
                   variant="outlined"
                   fullWidth
                   label="할인율"
                   name="discount"
-                  defaultValue="0"
+                  defaultValue={0}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment>
@@ -122,7 +125,7 @@ const SaleGeneralItem = ({ item, onDeleteItem, onChangePrice }) => {
                 />
               </form>
               <Typography variant="subtitle1" color="primary">
-                총 적용 가격 : {price} 원
+                총 적용 가격 : {item.apply_price} 원
             </Typography>
 
             </CardContent>
@@ -133,4 +136,4 @@ const SaleGeneralItem = ({ item, onDeleteItem, onChangePrice }) => {
   );
 }
 
-export default SaleGeneralItem;
+export default SaleItem;

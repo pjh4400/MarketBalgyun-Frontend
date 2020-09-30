@@ -16,44 +16,45 @@ const SearchProduct = ({ onAddItem }) => {
 
     const onSearchItem = (e) => {
         e.preventDefault();
-        axios.get('api/generalProduct', {
+        axios.get('api/searchProduct', {
             params: {
                 id: searchID,
             }
         })
             .then((res) => {
-                console.log(res.data[0]);
-                const item = res.data[0];
-                onAddItem(item, 1);
+                if (res.data === "해당 ID의 상품이 없습니다.") {
+                    alert(res.data);
+                } else {
+                    onAddItem(res.data[0]);
+                }
             })
             .catch((error) => {
                 console.log(error);
-                alert("ID를 다시 입력해주세요." + searchID);
+                alert("ID를 다시 입력해주세요.");
             })
     }
 
 
     return (
-        <>
-            <form className={classes.form} onSubmit={onSearchItem}>
-                <TextField
-                    type="text"
-                    variant="outlined"
-                    fullWidth
-                    label="ID"
-                    name="id"
-                    onChange={onSearchIDHandler}
-                    value={searchID}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment>
-                                <Button type="submit"><SearchIcon /></Button>
-                            </InputAdornment>
-                        )
-                    }}
-                />
-            </form>
-        </>
+        <form className={classes.form} onSubmit={onSearchItem}>
+            <TextField
+                type="text"
+                variant="outlined"
+                fullWidth
+                label="ID"
+                name="id"
+                onChange={onSearchIDHandler}
+                value={searchID}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment>
+                            <Button type="submit"><SearchIcon /></Button>
+                        </InputAdornment>
+                    )
+                }}
+            />
+        </form>
+
     );
 
 };

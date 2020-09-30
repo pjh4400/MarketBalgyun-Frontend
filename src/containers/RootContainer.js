@@ -30,13 +30,12 @@ const RootContainer = () => {
     })
       .then((res) => {
         console.log(res);
-        //onLogout();
+        onLogout();
         <Redirect to="/" />
       })
       .catch((error) => {
         console.log(error);
       })
-    onLogout(); // 나중에 성공시에만 되도록 바꾸기
   }
 
   return (
@@ -45,29 +44,21 @@ const RootContainer = () => {
         <Typography component="h1" variant="h4" align="center" className={classes.header}>
           마켓발견
         </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            {isLogin ?
-              // To DO : 로그인 후에 다른 화면 선택지 보이도록 (로그인 안했을때는 로그인 밖에 없음)
-              // 직원등록은 관리자 계정만 가능
-              <Navigation userName={userName} /> : <Login onLogin={onLogin} />
-            }
-          </Grid>
-        </Grid>
-        {userName &&
-          <Grid container spacing={2} direction="row" alignItems="center">
-            <Grid item xs={12} >
-                <AccountCircleIcon fontSize="large" className={classes.avatar} />
 
-            </Grid>
+        {isLogin ?
+          <Grid container spacing={2}>
+              <Navigation userName={userName} />
             <Grid item xs={12}>
-                 <Typography variant="h6" align="center">            현재 로그인 직원 : {userName}
-</Typography>
+              <AccountCircleIcon fontSize="large" className={classes.avatar}/>
+              <Typography variant="h6" align="center"> 현재 로그인 직원 : {userName}</Typography>
             </Grid>
             <Button onClick={getLogout} className={classes.next}> 로그아웃</Button>
-          </Grid>}
+          </Grid>
+          : <Login onLogin={onLogin} />
+        }
 
         {userName === '관리자' && <Admin />}
+
 
       </Paper>
     </Container>

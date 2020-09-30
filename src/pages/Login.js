@@ -29,7 +29,7 @@ const Login = ({onLogin}) => {
     })
       .then((res) => {
         console.log(res.data);
-        onLogin(res.data.name);
+        onLogin(res.data.payLoad.name);
       })
       .catch((error) => {
         console.log(error);
