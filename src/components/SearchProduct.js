@@ -25,7 +25,11 @@ const SearchProduct = ({ onAddItem }) => {
                 if (res.data === "해당 ID의 상품이 없습니다.") {
                     alert(res.data);
                 } else {
-                    onAddItem(res.data[0]);
+                    if(res.data[0].quantity < 1){
+                        alert("품절된 상품입니다.");
+                    } else{
+                        onAddItem(res.data[0]);
+                    }
                 }
             })
             .catch((error) => {

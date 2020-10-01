@@ -22,7 +22,7 @@ export const selectCategory = (first, second, third) => ({
 
 export const previousStep = () => ({
     type: PREVIOUS_STEP,
-})
+});
 
 
 

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Typography, Paper, Grid, Button, TextField, InputAdornment, Card, CardContent, IconButton } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import SearchIcon from '@material-ui/icons/Search';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
@@ -25,11 +25,15 @@ const useStyles2 = makeStyles((theme) => ({
 
 
 const Payment = () => {
-    const { items, sum_price, userName } = useSelector( ({auth, sales}) => ({
+    const { userName, items, sum_price, consign_info } = useSelector( ({auth, sales}) => ({
         userName: auth.userName,
         items: sales.items,
         sum_price: sales.sum_price,
+        consign_info: sales.consign_info,
     }));
+   
+    const dispatch = useDispatch();
+    const getConsignInfo = useCallback((consign_info) => dispatch(getConsignInfo(consign_info)), [dispatch]);
 
     const [membership, setMemberShip] = useState(false);
     const [customer, setCustomer] = useState({
@@ -127,7 +131,7 @@ const Payment = () => {
             staff: userName,
         })
         .then( (res) => {
-            console.log(res.data);
+            getConsignInfo(res.data);
         })
         .catch( (error) => {
             console.log(error);

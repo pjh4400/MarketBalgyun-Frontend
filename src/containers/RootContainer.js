@@ -30,7 +30,6 @@ const RootContainer = () => {
         .then((res) => {
           console.log(res);
           onLogout();
-          <Redirect to="/" />
         })
         .catch((error) => {
           console.log(error);

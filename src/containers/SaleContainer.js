@@ -23,7 +23,7 @@ const SaleContainer = () => {
     const onAddItem = useCallback(item => dispatch(addItem(item)), [dispatch]);
     const onDeleteItem = useCallback((id,price) => dispatch(deleteItem(id,price)), [dispatch]);
     const onChangeInfo = useCallback((id, quantity, discount, prePrice, newPrice) => dispatch(changeInfo(id, quantity, discount, prePrice, newPrice)), [dispatch]);
-
+    
     return (
         <Container component="main" maxwidth="xs" className={classes.root}>
             <Paper elevation={3} className={classes.paper}>
