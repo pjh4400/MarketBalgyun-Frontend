@@ -67,10 +67,15 @@ const CustomerPage = () => {
         console.log(customer);
         switch (mode) {
             case 'new': // 등록
-                if (confirm("등록하시겠습니까?")) {
+                if (confirm('등록하시겠습니까?')) {
                     axios.post('api/customer', customer)
                         .then((res) => {
-                            alert("정상적으로 등록되었습니다.");
+                            if(res.data==='이미 등록된 번호입니다.'){
+                                alert(res.data);
+                            } else {
+                                alert('정상적으로 등록되었습니다.');
+
+                            }
                         })
                         .catch((error) => {
                             console.log(error);
