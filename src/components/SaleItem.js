@@ -1,34 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useCallback} from "react";
+import {  useDispatch } from 'react-redux';
 import { Typography, Grid, TextField, InputAdornment, Card, CardContent, IconButton, CardActionArea } from '@material-ui/core';
 
 import ClearIcon from '@material-ui/icons/clear';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-    width: "100%",
-  },
-  cardDetails: {
-    flex: 1,
-  },
-  clear: {
-    position: "absolute",
-    right: 0,
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(3),
-  },
-}));
+import { deleteItem, changeInfo } from '../modules/sales';
+import useStyles from '../pages/Style';
 
 
-const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
+const SaleItem = ({ item }) => {
   const [price, setPrice] = useState(item.price);
   const [quantity, setQuantity] = useState(1);
   const [discount, setDiscount] = useState(0);
   
   const classes = useStyles();
+
+  const dispatch = useDispatch();
+  const onDeleteItem = useCallback((id, price) => dispatch(deleteItem(id, price)), [dispatch]);
+  const onChangeInfo = useCallback((id, quantity, discount, prePrice, newPrice) => dispatch(changeInfo(id, quantity, discount, prePrice, newPrice)), [dispatch]);
+
 
   const onQuantityHandler = (e) => {
     e.preventDefault();
@@ -71,11 +62,10 @@ const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
     <Grid item xs={12} sm={6}>
       <CardActionArea>
         <Card className={classes.card}>
-          <div className={classes.cardDetails}>
-            <CardContent>
+            <CardContent className={classes.cardDetails}>
               <Typography variant="subtitle1" color="textSecondary" paragraph>
                 ID : {item.id}
-                <IconButton className={classes.clear} onClick={() => onDeleteItem(item.id,price)}><ClearIcon /></IconButton>
+                <IconButton className={classes.right} onClick={() => onDeleteItem(item.id,price)}><ClearIcon /></IconButton>
               </Typography>
               <Typography component="h3" variant="h5">
                 {item.name || item.third_category}
@@ -127,9 +117,7 @@ const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
               <Typography variant="subtitle1" color="primary">
                 총 적용 가격 : {item.apply_price} 원
             </Typography>
-
             </CardContent>
-          </div>
         </Card>
       </CardActionArea>
     </Grid>

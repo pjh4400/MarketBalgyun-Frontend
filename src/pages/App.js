@@ -1,7 +1,7 @@
 import React from 'react';
 import { hot } from 'react-hot-loader/root'
 import { BrowserRouter, Route } from 'react-router-dom';
-import { Home, Customer, Sale, Payment, RegisterGeneralProduct, ConsignProduct } from './index.js';
+import { Home, Customer, Sale, RegisterGeneralProduct, ConsignProduct } from './index.js';
 const App = () => {
     return (
         <BrowserRouter>
@@ -9,7 +9,6 @@ const App = () => {
                 <Route exact path="/" component={Home} />
                 <Route path="/register-customer" component={Customer} />
                 <Route path="/sale" component={Sale} />
-                <Route path="/payment" component={Payment} />
                 <Route path="/general-product" component={RegisterGeneralProduct} />
                 <Route path="/consign-product" component={ConsignProduct} />
             </div>

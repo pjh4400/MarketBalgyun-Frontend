@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, TextField, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 
+import { addItem } from '../modules/sales';
+
 import useStyles from '../pages/Style';
 
-const SearchProduct = ({ onAddItem }) => {
+const SearchProduct = () => {
     const [searchID, setSearchID] = useState("");
 
     const classes = useStyles();
+
+    const dispatch = useDispatch();
+    const onAddItem = useCallback(item => dispatch(addItem(item)), [dispatch]);
 
     const onSearchIDHandler = (e) => {
         setSearchID(e.target.value);

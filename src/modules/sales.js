@@ -1,7 +1,7 @@
 const ADD_ITEM = 'sales/ADD_ITEM'; // 판매목록에 상품 추가
 const DELETE_ITEM = 'sales/DELETE_ITEM'; // 판매목록에서 상품 제거
 const CHANGE_INFO = 'sales/CHANGE_INFO'; // 상품 정보(할인, 수량) 변경
-const GET_CONSIGN_INFO = 'sales/GET_CONSIGN_INFO'; //위탁상품 정보 받아오기
+const PUT_CONSIGN_INFO = 'sales/PUT_CONSIGN_INFO'; //위탁상품 정보 입력
 
 const initialState = {
     items: [],
@@ -25,8 +25,8 @@ export const changeInfo = (id, quantity, discount, prePrice, newPrice) => ({
     id, quantity, discount, prePrice, newPrice,
 });
 
-export const getConsignInfo = (consign_info) => ({
-    type: GET_CONSIGN_INFO,
+export const putConsignInfo = (consign_info) => ({
+    type: PUT_CONSIGN_INFO,
     consign_info,
 });
 
@@ -72,7 +72,7 @@ function sales(state = initialState, action) {
                 sum_price: state.sum_price - action.prePrice + action.newPrice,
             };
 
-        case GET_CONSIGN_INFO:
+        case PUT_CONSIGN_INFO:
             return{
                 ...state,
                 consign_info: action.consign_info,

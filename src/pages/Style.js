@@ -55,6 +55,24 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         alignItems: 'center',
         display: 'inline',
+    },
+    card: {
+        width: "100%",
+    },
+    cardDetails: {
+        flex: 1,
+    },
+    right: {
+        position: "absolute",
+        right: 0,
+    },
+    form: {
+        width: '100%',
+        marginTop: theme.spacing(3),
+    },
+    inlineComponents: {
+        display: 'inline-flex',
+        padding: 10,
     }
 }));
 
