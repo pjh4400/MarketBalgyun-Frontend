@@ -86,6 +86,7 @@ const ConsignProduct = () => {
                     });
                     setProduct({
                         ...product,
+                        phone: tmp.phone,
                         consigner: tmp.name,
                     });
                 }
@@ -110,7 +111,6 @@ const ConsignProduct = () => {
                 }
                 else {
                     let tmp = res.data[0];
-                    console.log(tmp);
                     setProduct({
                         id: tmp.id,
                         name: tmp.name,
@@ -154,7 +154,11 @@ const ConsignProduct = () => {
         e.preventDefault();
         switch (mode) {
             case 'new':
-                if (confirm('등록하시겠습니까?')) {
+                if(consigner.name===''){
+                    alert('위탁자 정보를 입력해주세요.');
+                }
+                else {
+                    if (confirm('등록하시겠습니까?')) {
                     axios.post('api/consignProduct', product)
                         .then((res) => {
                             if (res.data === 'Posting Success') {
@@ -164,6 +168,7 @@ const ConsignProduct = () => {
                         .catch((error) => {
                             console.log(error);
                         })
+                    }
                 }
                 break;
 
