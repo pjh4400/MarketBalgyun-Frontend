@@ -23,7 +23,7 @@ const ConsignProduct = () => {
         phone: '',
         accountable: true,
         date: '',
-        expired_date: '',
+        expire_date: '',
     });
 
     const [consigner, setConsigner] = useState({
@@ -49,7 +49,7 @@ const ConsignProduct = () => {
             phone: '',
             accountable: true,
             date: '',
-            expired_date: '',
+            expire_date: '',
         });
         setConsigner({
             name: '',
@@ -126,6 +126,7 @@ const ConsignProduct = () => {
                         phone: tmp.phone,
                         accountable: tmp.accountable,
                         date: tmp.date,
+                        expire_date: tmp.expire_date,
                     });
                     axios.get('api/customer', {
                         params: {
@@ -188,6 +189,17 @@ const ConsignProduct = () => {
 
             default:
                 break;
+        }
+    }
+
+    const onExtendDate = () => {
+        if(confirm('1개월 연장하시겠습니까?')){
+            let newDate = new Date(product.expire_date);
+            newDate.setMonth(newDate.getMonth() + 1);
+            setProduct({
+                ...product,
+                expire_date : newDate.toJSON(),
+            });
         }
     }
 
@@ -411,37 +423,14 @@ const ConsignProduct = () => {
                                         </Grid>
 
                                         {mode !== 'new' &&
-                                            <Grid spacing={2}>
-                                                <Grid item xs={12} sm={6}>
-                                                    <TextField
-                                                        id="date"
-                                                        label="위탁날짜"
-                                                        type="date"
-                                                        defaultValue="2017-05-24"
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                    />
-                                                </Grid>
-
-                                                <Grid item xs={12} sm={6}>
-                                                    <TextField
-                                                        id="date"
-                                                        label="만료날짜"
-                                                        type="expired_date"
-                                                        defaultValue="2017-05-24"
-                                                        InputLabelProps={{
-                                                            shrink: true,
-                                                        }}
-                                                        InputProps={{
-                                                            endAdornment: (
-                                                                <InputAdornment>
-                                                                    <IconButton ><AddCircleIcon /></IconButton>
-                                                                </InputAdornment>
-                                                            )
-                                                        }}
-                                                    />
-                                                </Grid>
+                                             <Grid item xs={12}>
+                                                <Typography variant="body1" color="textSecondary">
+                                                위탁날짜 : {product.date.split('T')[0]}
+                                                </Typography>
+                                                <Typography variant="body1" color="textSecondary">
+                                                만료날짜 : {product.expire_date.split('T')[0]}
+                                                <IconButton className={classes.inlineComponents} onClick={onExtendDate}><AddCircleIcon /></IconButton>
+                                                </Typography>
                                             </Grid>
                                         }
                                     </Grid>
