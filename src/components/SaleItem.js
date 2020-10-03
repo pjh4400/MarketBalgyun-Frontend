@@ -1,4 +1,4 @@
-import React, { useState, useCallback} from "react";
+import React, { useState, useCallback, useEffect} from "react";
 import {  useDispatch } from 'react-redux';
 
 import { Typography, Grid, TextField, InputAdornment, Card, CardContent, IconButton, CardActionArea } from '@material-ui/core';
@@ -12,19 +12,22 @@ import useStyles from '../pages/Style';
 
 const SaleItem = ({ item }) => {
   const [price, setPrice] = useState(item.price);
-  const [quantity, setQuantity] = useState(1);
+  const [saleQuantity, setSaleQuantity] = useState(1);
   const [discount, setDiscount] = useState(0);
   
   const classes = useStyles();
 
   const dispatch = useDispatch();
   const onDeleteItem = useCallback((id, price) => dispatch(deleteItem(id, price)), [dispatch]);
-  const onChangeInfo = useCallback((id, quantity, discount, prePrice, newPrice) => dispatch(changeInfo(id, quantity, discount, prePrice, newPrice)), [dispatch]);
+  const onChangeInfo = useCallback((id, saleQuantity, discount, prePrice, newPrice) => dispatch(changeInfo(id, saleQuantity, discount, prePrice, newPrice)), [dispatch]);
 
+  useEffect(() => {
+    console.log(item);
+  }, []);
 
   const onQuantityHandler = (e) => {
     e.preventDefault();
-    let tmpQty = Number(e.target.quantity.value);
+    let tmpQty = Number(e.target.sale_quantity.value);
     if (tmpQty < 1) {
       alert("잘못된 입력입니다.");
     }
@@ -32,7 +35,7 @@ const SaleItem = ({ item }) => {
       alert(item.quantity + "개 이상 판매할 수 없습니다.");
     }
     else {
-      setQuantity(tmpQty);
+      setSaleQuantity(tmpQty);
       let newPrice = Math.floor(item.price / 100 * ( 100 - discount) * tmpQty / 10) * 10;
       console.log(newPrice);
       onChangeInfo(item.id, tmpQty, discount, price, newPrice);
@@ -85,7 +88,7 @@ const SaleItem = ({ item }) => {
                   variant="outlined"
                   fullWidth
                   label="수량"
-                  name="quantity"
+                  name="sale_quantity"
                   defaultValue={1}
                   InputProps={{
                     endAdornment: (

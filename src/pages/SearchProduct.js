@@ -63,24 +63,65 @@ const SearchProduct = () => {
 
     const oneItem = (item) => {
         console.log(item);
-        return (
-            <Card className={classes.card}>
-                <CardContent className={classes.cardDetails}>
-                    <Typography variant="subtitle1" color="primary">
-                        {item.id.startsWith('C') ? '위탁상품' : '일반상품'} ID : {item.id}
-                    </Typography>
-                    <Typography component="h3" variant="h5" paragraph>
-                        {item.name}
+        if (item.id.startsWith('C')) { // 위탁상품
+            return (
+                <Card className={classes.card}>
+                    <CardContent className={classes.cardDetails}>
+                        <Typography variant="subtitle1" color="primary">
+                            위탁상품 : {item.id}
+                        </Typography>
+                        <Typography component="h3" variant="h5" paragraph>
+                            {item.name || '상품명 없음'}
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                            위탁자 : {item.consigner || '정보없음'}
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                            가격 : {item.price} 원
                     </Typography>
                     <Typography variant="body1" color="textSecondary">
-                        재고위치 : {item.place || '정보없음'}
-                    </Typography>
-                    <Typography variant="body1" color="textSecondary">
-                        가격 : {item.price} 원
-                    </Typography>
-                </CardContent>
-            </Card>
-        );
+                            수량 : {item.quantity}
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                            재고위치 : {item.place || '정보없음'}
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                            위탁날짜 : {item.date.split('T')[0]}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            );
+        }
+        else { // 일반상품
+            return (
+                <Card className={classes.card}>
+                    <CardContent className={classes.cardDetails}>
+                        <Typography variant="subtitle1" color="secondary">
+                            일반상품 : {item.id}
+                        </Typography>
+                        <Typography component="h3" variant="h5" paragraph>
+                            {item.name}
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                            {item.first_category} - {item.second_category} - {item.third_category}
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                            가격 : {item.price} 원
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                            수량 : {item.quantity}
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                            재고위치 : {item.place || '정보없음'}
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                            매입처 : {item.trader || '정보없음'}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            );
+        }
+
     }
 
 
