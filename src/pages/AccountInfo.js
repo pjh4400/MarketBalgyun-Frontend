@@ -28,7 +28,6 @@ const AccouontInfo = () => {
             <Grid container spacing={2}>
 
                 <Grid item xs={12}>
-                    <CardActionArea>
                         <Card className={classes.card}>
                             <CardContent className={classes.cardDetails}>
                                 <Typography variant="subtitle1" color="textSecondary" paragraph>
@@ -50,7 +49,6 @@ const AccouontInfo = () => {
             </Typography>
                             </CardContent>
                         </Card>
-                    </CardActionArea>
                 </Grid>
             </Grid>
         </>

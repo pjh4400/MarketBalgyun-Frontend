@@ -56,8 +56,7 @@ const Payment = ({ handleNext }) => {
         setCard(cash);
     };
 
-
-    const onApplyPointHandler = (e) => {
+    const onApplyPoint = (e) => {
         e.preventDefault();
         let tmpPoint = Number(e.target.point.value);
         if (tmpPoint < 0) {
@@ -65,6 +64,9 @@ const Payment = ({ handleNext }) => {
         }
         else if (tmpPoint > customer.point) {
             alert("최대 사용 가능 포인트는 " + customer.point + "p 입니다.");
+        }
+        else if (tmpPoint > sum_price) {
+            setPoint(sum_price);
         }
         else {
             setPoint(tmpPoint);
@@ -115,8 +117,12 @@ const Payment = ({ handleNext }) => {
             })
                 .then((res) => {
                     console.log(res.data);
-                    //putConsignInfo(res.data);
-                    handleNext();
+                    if (res.data.includes('부족')) {
+                        alert(res.data); // 상품 부족 처리 안됨
+                    } else {
+                        putConsignInfo(res.data);
+                        handleNext();
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -160,25 +166,27 @@ const Payment = ({ handleNext }) => {
                                 <Typography variant="subtitle1">
                                     전화번호 : {membership && customer.phone} </Typography>
                                 <Typography variant="subtitle1">
-                                    포인트 : {membership && customer.point} </Typography>
+                                    포인트 : {membership && customer.point}</Typography>
 
                                 {!membership ||
-                                    <form className={classes.form} onSubmit={onApplyPointHandler}>
-                                        <TextField
-                                            type="number"
-                                            variant="outlined"
-                                            fullWidth
-                                            label="포인트 적용 (p)"
-                                            name="point"
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment>
-                                                        <IconButton type="submit"><CheckCircleIcon /></IconButton>
-                                                    </InputAdornment>
-                                                )
-                                            }}
-                                        />
-                                    </form>}
+                                            <form className={classes.form} onSubmit={onApplyPoint}>
+                                                <TextField
+                                                    type="number"
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    label="포인트 적용 (p)"
+                                                    name="point"
+                                                    InputProps={{
+                                                        endAdornment: (
+                                                            <InputAdornment>
+                                                                <IconButton type="submit"><CheckCircleIcon /></IconButton>
+                                                            </InputAdornment>
+                                                        )
+                                                    }}
+                                                />
+                                            </form>}
+
+
                             </div>
                         </CardContent>
                     </Card>
@@ -186,13 +194,13 @@ const Payment = ({ handleNext }) => {
 
 
                 <Grid item xs={12}>
-                    <Card className={cardClasses.card}>
-                        <div className={cardClasses.cardDetails}>
+                    <Card className={classes.card}>
+                        <div className={classes.cardDetails}>
                             <CardContent>
                                 <Typography component="h3" variant="h5" paragraph>
-                                    결제 방식
+                                    결제 방식 ( 포인트 : {point} )
                                     </Typography>
-                                <Grid item xs={12} sm={4} className={cardClasses.twoComponents}>
+                                <Grid item xs={12} sm={4} className={classes.inlineComponents}>
                                     <TextField
                                         type="number"
                                         variant="outlined"
@@ -206,11 +214,11 @@ const Payment = ({ handleNext }) => {
                                         autoFocus
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={2} className={cardClasses.twoComponents}>
+                                <Grid item xs={12} sm={2} className={classes.inlineComponents}>
                                     <IconButton onClick={onExchange}><SwapHorizIcon /></IconButton>
                                 </Grid>
 
-                                <Grid item xs={12} sm={4} className={cardClasses.twoComponents}>
+                                <Grid item xs={12} sm={4} className={classes.inlineComponents}>
                                     <TextField
                                         type="number"
                                         variant="outlined"

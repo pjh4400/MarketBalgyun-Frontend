@@ -31,7 +31,6 @@ const SearchProduct = () => {
             }
         })
             .then((res) => {
-                console.log(res.data);
                 if (res.data === "해당 ID의 상품이 없습니다.") {
                     alert(res.data);
                 } else {

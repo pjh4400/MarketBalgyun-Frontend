@@ -12,12 +12,12 @@ const ConsignProduct = () => {
     const [product, setProduct] = useState({
         id: '',
         name: '',
-        price: 0,
-        wanted_price: 0,
+        price: '',
+        wanted_price: '',
         quantity: 1,
         story: '',
-        max_discount: 0,
-        place: 0,
+        max_discount: '',
+        place: '',
         consigner: '',
         phone: '',
         accountable: true,
@@ -38,12 +38,12 @@ const ConsignProduct = () => {
         setProduct({
             id: '',
             name: '',
-            price: 0,
-            wanted_price: 0,
+            price: '',
+            wanted_price: '',
             quantity: 1,
             story: '',
-            max_discount: 0,
-            place: 0,
+            max_discount: '',
+            place: '',
             consigner: '',
             phone: '',
             accountable: true,
@@ -154,20 +154,20 @@ const ConsignProduct = () => {
         e.preventDefault();
         switch (mode) {
             case 'new':
-                if(consigner.name===''){
+                if (consigner.name === '') {
                     alert('위탁자 정보를 입력해주세요.');
                 }
                 else {
                     if (confirm('등록하시겠습니까?')) {
-                    axios.post('api/consignProduct', product)
-                        .then((res) => {
-                            if (res.data === 'Posting Success') {
-                                alert('정상적으로 등록되었습니다.');
-                            }
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        })
+                        axios.post('api/consignProduct', product)
+                            .then((res) => {
+                                if(res.data){
+                                    alert('ID : < '+res.data+' > 등록 완료');
+                                }
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            })
                     }
                 }
                 break;
@@ -368,19 +368,6 @@ const ConsignProduct = () => {
                                             </TextField>
                                         </Grid>
 
-
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                type="text"
-                                                variant="outlined"
-                                                fullWidth
-                                                label="재고위치"
-                                                name="place"
-                                                value={product.place}
-                                                onChange={onChangeHandler}
-                                            />
-                                        </Grid>
-
                                         <Grid item xs={12} sm={6}>
                                             <TextField
                                                 type="number"
@@ -396,6 +383,19 @@ const ConsignProduct = () => {
                                                 }}
                                             />
                                         </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField
+                                                type="text"
+                                                variant="outlined"
+                                                fullWidth
+                                                label="재고위치"
+                                                name="place"
+                                                value={product.place}
+                                                onChange={onChangeHandler}
+                                            />
+                                        </Grid>
+
+
 
                                         <Grid item xs={12}>
                                             <TextField
