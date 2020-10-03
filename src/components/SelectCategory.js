@@ -11,8 +11,8 @@ const SelectCategory = ({ onSelectCategory }) => {
 
     const [category, setCategory] = useState({
         first_category: '00',
-        second_category: '00',
-        third_category: '00',
+        second_category: '0000',
+        third_category: '000000',
     });
 
     const [firstCategories, setFirstCategories] = useState([]);
@@ -38,8 +38,8 @@ const SelectCategory = ({ onSelectCategory }) => {
         let firstID = e.currentTarget.value;
         setCategory({
             first_category: firstID,
-            second_category: '00',
-            third_category: '00',
+            second_category: firstID+'0000',
+            third_category: firstID+'0000',
         });
         setSecondCategories(secondDB.filter(category => category.ID.startsWith(firstID)));
     }
@@ -49,7 +49,7 @@ const SelectCategory = ({ onSelectCategory }) => {
         setCategory({
             ...category,
             second_category: secondID,
-            third_category: '00',
+            third_category: secondID+'00',
         });
         setThirdCategories(thirdDB.filter(category => category.ID.startsWith(secondID)));
     }

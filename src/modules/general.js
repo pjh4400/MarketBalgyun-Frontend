@@ -34,7 +34,6 @@ function general(state = initialState, action) {
                     first_category: action.first,
                     second_category: action.second,
                     third_category: action.third,
-                    id: action.first+action.second+action.third,
                 },
                 step: 1,
             };

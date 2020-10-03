@@ -17,7 +17,6 @@ const ProductInfo = ({ info, onPreviousStep }) => {
         first_category: info.first_category,
         second_category: info.second_category,
         third_category: info.third_category,
-        id: info.id,
         name: '',
         cost: 0,
         price: '',
@@ -30,13 +29,14 @@ const ProductInfo = ({ info, onPreviousStep }) => {
     useEffect(() => {
         console.log(product);
         axios.get('api/generalProduct', {
-            params: { id: info.id }
+            params: { id: info.third_category }
         })
             .then((res) => {
                 console.log(res.data);
                 setExists(res.data);
             })
             .catch((error) => {
+                alert('서버 에러');
                 console.log(error);
             })
     }, []);
@@ -69,9 +69,11 @@ const ProductInfo = ({ info, onPreviousStep }) => {
             if(confirm('수정하시겠습니까?')){
                 axios.put('api/generalProduct', product)
                 .then((res) => {
+                    console.log(res);
                     alert('수정되었습니다.'); 
                 })
                 .catch((error) => {
+                    alert('서버 에러');
                     console.log(error);
                 })
             }
@@ -84,11 +86,12 @@ const ProductInfo = ({ info, onPreviousStep }) => {
                     .then((res) => {
                         console.log(res.data);
                         if(res.data){
-                            alert('ID : ' + res.data + ' 등록 완료');
+                            alert('ID : ' + res.data.id + ' 등록 완료');
                             onPreviousStep();
                         }
                     })
                     .catch((error) => {
+                        alert('서버 에러');
                         console.log(error);
                     })
                 }
