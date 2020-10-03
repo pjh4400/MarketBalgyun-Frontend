@@ -36,10 +36,6 @@ const ConsignProduct = () => {
     const classes = useStyles();
 
     useEffect(() => {
-
-    })
-
-    useEffect(() => {
         setProduct({
             id: '',
             name: '',
@@ -336,7 +332,7 @@ const ConsignProduct = () => {
                                                 value={product.quantity}
                                                 onChange={onChangeHandler}
                                                 InputProps={{
-                                                    inputProps: { min: 1 }
+                                                    inputProps: { min: 0 }
                                                 }}
                                             />
                                         </Grid>
