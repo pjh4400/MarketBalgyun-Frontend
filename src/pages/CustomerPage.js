@@ -112,32 +112,36 @@ const CustomerPage = ({history}) => {
             }
         })
             .then((res) => {
-                if (res.data === "No Customer") {
-                    setCustomer({
-                        name: '',
-                        phone: '',
-                        taste: '',
-                        boolSMS: false,
-                        boolLecture: false,
-                        likeCategory: '',
-                        something: '',
-                        email: '',
-                        birthday: '',
-                        gender: 'F',
-                        address: '',
-                        mainNumber: 1,
-                        point: 0,
-                        bank: '',
-                        account: '',
-                        account_owner: '',
-                        time: '',
-                    });
-                    alert("해당 회원이 없습니다.");
+                switch(res.data){
+                    case "해당 번호의 회원이 여러명입니다. 번호 전체를 입력해주세요.":
+                    case "해당 번호의 회원이 없습니다.":
+                        alert(res.data);
+                        setCustomer({
+                            name: '',
+                            phone: '',
+                            taste: '',
+                            boolSMS: false,
+                            boolLecture: false,
+                            likeCategory: '',
+                            something: '',
+                            email: '',
+                            birthday: '',
+                            gender: 'F',
+                            address: '',
+                            mainNumber: 1,
+                            point: 0,
+                            bank: '',
+                            account: '',
+                            account_owner: '',
+                            time: '',
+                        });
+                        break;
+                    default:
+                        setCustomer(res.data[0]);
+                        setMode('old2');
+                        break;
                 }
-                else {
-                    setCustomer(res.data[0]);
-                    setMode('old2');
-                }
+               
             })
             .catch((error) => {
                 console.log(error);

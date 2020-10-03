@@ -75,23 +75,28 @@ const ConsignProduct = ({ history }) => {
             }
         })
             .then((res) => {
-                if (res.data === "No Customer") {
-                    alert("해당 회원이 존재하지 않습니다.");
+                switch (res.data) {
+                    case "해당 번호의 회원이 여러명입니다. 번호 전체를 입력해주세요.":
+                    case "해당 번호의 회원이 없습니다.":
+                        alert(res.data);
+                        break;
+                    default:
+                        let tmp = res.data[0];
+                        setConsigner({
+                            name: tmp.name,
+                            bank: tmp.bank,
+                            account: tmp.account,
+                            account_owner: tmp.account_owner,
+                        });
+                        setProduct({
+                            ...product,
+                            phone: tmp.phone,
+                            consigner: tmp.name,
+                        });
+
+                        break;
                 }
-                else {
-                    let tmp = res.data[0];
-                    setConsigner({
-                        name: tmp.name,
-                        bank: tmp.bank,
-                        account: tmp.account,
-                        account_owner: tmp.account_owner,
-                    });
-                    setProduct({
-                        ...product,
-                        phone: tmp.phone,
-                        consigner: tmp.name,
-                    });
-                }
+
             })
             .catch((error) => {
                 console.log(error);
@@ -128,23 +133,13 @@ const ConsignProduct = ({ history }) => {
                         date: tmp.date,
                         expire_date: tmp.expire_date,
                     });
-                    axios.get('api/customer', {
-                        params: {
-                            phone: tmp.phone
-                        }
-                    }).then((res) => {
-                        if (res.data !== "No Customer") {
-                            let tmp2 = res.data[0];
-                            setConsigner({
-                                name: tmp2.name,
-                                bank: tmp2.bank,
-                                account: tmp2.account,
-                                account_owner: tmp2.account_owner,
-                            });
-                        }
-                    }).catch((error) => {
-                        console.log(error);
-                    })
+                    setConsigner({
+                        name: tmp.consigner,
+                        bank: tmp.bank,
+                        account: tmp.account,
+                        account_owner: tmp.account_owner,
+                    });
+                    
                     setMode('old2');
                 }
             })
@@ -208,16 +203,16 @@ const ConsignProduct = ({ history }) => {
     const onDeleteProduct = () => {
         if (confirm('정말 삭제하시겠습니까?')) {
             axios.delete('api/consignProduct', {
-                params : { id : product.id}
+                params: { id: product.id }
             })
-            .then((res) => {
-                alert('삭제되었습니다.');
-                history.push('/');
-            })
-            .catch((error) => {
-                alert('서버에러');
-                console.log(error);
-            })
+                .then((res) => {
+                    alert('삭제되었습니다.');
+                    history.push('/');
+                })
+                .catch((error) => {
+                    alert('서버에러');
+                    console.log(error);
+                })
         }
     }
 
