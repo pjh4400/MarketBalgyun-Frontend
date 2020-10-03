@@ -8,7 +8,7 @@ import Navigation from '../components/Navigation';
 import useStyles from './Style';
 
 
-const ConsignProduct = () => {
+const ConsignProduct = ({ history }) => {
     const [mode, setMode] = useState('new'); // 새로 등록 시 'new', 기존 정보 조회 및 수정 시 'old', 상품 선택후 'old2'
     const [product, setProduct] = useState({
         id: '',
@@ -165,7 +165,8 @@ const ConsignProduct = () => {
                         axios.post('api/consignProduct', product)
                             .then((res) => {
                                 if (res.data) {
-                                    alert('ID : ' + res.data + ' 등록 완료');
+                                    alert('등록 되었습니다.\n⊳ ID : ' + res.data);
+                                    history.push('/');
                                 }
                             })
                             .catch((error) => {
@@ -180,6 +181,7 @@ const ConsignProduct = () => {
                     axios.put('api/consignProduct', product)
                         .then((res) => {
                             alert('수정되었습니다.');
+                            history.push('/');
                         })
                         .catch((error) => {
                             console.log(error);
@@ -193,13 +195,29 @@ const ConsignProduct = () => {
     }
 
     const onExtendDate = () => {
-        if(confirm('1개월 연장하시겠습니까?')){
+        if (confirm('1개월 연장하시겠습니까?')) {
             let newDate = new Date(product.expire_date);
             newDate.setMonth(newDate.getMonth() + 1);
             setProduct({
                 ...product,
-                expire_date : newDate.toJSON(),
+                expire_date: newDate.toJSON(),
             });
+        }
+    }
+
+    const onDeleteProduct = () => {
+        if (confirm('정말 삭제하시겠습니까?')) {
+            axios.delete('api/consignProduct', {
+                params : { id : product.id}
+            })
+            .then((res) => {
+                alert('삭제되었습니다.');
+                history.push('/');
+            })
+            .catch((error) => {
+                alert('서버에러');
+                console.log(error);
+            })
         }
     }
 
@@ -236,14 +254,14 @@ const ConsignProduct = () => {
                 <Grid container spacing={2}>
 
                     <Grid item xs={12} sm={6}>
-                        <Button className={classes.submit} type="submit" size="large" onClick={() => { setMode("new"); }}>
+                        <Button className={classes.submit} size="large" onClick={() => { setMode("new"); }}>
                             상품등록
                     </Button>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <Button className={classes.submit} type="submit" size="large" onClick={() => { setMode("old"); }}>
-                            상품조회 및 수정
+                        <Button className={classes.submit} size="large" onClick={() => { setMode("old"); }}>
+                            상품수정 및 삭제
                     </Button>
                     </Grid>
 
@@ -293,8 +311,6 @@ const ConsignProduct = () => {
                                             />
                                         </form>
                                     }
-
-
 
 
                                     {consignerInfo()}
@@ -423,19 +439,35 @@ const ConsignProduct = () => {
                                         </Grid>
 
                                         {mode !== 'new' &&
-                                             <Grid item xs={12}>
+                                            <Grid item xs={12}>
                                                 <Typography variant="body1" color="textSecondary">
-                                                위탁날짜 : {product.date.split('T')[0]}
+                                                    위탁날짜 : {product.date.split('T')[0]}
                                                 </Typography>
                                                 <Typography variant="body1" color="textSecondary">
-                                                만료날짜 : {product.expire_date.split('T')[0]}
-                                                <IconButton className={classes.inlineComponents} onClick={onExtendDate}><AddCircleIcon /></IconButton>
+                                                    만료날짜 : {product.expire_date.split('T')[0]}
+                                                    <IconButton className={classes.inlineComponents} onClick={onExtendDate}><AddCircleIcon /></IconButton>
                                                 </Typography>
                                             </Grid>
                                         }
                                     </Grid>
+                                    {mode === 'new'
+                                        ?
+                                        <Button className={classes.submit} size="large" type="submit">'상품등록'</Button>
+                                        :
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={12} sm={6}>
+                                                <Button className={classes.submit} type="submit" size="large">
+                                                    상품수정</Button>
+                                            </Grid>
 
-                                    <Button className={classes.submit} size="large" type="submit">{mode === 'new' ? '상품등록' : '상품수정'}</Button>
+                                            <Grid item xs={12} sm={6}>
+                                                <Button className={classes.submit} size="large" onClick={onDeleteProduct}>
+                                                    상품삭제</Button>
+                                            </Grid>
+                                        </Grid>
+
+
+                                    }
                                 </form>
                             </Paper>
                         </Grid>
