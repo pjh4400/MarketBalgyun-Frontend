@@ -23,22 +23,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Navigation = () => {
     const classes = useStyles();
-
-    const getLogout = (e) => {
-        alert("로그아웃하시겠습니까?");
-        e.preventDefault();
-        axios.get('api/auth/log-out', {
-        })
-          .then((res) => {
-            console.log(res);
-            //onLogout();
-            <Redirect to="/" />
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-        onLogout(); // 나중에 성공시에만 되도록 바꾸기
-      }
       
     return (
         <Grid item xs={12} className={classes.navbar}>
@@ -49,6 +33,7 @@ const Navigation = () => {
             <Button component={NavLink} to="/consign-product" className={classes.navitem}>위탁상품관리</Button>
             <Button component={NavLink} to="/search" className={classes.navitem}>상품검색</Button>
             <Button component={NavLink} to="/register-customer" className={classes.navitem}>회원관리</Button>
+            <Button component={NavLink} to="/trader" className={classes.navitem}>매입처관리</Button>
         </ButtonGroup>
         </Grid>
     );
