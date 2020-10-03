@@ -1,4 +1,5 @@
 export { default as Home } from '../containers/RootContainer';
+export { default as Login } from'./Login';
 export { default as Customer } from './CustomerPage';
 export { default as Sale } from '../containers/SaleContainer';
 export { default as RegisterGeneralProduct } from '../containers/RegisterGeneralProduct';

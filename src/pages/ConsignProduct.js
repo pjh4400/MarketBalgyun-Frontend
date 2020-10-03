@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Paper, Grid, Button, TextField, MenuItem, InputAdornment, IconButton } from '@material-ui/core';
 import { Link } from 'react-router-dom'
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 import Navigation from '../components/Navigation';
@@ -22,6 +23,7 @@ const ConsignProduct = () => {
         phone: '',
         accountable: true,
         date: '',
+        expired_date: '',
     });
 
     const [consigner, setConsigner] = useState({
@@ -33,6 +35,9 @@ const ConsignProduct = () => {
 
     const classes = useStyles();
 
+    useEffect(() => {
+
+    })
 
     useEffect(() => {
         setProduct({
@@ -48,6 +53,7 @@ const ConsignProduct = () => {
             phone: '',
             accountable: true,
             date: '',
+            expired_date: '',
         });
         setConsigner({
             name: '',
@@ -161,8 +167,8 @@ const ConsignProduct = () => {
                     if (confirm('등록하시겠습니까?')) {
                         axios.post('api/consignProduct', product)
                             .then((res) => {
-                                if(res.data){
-                                    alert('ID : < '+res.data+' > 등록 완료');
+                                if (res.data) {
+                                    alert('ID : ' + res.data + ' 등록 완료');
                                 }
                             })
                             .catch((error) => {
@@ -396,7 +402,6 @@ const ConsignProduct = () => {
                                         </Grid>
 
 
-
                                         <Grid item xs={12}>
                                             <TextField
                                                 type="text"
@@ -408,6 +413,41 @@ const ConsignProduct = () => {
                                                 onChange={onChangeHandler}
                                             />
                                         </Grid>
+
+                                        {mode !== 'new' &&
+                                            <Grid spacing={2}>
+                                                <Grid item xs={12} sm={6}>
+                                                    <TextField
+                                                        id="date"
+                                                        label="위탁날짜"
+                                                        type="date"
+                                                        defaultValue="2017-05-24"
+                                                        InputLabelProps={{
+                                                            shrink: true,
+                                                        }}
+                                                    />
+                                                </Grid>
+
+                                                <Grid item xs={12} sm={6}>
+                                                    <TextField
+                                                        id="date"
+                                                        label="만료날짜"
+                                                        type="expired_date"
+                                                        defaultValue="2017-05-24"
+                                                        InputLabelProps={{
+                                                            shrink: true,
+                                                        }}
+                                                        InputProps={{
+                                                            endAdornment: (
+                                                                <InputAdornment>
+                                                                    <IconButton ><AddCircleIcon /></IconButton>
+                                                                </InputAdornment>
+                                                            )
+                                                        }}
+                                                    />
+                                                </Grid>
+                                            </Grid>
+                                        }
                                     </Grid>
 
                                     <Button className={classes.submit} size="large" type="submit">{mode === 'new' ? '상품등록' : '상품수정'}</Button>

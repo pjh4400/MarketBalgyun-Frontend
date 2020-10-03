@@ -1,12 +1,13 @@
 import React from 'react';
 import { hot } from 'react-hot-loader/root'
 import { BrowserRouter, Route } from 'react-router-dom';
-import { Home, Customer, Sale, RegisterGeneralProduct, SearchProduct, ConsignProduct } from './index.js';
+import { Home, Login, Customer, Sale, RegisterGeneralProduct, SearchProduct, ConsignProduct } from './index.js';
 const App = () => {
     return (
         <BrowserRouter>
             <div>
                 <Route exact path="/" component={Home} />
+                <Route path="/login" component={Login} />
                 <Route path="/register-customer" component={Customer} />
                 <Route path="/sale" component={Sale} />
                 <Route path="/general-product" component={RegisterGeneralProduct} />

@@ -13,7 +13,7 @@ module.exports = {
         extensions: ['.jsx', '.js'],
     },
     entry:{	
-        app : ["./src/index.js"],
+        app : ['./src/index.js'],
     },
     module: { 
         rules : [
@@ -52,7 +52,7 @@ module.exports = {
         hotOnly: true,
         proxy: {
             '/api':{
-                target : 'https://marketback.herokuapp.com',
+                target : 'https://marketback.herokuapp.com/',
                 pathRewrite: {'^/api' : ''},
                 changeOrigin: true,
             },

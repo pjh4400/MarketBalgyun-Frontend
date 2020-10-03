@@ -135,7 +135,7 @@ const ProductInfo = ({ info, info2, onPreviousStep }) => {
             quantity: 1,
             max_discount: 0,
             place: '',
-            company: '',
+            trader: '',
         });
         setIsExist(false);
     }
@@ -258,8 +258,8 @@ const ProductInfo = ({ info, info2, onPreviousStep }) => {
                                 variant="outlined"
                                 fullWidth
                                 label="매입처"
-                                name="company"
-                                value={product.company}
+                                name="trader"
+                                value={product.trader}
                                 onChange={onChangeHandler}
                             />
                         </Grid>

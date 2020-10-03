@@ -74,7 +74,8 @@ function sales(state = initialState, action) {
 
         case PUT_CONSIGN_INFO:
             return{
-                ...state,
+                items: [],
+                sum_price: 0,
                 consign_info: action.consign_info,
             }
 

@@ -18,6 +18,33 @@ const AccouontInfo = () => {
         console.log(cosign_info);
     }, []);
 
+
+    const oneInfo = (item) => {
+        return (
+            <Card className={classes.card}>
+                <CardContent className={classes.cardDetails}>
+                    <Typography variant="subtitle1" color="textSecondary" paragraph>
+                        위탁자 : 박재희
+                <IconButton className={classes.right}><ClearIcon /></IconButton>
+                    </Typography>
+                    <Typography variant="body1">
+                        은행 : 국민
+            </Typography>
+                    <Typography variant="body1">
+                        예금주 : 박재희
+            </Typography>
+                    <Typography variant="body1">
+                        계좌 : 071-0721-071
+            </Typography>
+
+                    <Typography variant="subtitle1" color="primary">
+                        가격 : 3000 원
+</Typography>
+                </CardContent>
+            </Card>
+        );
+    }
+
     return (
         <>
             <Typography component="h1" variant="h4" align="center" className={classes.header}>
@@ -28,27 +55,9 @@ const AccouontInfo = () => {
             <Grid container spacing={2}>
 
                 <Grid item xs={12}>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardDetails}>
-                                <Typography variant="subtitle1" color="textSecondary" paragraph>
-                                    위탁자 : 박재희
-                                <IconButton className={classes.right}><ClearIcon /></IconButton>
-                                </Typography>
-                                <Typography variant="body1">
-                                    은행 : 국민
-                            </Typography>
-                                <Typography variant="body1">
-                                    예금주 : 박재희
-                            </Typography>
-                                <Typography variant="body1">
-                                    계좌 : 071-0721-071
-                            </Typography>
-
-                                <Typography variant="subtitle1" color="primary">
-                                    가격 : 3000 원
-            </Typography>
-                            </CardContent>
-                        </Card>
+                {cosign_info && cosign_info.map(item => (
+                <oneInfo item={item}/>
+            ))}
                 </Grid>
             </Grid>
         </>

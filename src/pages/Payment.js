@@ -10,8 +10,7 @@ import useStyles from './Style';
 
 
 const Payment = ({ handleNext }) => {
-    const { userName, items, sum_price } = useSelector(({ auth, sales }) => ({
-        userName: auth.userName,
+    const { items, sum_price } = useSelector(({ sales }) => ({
         items: sales.items,
         sum_price: sales.sum_price,
     }));
@@ -113,7 +112,7 @@ const Payment = ({ handleNext }) => {
                 point: point,
                 card: card,
                 cash: cash,
-                staff: userName,
+                staff: window.sessionStorage.getItem('name'),
             })
                 .then((res) => {
                     console.log(res.data);
