@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import Sale from '../pages/Sale';
 import Payment from '../pages/Payment';
-import ConsignInfo from '../pages/ConsignInfo';
+import AccouontInfo from '../pages/AccountInfo';
 
 import { Container, Paper } from '@material-ui/core';
 
@@ -35,7 +35,7 @@ const SaleContainer = () => {
             case 1:
                 return <Payment handleNext={handleNext} />;
             case 2:
-                return <ConsignInfo />;
+                return <AccouontInfo />;
             default:
                 throw new Error('Unknown step');
         }

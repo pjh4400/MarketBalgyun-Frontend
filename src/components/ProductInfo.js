@@ -6,7 +6,7 @@ import axios from 'axios';
 import ClearIcon from '@material-ui/icons/clear';
 
 
-const ProductInfo = ({ info, onPreviousStep }) => {
+const ProductInfo = ({ info, info2, onPreviousStep }) => {
     const classes = useStyles();
 
     const [exists, setExists] = useState([]);
@@ -28,6 +28,20 @@ const ProductInfo = ({ info, onPreviousStep }) => {
     });
 
     useEffect(() => {
+        console.log(info2);
+        console.log(product);
+        if(info2){
+            setProduct({
+                ...product,
+                name: info2.name,
+                cost: info2.cost,
+                price: info2.price,
+                quantity: info2.quantity,
+                max_discount: info2.max_discount,
+                place: info2.place,
+                company: info2.company,
+            })
+        }
         axios.get('api/generalProduct', {
             params: { id: info.id }
         })

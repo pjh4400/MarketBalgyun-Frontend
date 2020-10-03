@@ -44,10 +44,11 @@ const Navigation = () => {
         <Grid item xs={12} className={classes.navbar}>
         <ButtonGroup className={classes.group}>
             <Button component={NavLink} to="/" className={classes.navitem}>홈</Button>
+            <Button component={NavLink} to="/sale" className={classes.navitem}>상품판매</Button>
             <Button component={NavLink} to="/general-product" className={classes.navitem}>일반상품관리</Button>
             <Button component={NavLink} to="/consign-product" className={classes.navitem}>위탁상품관리</Button>
+            <Button component={NavLink} to="/search" className={classes.navitem}>상품검색</Button>
             <Button component={NavLink} to="/register-customer" className={classes.navitem}>회원관리</Button>
-            <Button component={NavLink} to="/sale" className={classes.navitem}>상품판매</Button>
         </ButtonGroup>
         </Grid>
     );

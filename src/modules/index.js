@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import auth from './auth';
 import sales from './sales';
-import product from './product';
+import general from './general';
 
 const rootReducer = combineReducers({
     auth,
     sales,
-    product,
+    general,
   });
 
 export default rootReducer;

@@ -4,24 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import SearchIcon from '@material-ui/icons/Search';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
-import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 
 import useStyles from './Style';
-
-
-const useStyles2 = makeStyles((theme) => ({
-    card: {
-        width: "100%",
-    },
-    cardDetails: {
-        flex: 1,
-    },
-    twoComponents: {
-        display: 'inline-flex',
-        padding: 10,
-    }
-}));
 
 
 const Payment = ({ handleNext }) => {
@@ -47,7 +32,6 @@ const Payment = ({ handleNext }) => {
     const [cash, setCash] = useState(0);
 
     const classes = useStyles();
-    const cardClasses = useStyles2();
 
 
     useEffect(() => {
@@ -149,9 +133,9 @@ const Payment = ({ handleNext }) => {
             <Grid container spacing={2}>
 
                 <Grid item xs={12}>
-                    <Card className={cardClasses.card}>
+                    <Card className={classes.card}>
                         <CardContent>
-                            <div className={cardClasses.cardDetails}>
+                            <div className={classes.cardDetails}>
                                 <Typography component="h3" variant="h5">
                                     구매자 정보
                                     </Typography>

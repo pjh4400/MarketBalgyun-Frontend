@@ -63,8 +63,7 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
     },
     right: {
-        position: "absolute",
-        right: 0,
+        alignItems: 'flex-end',
     },
     form: {
         width: '100%',

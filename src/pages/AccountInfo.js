@@ -6,7 +6,7 @@ import ClearIcon from '@material-ui/icons/clear';
 import useStyles from './Style';
 import Navigation from '../components/Navigation';
 
-const ConsignInfo = () => {
+const AccouontInfo = () => {
     const { cosign_info } = useSelector(({ sales }) => ({
         cosign_info: sales.cosign_info,
     }));
@@ -59,4 +59,4 @@ const ConsignInfo = () => {
     );
 }
 
-export default ConsignInfo;
+export default AccouontInfo;

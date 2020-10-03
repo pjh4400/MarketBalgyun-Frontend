@@ -8,7 +8,7 @@ import { addItem } from '../modules/sales';
 
 import useStyles from '../pages/Style';
 
-const SearchProduct = () => {
+const SearchSaleID = () => {
     const [searchID, setSearchID] = useState("");
 
     const classes = useStyles();
@@ -71,4 +71,4 @@ const SearchProduct = () => {
 
 
 
-export default SearchProduct;
+export default SearchSaleID;

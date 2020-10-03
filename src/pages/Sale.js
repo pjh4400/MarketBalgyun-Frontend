@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-import SearchProduct from '../components/SearchProduct';
+import SearchSaleID from '../components/SearchSaleID';
 import SaleItem from '../components/SaleItem';
 
 import { Typography, Grid, Button } from '@material-ui/core';
@@ -19,7 +19,7 @@ const Sale = ({items, sum_price, handleNext}) => {
                 </Typography>
 
             <Navigation />
-            <SearchProduct/>
+            <SearchSaleID />
 
             <Grid container spacing={2}>
                 {items && items.map(item => (

@@ -8,6 +8,15 @@ const initialState = {
         third_category: '',
         id: '',
     },
+    info2: {
+        name: '',
+        cost: 0,
+        price: '',
+        quantity: 1,
+        max_discount: 0,
+        place: '',
+        company: '',
+    },
     step: 0,
 }
 
@@ -26,14 +35,14 @@ export const previousStep = () => ({
 
 
 
-function product(state = initialState, action) {
+function general(state = initialState, action) {
     switch (action.type) {
         case SELECT_CATEGORY:
             let id;
             if (action.second === '') {
-                id = action.first
+                id = action.first;
             } else if (action.third === '') {
-                id = action.second
+                id = action.second;
             } else {
                 id = action.third;
             }
@@ -59,4 +68,4 @@ function product(state = initialState, action) {
     }
 }
 
-export default product;
+export default general;

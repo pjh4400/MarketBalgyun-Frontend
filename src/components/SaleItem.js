@@ -1,13 +1,14 @@
 import React, { useState, useCallback} from "react";
 import {  useDispatch } from 'react-redux';
+
 import { Typography, Grid, TextField, InputAdornment, Card, CardContent, IconButton, CardActionArea } from '@material-ui/core';
 
 import ClearIcon from '@material-ui/icons/clear';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 import { deleteItem, changeInfo } from '../modules/sales';
-import useStyles from '../pages/Style';
 
+import useStyles from '../pages/Style';
 
 const SaleItem = ({ item }) => {
   const [price, setPrice] = useState(item.price);
@@ -60,12 +61,11 @@ const SaleItem = ({ item }) => {
 
   return (
     <Grid item xs={12} sm={6}>
-      <CardActionArea>
         <Card className={classes.card}>
-            <CardContent className={classes.cardDetails}>
+          <CardContent className={classes.cardDetails}>
               <Typography variant="subtitle1" color="textSecondary" paragraph>
                 ID : {item.id}
-                <IconButton className={classes.right} onClick={() => onDeleteItem(item.id,price)}><ClearIcon /></IconButton>
+                <IconButton onClick={() => onDeleteItem(item.id,price)}><ClearIcon /></IconButton>
               </Typography>
               <Typography component="h3" variant="h5">
                 {item.name || item.third_category}
@@ -119,7 +119,6 @@ const SaleItem = ({ item }) => {
             </Typography>
             </CardContent>
         </Card>
-      </CardActionArea>
     </Grid>
   );
 }
