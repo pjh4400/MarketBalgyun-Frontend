@@ -33,7 +33,6 @@ const Login = () => {
     })
       .then((res) => {
         if (res.data.message === '로그인 성공') {
-          alert(res.data.message);
           window.sessionStorage.setItem('name', res.data.payLoad.name);
            setIsLogin(true);
         } else {

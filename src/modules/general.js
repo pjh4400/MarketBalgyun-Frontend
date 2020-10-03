@@ -8,15 +8,6 @@ const initialState = {
         third_category: '',
         id: '',
     },
-    info2: {
-        name: '',
-        cost: 0,
-        price: '',
-        quantity: 1,
-        max_discount: 0,
-        place: '',
-        company: '',
-    },
     step: 0,
 }
 
@@ -38,20 +29,12 @@ export const previousStep = () => ({
 function general(state = initialState, action) {
     switch (action.type) {
         case SELECT_CATEGORY:
-            let id;
-            if (action.second === '') {
-                id = action.first;
-            } else if (action.third === '') {
-                id = action.second;
-            } else {
-                id = action.third;
-            }
             return {
                 info: {
                     first_category: action.first,
                     second_category: action.second,
                     third_category: action.third,
-                    id: id,
+                    id: action.first+action.second+action.third,
                 },
                 step: 1,
             };

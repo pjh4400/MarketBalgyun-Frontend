@@ -6,7 +6,7 @@ import axios from 'axios';
 import ClearIcon from '@material-ui/icons/clear';
 
 
-const ProductInfo = ({ info, info2, onPreviousStep }) => {
+const ProductInfo = ({ info, onPreviousStep }) => {
     const classes = useStyles();
 
     const [exists, setExists] = useState([]);
@@ -24,24 +24,11 @@ const ProductInfo = ({ info, info2, onPreviousStep }) => {
         quantity: 1,
         max_discount: 0,
         place: '',
-        company: '',
+        trader: '',
     });
 
     useEffect(() => {
-        console.log(info2);
         console.log(product);
-        if(info2){
-            setProduct({
-                ...product,
-                name: info2.name,
-                cost: info2.cost,
-                price: info2.price,
-                quantity: info2.quantity,
-                max_discount: info2.max_discount,
-                place: info2.place,
-                company: info2.company,
-            })
-        }
         axios.get('api/generalProduct', {
             params: { id: info.id }
         })
@@ -95,9 +82,9 @@ const ProductInfo = ({ info, info2, onPreviousStep }) => {
                 if(confirm('등록하시겠습니까?')){
                     axios.post('api/generalProduct', product)
                     .then((res) => {
-                        console.log(res);
-                        if (res.data === 'Posting Success') {
-                            alert('등록되었습니다.'); // ID 바로 주면 더 좋음
+                        console.log(res.data);
+                        if(res.data){
+                            alert('ID : ' + res.data + ' 등록 완료');
                             onPreviousStep();
                         }
                     })

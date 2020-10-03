@@ -25,15 +25,17 @@ const SignUp = () => {
     const onSubmitForm = (e) => {
         e.preventDefault();
         if (form.password === form.password2) {
-            alert('정상적으로 등록되었습니다.');
             axios.post('api/auth/sign-up', {
                 name: form.name,
                 password: form.password,
                 level: form.level,
             })
                 .then((res) => {
-                    console.log(res);
-                    history.replace('/');
+                    if(res.data === 'Posting Success'){
+                        alert('정상적으로 등록되었습니다.');
+                    } else {
+                        alert(res.data);
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
