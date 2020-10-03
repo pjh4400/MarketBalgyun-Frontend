@@ -1,44 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Container, Typography, Paper, Grid, Button, TextField, InputAdornment, Card, CardContent, IconButton } from '@material-ui/core';
+import React, {useCallback} from 'react';
+import { useSelector, useDispatch} from 'react-redux';
+import { Container, Typography, Paper, Grid, Button, Card, CardContent, IconButton } from '@material-ui/core';
 
-import ClearIcon from '@material-ui/icons/clear';
 import useStyles from './Style';
 import Navigation from '../components/Navigation';
+import { completeALL } from '../modules/consigner';
 
-const AccouontInfo = () => {
-    const { cosign_info } = useSelector(({ sales }) => ({
-        cosign_info: sales.cosign_info,
+const AccountInfo = ({history}) => {
+    const { consign_info } = useSelector(({ consigner }) => ({
+        consign_info: consigner.consign_info,
     }));
 
+    const dispatch = useDispatch();
+    const onCompleteALL = useCallback(() => dispatch(completeALL()), [dispatch]);
     const classes = useStyles();
 
 
-    useEffect(() => {
-        console.log(cosign_info);
-    }, []);
+    const onCompleteAccount = () => {
+        onCompleteALL();
+        history.push('/');
+    }
 
 
-    const oneInfo = (item) => {
+    const oneInfo = (consign) => {
         return (
             <Card className={classes.card}>
                 <CardContent className={classes.cardDetails}>
-                    <Typography variant="subtitle1" color="textSecondary" paragraph>
-                        위탁자 : 박재희
-                <IconButton className={classes.right}><ClearIcon /></IconButton>
+                    <Typography variant="body1">
+                        위탁자 : {consign.consignerName}
                     </Typography>
                     <Typography variant="body1">
-                        은행 : 국민
+                        판매상품 : {consign.consignProductName} ({consign.quantity}개)
             </Typography>
                     <Typography variant="body1">
-                        예금주 : 박재희
-            </Typography>
+                        개당 가격 : {consign.price}
+                    </Typography>
                     <Typography variant="body1">
-                        계좌 : 071-0721-071
-            </Typography>
+                        예금주 : {consign.account_owner}
+                    </Typography>
+                    <Typography variant="body1" color="primary">
+                        계좌 : {consign.bank} {consign.account}
+                    </Typography>
 
-                    <Typography variant="subtitle1" color="primary">
-                        가격 : 3000 원
+                    <Typography variant="body1" color="primary">
+                        송금 가격 : {consign.sum_price} 원
 </Typography>
                 </CardContent>
             </Card>
@@ -46,24 +51,29 @@ const AccouontInfo = () => {
     }
 
     return (
-        <>
-            <Typography component="h1" variant="h4" align="center" className={classes.header}>
-                위탁자 정보
+        <Container className={classes.root}>
+            <Paper component='main' elevation={3} className={classes.paper}>
+                <Typography component="h1" variant="h4" align="center" className={classes.header}>
+                    위탁자 정보
         </Typography>
 
-            <Navigation />
-            <Grid container spacing={2}>
-
-                <Grid item xs={12}>
-                {cosign_info && cosign_info.map(item => (
-                <oneInfo item={item}/>
-            ))}
+                <Navigation />
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        {consign_info && consign_info.map(consign => (
+                            oneInfo(consign)
+                        ))}
+                    </Grid>
                 </Grid>
-            </Grid>
-        </>
 
-
+                <Grid container justify="flex-end">
+                    <Button className={classes.next} onClick={onCompleteAccount}>
+                        송금 완료
+                  </Button>
+                </Grid>
+            </Paper>
+        </Container>
     );
 }
 
-export default AccouontInfo;
+export default AccountInfo;

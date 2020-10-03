@@ -10,7 +10,7 @@ import { Container, Paper } from '@material-ui/core';
 import useStyles from '../pages/Style';
 
 
-const SaleContainer = () => {
+const SaleContainer = ({history}) => {
     const { items, sum_price } = useSelector(({ sales }) => ({
         items: sales.items,
         sum_price: sales.sum_price,
@@ -33,9 +33,7 @@ const SaleContainer = () => {
             case 0:
                 return <Sale items={items} sum_price={sum_price} handleNext={handleNext}/>;
             case 1:
-                return <Payment handleNext={handleNext} />;
-            case 2:
-                return <AccouontInfo />;
+                return <Payment items={items} sum_price={sum_price} handleNext={handleNext} history={history} />;
             default:
                 throw new Error('Unknown step');
         }

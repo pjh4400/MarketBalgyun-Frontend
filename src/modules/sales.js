@@ -2,12 +2,10 @@ const ADD_ITEM = 'sales/ADD_ITEM'; // 판매목록에 상품 추가
 const DELETE_ITEM = 'sales/DELETE_ITEM'; // 판매목록에서 상품 제거
 const CHANGE_INFO = 'sales/CHANGE_INFO'; // 상품 정보(할인, 수량) 변경
 const COMPLETE_SALE = 'sales/COMPLETE_SALE'; // 판매 완료 후 장바구니 비우기
-const PUT_CONSIGN_INFO = 'sales/PUT_CONSIGN_INFO'; //위탁상품 정보 입력
 
 const initialState = {
     items: [],
     sum_price: 0,
-    consign_info: [],
 }
 
 export const addItem = (item) => ({
@@ -30,10 +28,6 @@ export const completeSale = () => ({
     type: COMPLETE_SALE,
 })
 
-export const putConsignInfo = (consign_info) => ({
-    type: PUT_CONSIGN_INFO,
-    consign_info,
-});
 
 
 function sales(state = initialState, action) {
@@ -82,12 +76,6 @@ function sales(state = initialState, action) {
                 ...state,
                 items : [],
                 sum_price: 0,
-            };
-
-        case PUT_CONSIGN_INFO:
-            return{
-                ...state,
-                consign_info: action.consign_info,
             };
 
 
