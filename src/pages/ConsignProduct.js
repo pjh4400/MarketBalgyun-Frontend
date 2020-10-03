@@ -452,7 +452,7 @@ const ConsignProduct = ({ history }) => {
                                     </Grid>
                                     {mode === 'new'
                                         ?
-                                        <Button className={classes.submit} size="large" type="submit">'상품등록'</Button>
+                                        <Button className={classes.submit} size="large" type="submit">상품등록</Button>
                                         :
                                         <Grid container spacing={2}>
                                             <Grid item xs={12} sm={6}>
