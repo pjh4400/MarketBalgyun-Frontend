@@ -74,7 +74,7 @@ const Trader = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -86,7 +86,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="사업자번호"
@@ -97,7 +97,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="CEO"
@@ -108,7 +108,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -120,7 +120,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="종목"
@@ -131,7 +131,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="전화번호"
@@ -142,7 +142,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="휴대전화"
@@ -153,7 +153,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="메일"
@@ -164,7 +164,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="거래처 홈페이지"
@@ -175,7 +175,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="우편번호"
@@ -186,7 +186,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="주소"
@@ -197,7 +197,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="관리사원"
@@ -208,7 +208,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="거래은행"
@@ -219,7 +219,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="계좌번호"
@@ -230,7 +230,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="예금주"
@@ -241,7 +241,7 @@ const Trader = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
-                                Type="text"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                                 label="수수료"

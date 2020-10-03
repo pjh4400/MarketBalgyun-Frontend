@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Grid, Button, TextField, Link, MenuItem } from "@material-ui/core"
-
+import { Grid, Button, TextField,  MenuItem } from "@material-ui/core"
 
 import useStyles from './Style';
 
-const SignUp = () => {
+const SignUp = ({setMode}) => {
     const [form, setForm] = useState({
         name: '',
         level: '직원',
@@ -31,8 +30,9 @@ const SignUp = () => {
                 level: form.level,
             })
                 .then((res) => {
-                    if(res.data === 'Posting Success'){
+                    if (res.config.data === 'Posting Success') {
                         alert('정상적으로 등록되었습니다.');
+                        setMode('');
                     } else {
                         alert(res.data);
                     }

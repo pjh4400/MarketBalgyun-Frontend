@@ -11,6 +11,10 @@ import useStyles from '../pages/Style';
 const SearchProduct = () => {
     const [searchID, setSearchID] = useState('');
     const [searchName, setSearchName] = useState('');
+    const [searchTrader, setSearchTrader] = useState("");
+    const [searchPlace, setSearchPlace] = useState("");
+
+
     const [products, setProducts] = useState([]);
 
     const classes = useStyles();
@@ -22,6 +26,15 @@ const SearchProduct = () => {
     const onSearchNameHandler = (e) => {
         setSearchName(e.target.value);
     }
+
+    const onSearchTraderHandler = (e) => {
+        setSearchTrader(e.target.value);
+    };
+
+    const onSearchPlaceHandler = (e) => {
+        setSearchPlace(e.target.value);
+    };
+
 
     const onSearchByID = (e) => {
         setSearchName('');
@@ -61,6 +74,44 @@ const SearchProduct = () => {
             })
     }
 
+    const onSearchByTrader = (e) => {
+        setSearchTrader('');
+        axios.get("api/searchProduct", {
+            params: {
+                trader: searchTrader,
+            },
+        })
+            .then((res) => {
+                if (res.data === "No Trader") {
+                    alert(res.data);
+                } else {
+                    setProducts(res.data);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const onSearchByPlace = (e) => {
+        setSearchPlace('');
+        axios.get("api/searchProduct", {
+            params: {
+                place: searchPlace,
+            },
+        })
+            .then((res) => {
+                if (res.data === "해당 재고위치의 상품이 없습니다.") {
+                    alert(res.data);
+                } else {
+                    setProducts(res.data);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
     const oneItem = (item) => {
         console.log(item);
         if (item.id.startsWith('C')) { // 위탁상품
@@ -79,7 +130,7 @@ const SearchProduct = () => {
                         <Typography variant="body1" color="textSecondary">
                             가격 : {item.price} 원
                     </Typography>
-                    <Typography variant="body1" color="textSecondary">
+                        <Typography variant="body1" color="textSecondary">
                             수량 : {item.quantity}
                         </Typography>
                         <Typography variant="body1" color="textSecondary">
@@ -172,6 +223,48 @@ const SearchProduct = () => {
                             }}
                         />
                     </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            type="text"
+                            variant="outlined"
+                            fullWidth
+                            label="거래처로 검색하기"
+                            name="trader"
+                            value={searchTrader}
+                            onChange={onSearchTraderHandler}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment>
+                                        <Button onClick={onSearchByTrader}>
+                                            <SearchIcon />
+                                        </Button>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            type="text"
+                            variant="outlined"
+                            fullWidth
+                            label="재고위치로 검색하기"
+                            name="place"
+                            value={searchPlace}
+                            onChange={onSearchPlaceHandler}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment>
+                                        <Button onClick={onSearchByPlace}>
+                                            <SearchIcon />
+                                        </Button>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Grid>
+
                 </Grid>
 
                 <Grid container spacing={2} className={classes.form}>
@@ -181,7 +274,7 @@ const SearchProduct = () => {
 
                 </Grid>
 
-            </Paper>
+            </Paper >
         </Container >
 
     );

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Paper, Typography, Button, TextField, FormControlLabel, Checkbox, Grid, MenuItem, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
@@ -7,7 +7,7 @@ import useStyles from './Style';
 import axios from 'axios';
 
 
-const CustomerPage = () => {
+const CustomerPage = ({history}) => {
     const [mode, setMode] = useState('new');
     const [customer, setCustomer] = useState({
         name: '',
@@ -74,6 +74,7 @@ const CustomerPage = () => {
                                 alert(res.data);
                             } else {
                                 alert('정상적으로 등록되었습니다.');
+                                history.push('/');
 
                             }
                         })
@@ -88,6 +89,7 @@ const CustomerPage = () => {
                     axios.put('api/customer', customer)
                         .then((res) => {
                             alert("정상적으로 수정되었습니다.");
+                            history.push('/');
                         })
                         .catch((error) => {
                             console.log(error);

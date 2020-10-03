@@ -55,9 +55,9 @@ const SaleItem = ({ item }) => {
     }
     else {
       setDiscount(tmpDiscount);
-      let newPrice = Math.floor(item.price / 100 * ( 100 - tmpDiscount) * quantity / 10) * 10;
+      let newPrice = Math.floor(item.price / 100 * ( 100 - tmpDiscount) * saleQuantity / 10) * 10;
       console.log(newPrice);
-      onChangeInfo(item.id, quantity, tmpDiscount, price, newPrice);
+      onChangeInfo(item.id, saleQuantity, tmpDiscount, price, newPrice);
       setPrice(newPrice);
     }
   }

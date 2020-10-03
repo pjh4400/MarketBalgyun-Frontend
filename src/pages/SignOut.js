@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Grid, Button, TextField } from "@material-ui/core"
 import useStyles from './Style';
 
-const SignOut = () => {
+const SignOut = ({setMode}) => {
     const [name, setName] = useState('');
     const classes = useStyles();
 
@@ -16,24 +16,23 @@ const SignOut = () => {
 
     const onDeleteEmployee = (e) => {
         e.preventDefault();
-        axios.get('/api/user', {
+        axios.get('api/user', {
             params: {
                 name: name
             }
         }).then((res) => {
-            console.log(res.data);
             if (res.data === 'No User') {
                 alert('해당 직원이 없습니다.');
             }
             else {
                 if (confirm("직원 '" + name + "'을(를) 삭제하시겠습니까?")) {
-                    axios.delete('api/user', {
-                        params: {
-                            name: name
-                        }
+                    axios.delete('api/auth/sign-out', {
+                         params : {
+                             name : name}
                     })
                         .then((res) => {
-                            console.log(res);
+                            alert(res.data);
+                            setMode('');
                         })
                         .catch((error) => {
                             console.log(error);
