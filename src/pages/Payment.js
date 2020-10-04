@@ -117,7 +117,10 @@ const Payment = ({ items, sum_price, history }) => {
                 .then((res) => {
                     if (res.data.includes('부족')) {
                         alert(res.data); // 상품 부족 처리 안됨
-                    } else {
+                    } else if(res.data === '상품 판매 완료'){
+                        alert('판매되었습니다.');
+                        history.push('/');
+                    } else{
                         alert('판매되었습니다.');
                         console.log(res.data);
                         onPutConsignInfo(res.data);
