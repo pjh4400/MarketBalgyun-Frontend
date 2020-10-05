@@ -49,7 +49,8 @@ const RootContainer = () => {
     setDate({
       ...date,
       [e.target.name]: e.target.value,
-    })
+    });
+
   }
 
   const onGetSaleLog = () => {
@@ -69,26 +70,45 @@ const RootContainer = () => {
         .catch((error) => {
           console.log(error);
         })
+    }
+  }
 
-      /*
-      axios.post('api/showCSV', {
-        data:{
-          start: date.start,
-          end: date.end,
+  const onGetTrader = () => {
+    if (confirm("매입처 현황을 다운받으시겠습니까?")) {
+      axios.get('api/showCSV', {
+        params: {
+          trader: true,
         },
-        responseType: 'blob' 
+        responseType: 'blob'
       })
         .then((res) => {
-          let blob = new Blob([res.data], {type: ''})
-          url = window.URL.createObjectURL(blob)
-          window.open(url);
+          const content = res.headers['content-type'];
+          download(res.data, 'Trader.csv', content);
         })
         .catch((error) => {
           console.log(error);
         })
-        */
     }
   }
+
+  const onGetCustomer = () => {
+    if (confirm("고객현황을 다운받으시겠습니까?")) {
+      axios.get('api/showCSV', {
+        params: {
+          customer: true,
+        },
+        responseType: 'blob'
+      })
+        .then((res) => {
+          const content = res.headers['content-type'];
+          download(res.data, 'Customer.csv', content);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+  }
+
 
   if (userName) {
     return (
@@ -147,8 +167,8 @@ const RootContainer = () => {
 
               <Button onClick={onGetSaleLog} className={classes.next}>판매로그</Button>
               <Button className={classes.next}>상품현황</Button>
-              <Button className={classes.next}>거래처현황</Button>
-              <Button className={classes.next}>고객현황</Button>
+              <Button onClick={onGetTrader} className={classes.next}>매입처현황</Button>
+              <Button onClick={onGetCustomer} className={classes.next}>고객현황</Button>
             </Grid>
           </Paper>
 

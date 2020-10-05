@@ -220,7 +220,7 @@ const Trader = ({ history }) => {
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    label="업체"
+                                    label="업태"
                                     name="business"
                                     value={traderItem.business}
                                     onChange={onChangeHandler}
