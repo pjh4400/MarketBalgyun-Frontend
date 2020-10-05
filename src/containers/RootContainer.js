@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router';
 import axios from 'axios';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import download from 'downloadjs'
 
 import { Container, Typography, Paper, Grid, Button, TextField } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 
 import useStyles from '../pages/Style';
@@ -57,15 +58,35 @@ const RootContainer = () => {
         params: {
           start: date.start,
           end: date.end,
-        }
+          saleLog: true,
+        },
+        responseType: 'blob'
       })
         .then((res) => {
-          console.log(res);
-
+          const content = res.headers['content-type'];
+          download(res.data, 'SaleLog.csv', content);
         })
         .catch((error) => {
           console.log(error);
         })
+
+      /*
+      axios.post('api/showCSV', {
+        data:{
+          start: date.start,
+          end: date.end,
+        },
+        responseType: 'blob' 
+      })
+        .then((res) => {
+          let blob = new Blob([res.data], {type: ''})
+          url = window.URL.createObjectURL(blob)
+          window.open(url);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        */
     }
   }
 
