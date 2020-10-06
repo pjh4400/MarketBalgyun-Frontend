@@ -1,20 +1,15 @@
-import React, { useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { Button, TextField, InputAdornment } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Grid, Button, TextField, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 import axios from 'axios';
-
-import { addItem } from '../modules/sales';
 
 import useStyles from '../pages/Style';
 
-const SearchSaleID = () => {
+const SearchSaleID = ({ onAddItem, onCompleteSale }) => {
     const [searchID, setSearchID] = useState("");
 
     const classes = useStyles();
-
-    const dispatch = useDispatch();
-    const onAddItem = useCallback(item => dispatch(addItem(item)), [dispatch]);
 
     const onSearchIDHandler = (e) => {
         setSearchID(e.target.value);
@@ -31,9 +26,9 @@ const SearchSaleID = () => {
                 if (res.data === "해당 ID의 상품이 없습니다.") {
                     alert(res.data);
                 } else {
-                    if(res.data[0].quantity < 1){
+                    if (res.data[0].quantity < 1) {
                         alert("품절된 상품입니다.");
-                    } else{
+                    } else {
                         onAddItem(res.data[0]);
                     }
                 }
@@ -44,26 +39,40 @@ const SearchSaleID = () => {
             })
     }
 
+    const onEmptyShoppingCart = () => {
+        if (confirm("장바구니를 비우시겠습니까?")) {
+            onCompleteSale();
+        }
+    }
 
     return (
-        <form className={classes.form} onSubmit={onSearchItem}>
-            <TextField
-                type="text"
-                variant="outlined"
-                fullWidth
-                label="ID"
-                name="id"
-                onChange={onSearchIDHandler}
-                value={searchID}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment>
-                            <Button type="submit"><SearchIcon /></Button>
-                        </InputAdornment>
-                    )
-                }}
-            />
-        </form>
+        <>
+            <Grid container spacing={2}>
+                <Grid item xs={12} sm={8}>
+                    <TextField
+                        type="text"
+                        variant="outlined"
+                        fullWidth
+                        label="ID"
+                        name="id"
+                        onChange={onSearchIDHandler}
+                        value={searchID}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment>
+                                    <Button onClick={onSearchItem}><SearchIcon /></Button>
+                                </InputAdornment>
+                            )
+                        }}
+                    />
+                </Grid>
+            </Grid>
+            <Grid container justify="flex-end">
+                <Grid item>
+                    <Button className={classes.next} onClick={onEmptyShoppingCart} size="large"><RemoveShoppingCartIcon /> 장바구니 비우기</Button>
+                </Grid>
+            </Grid>
+        </>
 
     );
 

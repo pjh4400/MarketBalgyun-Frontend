@@ -19,9 +19,9 @@ export const deleteItem = (id, price) => ({
     price,
 });
 
-export const changeInfo = (id, quantity, discount, prePrice, newPrice) => ({
+export const changeInfo = (id, quantity, discount) => ({
     type: CHANGE_INFO,
-    id, quantity, discount, prePrice, newPrice,
+    id, quantity, discount,
 });
 
 export const completeSale = () => ({
@@ -31,6 +31,7 @@ export const completeSale = () => ({
 
 
 function sales(state = initialState, action) {
+    let sum = 0;
     switch (action.type) {
         case ADD_ITEM:
             return {
@@ -52,10 +53,13 @@ function sales(state = initialState, action) {
             let index = state.items.findIndex(item => item.id === action.id);
             let newItems = state.items;
             newItems.splice(index, 1);
+            newItems.forEach((item) => {
+                sum += item.apply_price;
+            })
             return {
                 ...state,
                 items: newItems,
-                sum_price: state.sum_price - action.price,
+                sum_price: sum,
             };
 
         case CHANGE_INFO:
@@ -63,12 +67,14 @@ function sales(state = initialState, action) {
             let idx_ch = changedItems.findIndex(item => item.id === action.id);
             changedItems[idx_ch].sale_quantity = action.quantity;
             changedItems[idx_ch].discount = action.discount;
-            changedItems[idx_ch].apply_price = action.newPrice;
-
+            changedItems[idx_ch].apply_price = ( changedItems[idx_ch].price - action.discount ) * action.quantity;
+            state.items.forEach((item) => {
+                sum += item.apply_price;
+            })
             return {
                 ...state,
                 items: changedItems,
-                sum_price: state.sum_price - action.prePrice + action.newPrice,
+                sum_price: sum,
             };
 
         case COMPLETE_SALE:

@@ -1,20 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Container, Typography, Paper, Grid, Button, TextField, InputAdornment, Card, CardContent, IconButton } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { Typography, Grid, Button, TextField, InputAdornment, Card, CardContent, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import axios from 'axios';
-import { completeSale } from '../modules/sales';
-import { putConsignInfo } from '../modules/consigner';
 import useStyles from './Style';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
-
-const Payment = ({ items, sum_price, history }) => {
-    const dispatch = useDispatch();
-    const onCompleteSale = useCallback(() => dispatch(completeSale()), [dispatch]);
-    const onPutConsignInfo = useCallback((consign_info) => dispatch(putConsignInfo(consign_info)), [dispatch]);
-
+const Payment = ({ items, sum_price, handleNext, handleBack, onCompleteSale }) => {
     const [membership, setMemberShip] = useState(false);
     const [customer, setCustomer] = useState({
         name: '',
@@ -22,7 +15,6 @@ const Payment = ({ items, sum_price, history }) => {
         point: 0
     });
     const [finalPrice, setFinalPrice] = useState(sum_price);
-
     const [point, setPoint] = useState(0);
     const [card, setCard] = useState(0);
     const [cash, setCash] = useState(0);
@@ -116,16 +108,13 @@ const Payment = ({ items, sum_price, history }) => {
             })
                 .then((res) => {
                     if (res.data.includes('부족')) {
-                        alert(res.data); // 상품 부족 처리 안됨
-                    } else if(res.data === '상품 판매 완료'){
+                        alert(res.data);
+                    } else if (res.data === '상품 판매 완료') {
                         alert('판매되었습니다.');
-                        history.push('/');
-                    } else{
-                        alert('판매되었습니다.');
-                        console.log(res.data);
-                        onPutConsignInfo(res.data);
                         onCompleteSale();
-                        history.push('/account-info');
+                        handleNext();
+                    } else {
+                        console.log(res.data);
                     }
                 })
                 .catch((error) => {
@@ -136,6 +125,9 @@ const Payment = ({ items, sum_price, history }) => {
 
     return (
         <>
+            <Grid container justify="flex-start">
+                <Button className={classes.next} size="large" onClick={handleBack}><ShoppingCartIcon /> 다시담기</Button>
+            </Grid>
             <Typography component="h1" variant="h4" align="center" className={classes.header}>
                 상품결제 총 {sum_price} 원
                 </Typography>
@@ -173,22 +165,25 @@ const Payment = ({ items, sum_price, history }) => {
                                     포인트 : {membership && customer.point}</Typography>
 
                                 {!membership ||
-                                    <form className={classes.form} onSubmit={onApplyPoint}>
-                                        <TextField
-                                            type="number"
-                                            variant="outlined"
-                                            fullWidth
-                                            label="포인트 적용 (p)"
-                                            name="point"
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment>
-                                                        <IconButton type="submit"><CheckCircleIcon /></IconButton>
-                                                    </InputAdornment>
-                                                )
-                                            }}
-                                        />
-                                    </form>}
+                                    <Grid item xs={12} sm={6}>
+                                        <form className={classes.form} onSubmit={onApplyPoint}>
+                                            <TextField
+                                                type="number"
+                                                variant="outlined"
+                                                fullWidth
+                                                label="포인트 적용 (p)"
+                                                name="point"
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <InputAdornment>
+                                                            <IconButton type="submit"><CheckCircleIcon /></IconButton>
+                                                        </InputAdornment>
+                                                    )
+                                                }}
+                                            />
+                                        </form>
+                                    </Grid>
+                                }
                             </div>
                         </CardContent>
                     </Card>

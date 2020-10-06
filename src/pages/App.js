@@ -14,7 +14,6 @@ const App = () => {
                 <Route path="/consign-product" component={ConsignProduct} />
                 <Route path="/search" component={SearchProduct} />
                 <Route path="/trader" component={Trader} />
-                <Route path="/account-info" component={AccouontInfo} />
             </div>
         </BrowserRouter>
     );

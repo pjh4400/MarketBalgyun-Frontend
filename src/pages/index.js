@@ -6,4 +6,3 @@ export { default as RegisterGeneralProduct } from '../containers/RegisterGeneral
 export { default as SearchProduct} from './SearchProduct';
 export { default as ConsignProduct } from './ConsignProduct';
 export { default as Trader } from './Trader';
-export { default as AccouontInfo} from './AccountInfo';

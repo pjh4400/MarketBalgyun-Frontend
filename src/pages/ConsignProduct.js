@@ -8,8 +8,8 @@ import Navigation from '../components/Navigation';
 import useStyles from './Style';
 
 
-const ConsignProduct = ({ history }) => {
-    const [mode, setMode] = useState('new'); // 새로 등록 시 'new', 기존 정보 조회 및 수정 시 'old', 상품 선택후 'old2'
+const ConsignProduct = () => {
+    const [mode, setMode] = useState(''); // 새로 등록 시 'new', 기존 정보 조회 및 수정 시 'old', 상품 선택후 'old2'
     const [product, setProduct] = useState({
         id: '',
         name: '',
@@ -161,7 +161,7 @@ const ConsignProduct = ({ history }) => {
                             .then((res) => {
                                 if (res.data) {
                                     alert('등록 되었습니다.\n⊳ ID : ' + res.data);
-                                    history.push('/');
+                                    setMode('');
                                 }
                             })
                             .catch((error) => {
@@ -176,7 +176,7 @@ const ConsignProduct = ({ history }) => {
                     axios.put('api/consignProduct', product)
                         .then((res) => {
                             alert('수정되었습니다.');
-                            history.push('/');
+                            setMode('');
                         })
                         .catch((error) => {
                             console.log(error);
@@ -207,7 +207,7 @@ const ConsignProduct = ({ history }) => {
             })
                 .then((res) => {
                     alert('삭제되었습니다.');
-                    history.push('/');
+                    setMode('');
                 })
                 .catch((error) => {
                     alert('서버에러');
@@ -260,7 +260,7 @@ const ConsignProduct = ({ history }) => {
                     </Button>
                     </Grid>
 
-                    {mode !== "new" &&
+                    {mode && mode !== "new" &&
                         <form className={classes.form} onSubmit={onSearchProduct}>
                             <TextField
                                 type="text"
@@ -279,7 +279,7 @@ const ConsignProduct = ({ history }) => {
                         </form>}
 
 
-                    {mode !== "old" &&
+                    {mode && mode !== "old" &&
                         <Grid item xs={12}>
                             <Paper variant="outlined" className={classes.item}>
                                 <Typography variant="h6" align="center" paragraph>

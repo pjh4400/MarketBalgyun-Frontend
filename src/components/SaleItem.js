@@ -1,45 +1,30 @@
-import React, { useState, useCallback, useEffect} from "react";
-import {  useDispatch } from 'react-redux';
-
+import React, { useState, useEffect } from "react";
 import { Typography, Grid, TextField, InputAdornment, Card, CardContent, IconButton, CardActionArea } from '@material-ui/core';
-
 import ClearIcon from '@material-ui/icons/clear';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-
-import { deleteItem, changeInfo } from '../modules/sales';
-
 import useStyles from '../pages/Style';
 
-const SaleItem = ({ item }) => {
-  const [price, setPrice] = useState(item.price);
+const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
   const [saleQuantity, setSaleQuantity] = useState(1);
-  const [discount, setDiscount] = useState(0);
-  
+  const [discount, setDiscount] = useState(item.price);
+
+  const maxDiscountPrice = Math.ceil(item.price / 100 * item.max_discount / 10) * 10;
+
   const classes = useStyles();
 
-  const dispatch = useDispatch();
-  const onDeleteItem = useCallback((id, price) => dispatch(deleteItem(id, price)), [dispatch]);
-  const onChangeInfo = useCallback((id, quantity, discount, prePrice, newPrice) => dispatch(changeInfo(id, quantity, discount, prePrice, newPrice)), [dispatch]);
-
-  useEffect(() => {
-    console.log(item);
-  }, []);
 
   const onQuantityHandler = (e) => {
     e.preventDefault();
-    let tmpQty = Number(e.target.sale_quantity.value);
-    if (tmpQty < 1) {
+    let tmpQuantity = e.target.sale_quantity.value;
+    if (tmpQuantity < 1) {
       alert("잘못된 입력입니다.");
     }
-    else if (tmpQty > item.quantity) {
+    else if (tmpQuantity > item.quantity) {
       alert(item.quantity + "개 이상 판매할 수 없습니다.");
     }
     else {
-      setSaleQuantity(tmpQty);
-      let newPrice = Math.floor(item.price / 100 * ( 100 - discount) * tmpQty / 10) * 10;
-      console.log(newPrice);
-      onChangeInfo(item.id, tmpQty, discount, price, newPrice);
-      setPrice(newPrice);
+      setSaleQuantity(tmpQuantity);
+      onChangeInfo(item.id, tmpQuantity, discount);
     }
   }
 
@@ -50,78 +35,82 @@ const SaleItem = ({ item }) => {
     if (tmpDiscount < 0) {
       alert("잘못된 입력입니다.");
     }
-    else if (tmpDiscount > item.max_discount) {
-      alert(item.max_discount + "% 이상 할인 할 수 없습니다.");
+    else if (tmpDiscount > maxDiscountPrice) {
+      alert(maxDiscountPrice + "원 이상 할인할 수 없습니다.");
     }
     else {
       setDiscount(tmpDiscount);
-      let newPrice = Math.floor(item.price / 100 * ( 100 - tmpDiscount) * saleQuantity / 10) * 10;
-      console.log(newPrice);
-      onChangeInfo(item.id, saleQuantity, tmpDiscount, price, newPrice);
-      setPrice(newPrice);
+      onChangeInfo(item.id, saleQuantity, tmpDiscount);
     }
   }
 
   return (
     <Grid item xs={12} sm={6}>
-        <Card className={classes.card}>
-          <CardContent className={classes.cardDetails}>
-              <Typography variant="subtitle1" color="textSecondary" paragraph>
-                ID : {item.id}
-                <IconButton onClick={() => onDeleteItem(item.id,price)}><ClearIcon /></IconButton>
-              </Typography>
-              <Typography component="h3" variant="h5">
-                {item.name || item.third_category}
-              </Typography>
-              <Typography variant="body1">
-                재고 : {item.quantity}
-              </Typography>
-              <Typography variant="body1">
-                최대 할인율 : {item.max_discount}
-              </Typography>
-              <Typography variant="subtitle1" color="primary" paragraph>
-                가격 : {item.price} 원
+      <Card className={classes.card}>
+        <CardContent className={classes.cardDetails}>
+          <Typography variant="subtitle1" color="textSecondary" paragraph>
+            ID : {item.id}
+            <IconButton onClick={() => onDeleteItem(item.id, price)}><ClearIcon /></IconButton>
+          </Typography>
+          <Typography component="h3" variant="h5">
+            {item.name || item.third_category}
+          </Typography>
+          <Typography variant="body1">
+            재고 : {item.quantity}
+          </Typography>
+          <Typography variant="body1">
+            최대 할인율 : {item.max_discount} %
+          </Typography>
+          <Typography variant="body1">
+            최대 할인가 : {maxDiscountPrice} 원
+          </Typography>
+          <Typography variant="subtitle1" color="primary" paragraph>
+            가격 : {item.price} 원
             </Typography>
-              <form noValidate onSubmit={onQuantityHandler}>
-                <TextField
-                  type="number"
-                  variant="outlined"
-                  fullWidth
-                  label="수량"
-                  name="sale_quantity"
-                  defaultValue={1}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment>
-                        <IconButton type="submit"><CheckCircleIcon /></IconButton>
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </form>
 
-              <form noValidate onSubmit={onDiscountHandler}>
-                <TextField
-                  type="number"
-                  variant="outlined"
-                  fullWidth
-                  label="할인율"
-                  name="discount"
-                  defaultValue={0}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment>
-                        <IconButton type="submit"><CheckCircleIcon /></IconButton>
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </form>
-              <Typography variant="subtitle1" color="primary">
-                총 적용 가격 : {item.apply_price} 원
+          <Grid item xs={12} sm={7} className={classes.form}>
+            <form noValidate onSubmit={onQuantityHandler}>
+              <TextField
+                type="number"
+                variant="outlined"
+                fullWidth
+                label="수량(개)"
+                name="sale_quantity"
+                defaultValue={1}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment>
+                      <IconButton type="submit"><CheckCircleIcon /></IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </form>
+          </Grid>
+          <Grid item xs={12} sm={7} className={classes.form}>
+            <form noValidate onSubmit={onDiscountHandler}>
+              <TextField
+                type="number"
+                variant="outlined"
+                fullWidth
+                label="할인가(원)"
+                name="discount"
+                defaultValue={0}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment>
+                      <IconButton type="submit"><CheckCircleIcon /></IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </form>
+          </Grid>
+          <Typography variant="subtitle1" color="primary">
+            총 적용 가격 : {item.apply_price} 원
             </Typography>
-            </CardContent>
-        </Card>
+        </CardContent>
+      </Card>
     </Grid>
   );
 }
