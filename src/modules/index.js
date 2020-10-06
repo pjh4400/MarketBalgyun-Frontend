@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import sales from './sales';
-import general from './general';
+import register from './register';
 
 const rootReducer = combineReducers({
     sales,
-    general,
+    register,
   });
 
 export default rootReducer;

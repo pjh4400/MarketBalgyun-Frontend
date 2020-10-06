@@ -6,7 +6,7 @@ import axios from 'axios';
 import ClearIcon from '@material-ui/icons/clear';
 
 
-const ProductInfo = ({ info, onPreviousStep }) => {
+const RegisterGeneral = ({ info, onPreviousStep }) => {
     const classes = useStyles();
 
     const [exists, setExists] = useState([]);
@@ -268,4 +268,4 @@ const ProductInfo = ({ info, onPreviousStep }) => {
     );
 }
 
-export default ProductInfo;
+export default RegisterGeneral;

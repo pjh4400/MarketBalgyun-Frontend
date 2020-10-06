@@ -1,5 +1,5 @@
-const SELECT_CATEGORY = 'product/SELECT_CATEOGRY'; // 카테고리선택
-const PREVIOUS_STEP = 'product/PREVIOUS_STEP'; // 이전으로 가기
+const SELECT_CATEGORY = 'register/SELECT_CATEOGRY'; // 카테고리선택
+const PREVIOUS_STEP = 'register/PREVIOUS_STEP'; // 이전으로 가기
 
 const initialState = {
     info: {
@@ -26,7 +26,7 @@ export const previousStep = () => ({
 
 
 
-function general(state = initialState, action) {
+function register(state = initialState, action) {
     switch (action.type) {
         case SELECT_CATEGORY:
             return {
@@ -50,4 +50,4 @@ function general(state = initialState, action) {
     }
 }
 
-export default general;
+export default register;
