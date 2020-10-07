@@ -4,7 +4,7 @@
   "description": "marketbalgyun webpage",
   "main": "index.js",
   "scripts": {
-    "start": "webpack -p && node server.js"
+    "start": "node server.js"
   },
   "author": "siren",
   "license": "MIT",
