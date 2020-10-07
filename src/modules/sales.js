@@ -13,10 +13,9 @@ export const addItem = (item) => ({
     item,
 });
 
-export const deleteItem = (id, price) => ({
+export const deleteItem = (id) => ({
     type: DELETE_ITEM,
     id,
-    price,
 });
 
 export const changeInfo = (id, quantity, discount) => ({
@@ -66,8 +65,8 @@ function sales(state = initialState, action) {
             let changedItems = state.items;
             let idx_ch = changedItems.findIndex(item => item.id === action.id);
             changedItems[idx_ch].sale_quantity = action.quantity;
-            changedItems[idx_ch].discount = action.discount;
-            changedItems[idx_ch].apply_price = ( changedItems[idx_ch].price - action.discount ) * action.quantity;
+            changedItems[idx_ch].discount = Math.round((1 - (Number(action.discount) / changedItems[idx_ch].price)) * 100) ;
+            changedItems[idx_ch].apply_price = action.discount * action.quantity;
             state.items.forEach((item) => {
                 sum += item.apply_price;
             })

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Grid, Button, TextField, InputAdornment, Card, CardContent, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ClearIcon from '@material-ui/icons/clear';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import axios from 'axios';
 import useStyles from './Style';
@@ -96,6 +97,7 @@ const Payment = ({ items, sum_price, handleNext, handleBack, onCompleteSale }) =
 
     const onSubmitPay = () => {
         if (confirm('판매하시겠습니까?')) {
+            console.log(items);
             axios.post('api/saledProduct', {
                 items: items,
                 sum_price: sum_price,
@@ -141,22 +143,29 @@ const Payment = ({ items, sum_price, handleNext, handleBack, onCompleteSale }) =
                                 <Typography component="h3" variant="h5">
                                     구매자 정보
                                     </Typography>
-                                <form className={classes.form} onSubmit={onSearchCustomer}>
-                                    <TextField
-                                        type="text"
-                                        variant="outlined"
-                                        fullWidth
-                                        label="전화번호 뒤 네자리"
-                                        name="phone"
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment>
-                                                    <IconButton type="submit"><SearchIcon /></IconButton>
-                                                </InputAdornment>
-                                            )
-                                        }}
-                                    />
-                                </form>
+                                <Grid item xs={12} sm={6}>
+                                    <form className={classes.form} onSubmit={onSearchCustomer}>
+                                        <TextField
+                                            type="text"
+                                            variant="outlined"
+                                            fullWidth
+                                            label="전화번호 뒤 네자리"
+                                            name="phone"
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment>
+                                                        <IconButton type="submit"><SearchIcon /></IconButton>
+                                                        <IconButton onClick={() => setCustomer({
+                                                            name: '',
+                                                            phone: '',
+                                                            point: 0,
+                                                        }, setMemberShip(false))}><ClearIcon /></IconButton>
+                                                    </InputAdornment>
+                                                )
+                                            }}
+                                        />
+                                    </form>
+                                </Grid>
                                 <Typography variant="subtitle1">
                                     이름 : {membership && customer.name} </Typography>
                                 <Typography variant="subtitle1">

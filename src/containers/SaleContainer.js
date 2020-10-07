@@ -14,7 +14,7 @@ const SaleContainer = () => {
 
     const dispatch = useDispatch();
     const onAddItem = useCallback(item => dispatch(addItem(item)), [dispatch]);
-    const onDeleteItem = useCallback((id, price) => dispatch(deleteItem(id, price)), [dispatch]);
+    const onDeleteItem = useCallback((id) => dispatch(deleteItem(id)), [dispatch]);
     const onChangeInfo = useCallback((id, quantity, discount) => dispatch(changeInfo(id, quantity, discount)), [dispatch]);
     const onCompleteSale = useCallback(() => dispatch(completeSale()), [dispatch]);
 

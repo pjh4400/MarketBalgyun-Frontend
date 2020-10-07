@@ -8,7 +8,7 @@ const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
   const [saleQuantity, setSaleQuantity] = useState(1);
   const [discount, setDiscount] = useState(item.price);
 
-  const maxDiscountPrice = Math.ceil(item.price / 100 * item.max_discount / 10) * 10;
+  const minDiscountPrice = Math.ceil(item.price - (item.price / 100 * item.max_discount / 10) * 10 );
 
   const classes = useStyles();
 
@@ -35,8 +35,8 @@ const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
     if (tmpDiscount < 0) {
       alert("잘못된 입력입니다.");
     }
-    else if (tmpDiscount > maxDiscountPrice) {
-      alert(maxDiscountPrice + "원 이상 할인할 수 없습니다.");
+    else if (tmpDiscount < minDiscountPrice) {
+      alert(minDiscountPrice + "원 보다 할인할 수 없습니다.");
     }
     else {
       setDiscount(tmpDiscount);
@@ -50,7 +50,7 @@ const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
         <CardContent className={classes.cardDetails}>
           <Typography variant="subtitle1" color="textSecondary" paragraph>
             ID : {item.id}
-            <IconButton onClick={() => onDeleteItem(item.id, price)}><ClearIcon /></IconButton>
+            <IconButton onClick={() => onDeleteItem(item.id)}><ClearIcon /></IconButton>
           </Typography>
           <Typography component="h3" variant="h5">
             {item.name || item.third_category}
@@ -62,7 +62,7 @@ const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
             최대 할인율 : {item.max_discount} %
           </Typography>
           <Typography variant="body1">
-            최대 할인가 : {maxDiscountPrice} 원
+            최소 판매가 : {minDiscountPrice} 원
           </Typography>
           <Typography variant="subtitle1" color="primary" paragraph>
             가격 : {item.price} 원
@@ -93,9 +93,9 @@ const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
                 type="number"
                 variant="outlined"
                 fullWidth
-                label="할인가(원)"
+                label="개당 할인판매가(원)"
                 name="discount"
-                defaultValue={0}
+                defaultValue={item.price}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment>

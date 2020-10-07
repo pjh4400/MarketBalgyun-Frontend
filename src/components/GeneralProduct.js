@@ -20,7 +20,7 @@ const GeneralProuct = ({ mode, info, onPreviousStep }) => {
         cost: 0,
         price: '',
         quantity: 1,
-        max_discount: 0,
+        max_discount: 50,
         place: '',
         trader: '',
     });
@@ -183,7 +183,7 @@ const GeneralProuct = ({ mode, info, onPreviousStep }) => {
             cost: 0,
             price: 0,
             quantity: 1,
-            max_discount: 0,
+            max_discount: 50,
             place: '',
             trader: '',
         });
