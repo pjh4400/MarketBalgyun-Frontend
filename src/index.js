@@ -12,9 +12,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 const store = createStore(rootReducer, composeWithDevTools());
 
 const theme = createMuiTheme({
-    typography: {
-        fontFamily: '"Noto Sans KR", serif',
-    },
+    // typography: {
+    //     fontFamily: '"Noto Sans KR", serif',
+    // },
     palette: {
         primary: {
             main: '#4EAE4E',
