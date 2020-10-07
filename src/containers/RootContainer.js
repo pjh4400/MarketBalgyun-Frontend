@@ -15,6 +15,7 @@ import Admin from '../components/Admin';
 const RootContainer = () => {
   const [userName, setUserName] = useState(window.sessionStorage.getItem('name'));
   const [date, setDate] = useState({
+    now: '',
     start: '',
     end: '',
   });
@@ -25,6 +26,7 @@ const RootContainer = () => {
     let start = (now.getFullYear()) + '-' + ('00' + (now.getMonth())).slice(-2) + '-' + ('00' + now.getDate()).slice(-2);
     let end = (now.getFullYear()) + '-' + ('00' + (now.getMonth() + 1)).slice(-2) + '-' + ('00' + now.getDate()).slice(-2);
     setDate({
+      now: end,
       start: start,
       end: end,
     })
@@ -65,7 +67,43 @@ const RootContainer = () => {
       })
         .then((res) => {
           const content = res.headers['content-type'];
-          download(res.data, 'SaleLog.csv', content);
+          download(res.data, '판매로그[' + date.start + '_' + date.end + '].csv', content);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+  }
+
+  const onGeneralProduct = () => {
+    if (confirm("일반상품 현황을 다운받으시겠습니까?")) {
+      axios.get('api/showCSV', {
+        params: {
+          generalProduct: true,
+        },
+        responseType: 'blob'
+      })
+        .then((res) => {
+          const content = res.headers['content-type'];
+          download(res.data, '일반상품현황[' + date.now + '].csv', content);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+  }
+
+  const onConsignProduct = () => {
+    if (confirm("위탁상품 현황을 다운받으시겠습니까?")) {
+      axios.get('api/showCSV', {
+        params: {
+          consignProduct: true,
+        },
+        responseType: 'blob'
+      })
+        .then((res) => {
+          const content = res.headers['content-type'];
+          download(res.data, '위탁상품현황[' + date.now + '].csv', content);
         })
         .catch((error) => {
           console.log(error);
@@ -83,7 +121,7 @@ const RootContainer = () => {
       })
         .then((res) => {
           const content = res.headers['content-type'];
-          download(res.data, 'Trader.csv', content);
+          download(res.data, '매입처현황[' + date.now + '].csv', content);
         })
         .catch((error) => {
           console.log(error);
@@ -101,7 +139,7 @@ const RootContainer = () => {
       })
         .then((res) => {
           const content = res.headers['content-type'];
-          download(res.data, 'Customer.csv', content);
+          download(res.data, '고객현황[' + date.now + '].csv', content);
         })
         .catch((error) => {
           console.log(error);
@@ -137,7 +175,17 @@ const RootContainer = () => {
               <AssignmentIcon fontSize="large" />
               <Typography variant="h6" align="center"> 엑셀 다운로드 </Typography>
             </Grid>
+
+
             <Grid container justify="center" className={classes.form}>
+              <Button onClick={onGeneralProduct} className={classes.next}>일반상품현황</Button>
+              <Button onClick={onConsignProduct} className={classes.next}>위탁상품현황</Button>
+              <Button onClick={onGetTrader} className={classes.next}>매입처현황</Button>
+              <Button onClick={onGetCustomer} className={classes.next}>고객현황</Button>
+            </Grid>
+
+            <Grid container justify="center" className={classes.form}>
+              
               <TextField
                 label="시작날짜"
                 type="date"
@@ -160,15 +208,8 @@ const RootContainer = () => {
                 }}
                 className={classes.inlineComponents}
               />
-
-            </Grid>
-
-            <Grid container justify="center" className={classes.form}>
-
               <Button onClick={onGetSaleLog} className={classes.next}>판매로그</Button>
-              <Button className={classes.next}>상품현황</Button>
-              <Button onClick={onGetTrader} className={classes.next}>매입처현황</Button>
-              <Button onClick={onGetCustomer} className={classes.next}>고객현황</Button>
+
             </Grid>
           </Paper>
 
