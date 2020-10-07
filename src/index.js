@@ -14,7 +14,7 @@ const store = createStore(rootReducer, composeWithDevTools());
 
 const theme = createMuiTheme({
     typography: {
-        fontFamily: '"Noto Sans KR", serif',
+        fontFamily: "Noto Sans KR", serif,
     },
     palette: {
         primary: {
