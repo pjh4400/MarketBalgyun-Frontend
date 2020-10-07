@@ -10,6 +10,10 @@ import { Provider } from 'react-redux';
 import rootReducer from './modules';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+import axiosDefault from 'axios/lib/defaults';
+
+axiosDefault.baseUrl = '';
+
 const store = createStore(rootReducer, composeWithDevTools());
 
 const theme = createMuiTheme({

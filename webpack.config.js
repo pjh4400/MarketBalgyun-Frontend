@@ -37,7 +37,7 @@ module.exports = {
     }, 
     output:{ // 출력
         path: path.join(__dirname, './dist/'), 
-        publicPath: '/dist/',
+        publicPath: '/',
         filename: 'app.js',
     },
     devtool: 'inline-source-map',
@@ -57,13 +57,13 @@ module.exports = {
                 pathRewrite: {'^/api' : ''},
                 changeOrigin: true,
             },
-          },
-      },
-      plugins: [
+        },
+    },
+    plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
         // 번들링된 JS를 주입하고 결과물을 옮길 대상이 되는 파일을 지정 
-          template: './public/index.html',
+            template: './public/index.html',
         }),
         new CleanWebpackPlugin(),
     ]
