@@ -1,5 +1,5 @@
 const SELECT_CATEGORY = 'register/SELECT_CATEOGRY'; // 카테고리선택
-const PREVIOUS_STEP = 'register/PREVIOUS_STEP'; // 이전으로 가기
+const SET_STEP = 'register/SET_STEP'; // 스텝변경
 
 const initialState = {
     info: {
@@ -20,8 +20,9 @@ export const selectCategory = (first, second, third) => ({
 });
 
 
-export const previousStep = () => ({
-    type: PREVIOUS_STEP,
+export const setStep = (step) => ({
+    type: SET_STEP,
+    step,
 });
 
 
@@ -38,10 +39,10 @@ function register(state = initialState, action) {
                 step: 1,
             };
 
-        case PREVIOUS_STEP:
+        case SET_STEP:
             return {
                 ...state,
-                step: 0,
+                step: action.step,
             };
 
 
