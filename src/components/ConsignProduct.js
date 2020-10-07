@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Paper, Grid, Button, TextField, MenuItem, InputAdornment, IconButton } from '@material-ui/core';
+import { Typography, Paper, Grid, Button, TextField, MenuItem, InputAdornment, IconButton, FormControlLabel, Checkbox } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import SearchIcon from '@material-ui/icons/Search';
@@ -30,9 +30,11 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
 
     const [consigner, setConsigner] = useState({
         name: '',
+        phone: '',
         bank: '',
         account: '',
         account_owner: '',
+        boolConsign: true,
     })
 
     const classes = useStyles();
@@ -56,6 +58,13 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
         });
     }
 
+    const onChangeConsigner = (e) => {
+        setConsigner({
+            ...consigner,
+            [e.target.name]: e.target.value,
+        })
+    }
+
 
     const onSearchCustomer = (e) => {
         axios.get('api/customer', {
@@ -73,9 +82,11 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                         let tmp = res.data[0];
                         setConsigner({
                             name: tmp.name,
+                            phone: tmp.phone,
                             bank: tmp.bank,
                             account: tmp.account,
                             account_owner: tmp.account_owner,
+                            boolConsign: tmp.boolConsign,
                         });
                         setProduct({
                             ...product,
@@ -128,8 +139,10 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                     setConsigner({
                         name: tmp.consigner,
                         bank: tmp.bank,
+                        phone: tmp.phone,
                         account: tmp.account,
                         account_owner: tmp.account_owner,
+                        boolConsign: tmp.boolConsign,
                     });
                     setIsSearched(true);
                 }
@@ -145,6 +158,8 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
             case 'new':
                 if (consigner.name === '') {
                     alert('위탁자 정보를 입력해주세요.');
+                } else if (consigner.boolConsign === false) {
+                    alert('맡겨팔기 신청서에 동의해주세요.');
                 }
                 else {
                     if (confirm('등록하시겠습니까?')) {
@@ -153,12 +168,18 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                                 if (res.data) {
                                     alert('등록 되었습니다.\n⊳ ID : ' + res.data);
                                     onPreviousStep();
-                                    onSelectCategory('00', '0000', '000000');
                                 }
                             })
                             .catch((error) => {
+                                alert('서버에러');
                                 console.log(error);
-                            })
+                            });
+
+                        axios.put('api/customer', consigner)
+                            .catch((error) => {
+                                alert('서버에러');
+                                console.log(error);
+                            });
                     }
                 }
                 break;
@@ -227,29 +248,90 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
         });
         setConsigner({
             name: '',
+            phone: '',
             bank: '',
             account: '',
             account_owner: '',
+            boolConsign: true,
         });
     }
 
     const consignerInfo = () => {
         return (
-            <Grid item xs={12}>
-                <Typography component="h3" variant="h5" paragraph>
-                    위탁자 성함 : {consigner.name}
-                </Typography>
-                <Typography variant="body1">
-                    은행 : {consigner.bank}
-                </Typography>
-                <Typography variant="body1">
-                    계좌명의 : {consigner.account_owner}
-                </Typography>
-                <Typography variant="body1">
-                    계좌번호 : {consigner.account}
-                </Typography>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <Typography variant="h5" paragraph>
+                        위탁자 성함 : {consigner.name}
+                    </Typography>
+                </Grid>
+
+
+                <Grid item xs={12} sm={3}>
+                    <TextField
+                        type="text"
+                        variant="outlined"
+                        fullWidth
+                        helperText="예) 국민"
+                        label="은행"
+                        name="bank"
+                        value={consigner.bank}
+                        onChange={onChangeConsigner}
+                    />
+                </Grid>
+
+                <Grid item xs={12} sm={3}>
+                    <TextField
+                        type="text"
+                        variant="outlined"
+                        fullWidth
+                        label="계좌명의"
+                        name="account_owner"
+                        value={consigner.account_owner}
+                        onChange={onChangeConsigner}
+                    />
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                    <TextField
+                        type="text"
+                        variant="outlined"
+                        fullWidth
+                        label="계좌번호"
+                        name="account"
+                        value={consigner.account}
+                        onChange={onChangeConsigner}
+                    />
+                </Grid>
+                {!consigner.boolConsign &&
+                    <>
+                        < Paper variant="outlined" className={classes.item}>
+                            <Typography variant="h6" align="center">PASS YOUR COLLECTION 이야기가 있는 마켓발견 맡겨팔기 신청서</Typography>
+                            <p>1. 맡겨팔기 가능한 물품: 판매가 5만원 이상/ 의류,잡화 경우 모조품 (이미테이션)은 불가능 함 </p>
+                            <p>2. 맡겨팔기 신청서 작성 시 제품관련 참고사항을 작성해 주시면 판매 감정에 도움 됩니다.</p>
+                            <p>3.  맡겨팔기신청 후 3개월 이내 판매되지 않는 상품은 개별연락을 통해 맡겨팔기 연장여부를 결정하며 개별 연락 후 1개월 내 연락이 닿지 않는 경우 제품의 소유권은 '마켓발견'에 있습니다 .</p>
+                            <p>4. 개인정보 수집 및 이용 동의 거부</p>
+                            <p>5. 맡겨팔기기간 연장 경우, 기간에 따라 보관특성상 물품 변형이 생길 수 있습니다. </p>
+                            <p>6. 마켓발견 카톡으로 사진을 보내주시면 "마켓발견"에서 맡겨팔기가능 여부를 연락드리며 가격확정시 맡겨팔기가 시작됩니다. </p>
+                            <p>7. 수수료는 40% 로 판매시 판매금액의 65%를 마켓발견 포인트로 적립해드립니다. 입금 요청시에는 요청일에 판매금액의 60%가 가까운 25일에 지급됩니다. 본 위탁자는 위의 사항에 동의하였으며 맡겨팔기업무를 마켓발견에 의뢰합니다. </p>
+                        </Paper>
+                        <Grid item xs={12} sm={6}>
+                            <FormControlLabel
+                                control={<Checkbox className={classes.checkbox} onChange={onAgree} />}
+                                label="개인 정보 수집 및 취급 방침에 대하여 동의합니다."
+                            />
+                        </Grid>
+                    </>
+                }
+
             </Grid>
         );
+    }
+
+    const onAgree = (e) => {
+        setConsigner({
+            ...consigner,
+            boolConsign: e.target.checked,
+        });
     }
 
     return (
@@ -273,7 +355,7 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                 </form>}
 
 
-            { ( mode === "new" || isSearched ) &&
+            { (mode === "new" || isSearched) &&
                 <Grid item xs={12}>
                     <Paper variant="outlined" className={classes.item}>
                         <Typography variant="h6" align="center" paragraph>
