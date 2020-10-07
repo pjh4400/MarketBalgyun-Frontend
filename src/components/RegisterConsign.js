@@ -72,6 +72,7 @@ const RegisterConsign = ({ info, onPreviousStep }) => {
 
             })
             .catch((error) => {
+                alert('서버에러');
                 console.log(error);
             })
         e.preventDefault();
@@ -89,7 +90,8 @@ const RegisterConsign = ({ info, onPreviousStep }) => {
                     .then((res) => {
                         if (res.data) {
                             alert('등록 되었습니다.\n⊳ ID : ' + res.data);
-                            setMode('');
+                            onPreviousStep();
+                            onSelectCategory('00', '0000', '000000');
                         }
                     })
                     .catch((error) => {
@@ -97,6 +99,29 @@ const RegisterConsign = ({ info, onPreviousStep }) => {
                     })
             }
         }
+    }
+    const onReset = () => {
+        setProduct({
+            first_category: info.first_category,
+            second_category: info.second_category,
+            third_category: info.third_category,
+            name: '',
+            price: '',
+            wanted_price: '',
+            quantity: 1,
+            story: '',
+            max_discount: '',
+            place: '',
+            consigner: '',
+            phone: '',
+            accountable: true,
+        });
+        setConsigner({
+            name: '',
+            bank: '',
+            account: '',
+            account_owner: '',
+        });
     }
 
     const consignerInfo = () => {
@@ -275,6 +300,10 @@ const RegisterConsign = ({ info, onPreviousStep }) => {
                         <Button className={classes.submit} size="large" type="submit">상품등록</Button>
 
                     </form>
+                    <Grid container justify="flex-end">
+                        <Button className={classes.next} onClick={onPreviousStep}>이전</Button>
+                        <Button className={classes.next} onClick={onReset}>초기화</Button>
+                    </Grid>
                 </Paper>
             </Grid>
         </Grid>

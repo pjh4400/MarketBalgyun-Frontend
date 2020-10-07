@@ -1,47 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Grid, Button, Divider, List, ListItem} from '@material-ui/core';
+import { Typography, Grid, Button, Divider, List, ListItem } from '@material-ui/core';
 import axios from 'axios';
 
 import useStyles from '../pages/Style';
 
-const SelectCategory = ({ onSelectCategory }) => {
-    const [secondDB, setSecondDB] = useState([]);
-    const [thirdDB, setThirdDB] = useState([]);
-
-
+const SelectCategory = ({ categories, onSelectCategory, setGenOrCon }) => {
     const [category, setCategory] = useState({
         first_category: '00',
         second_category: '0000',
         third_category: '000000',
     });
 
-    const [firstCategories, setFirstCategories] = useState([]);
     const [secondCategories, setSecondCategories] = useState([]);
     const [thirdCategories, setThirdCategories] = useState([]);
 
-
     const classes = useStyles();
-
-    useEffect(() => {
-        axios.get('api/generalCategory', {})
-            .then((res) => {
-                setFirstCategories(res.data.first_category);
-                setSecondDB(res.data.second_category);
-                setThirdDB(res.data.third_category);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, []);
 
     const onSelectFirstCategory = (e) => {
         let firstID = e.currentTarget.value;
         setCategory({
             first_category: firstID,
-            second_category: firstID+'0000',
-            third_category: firstID+'0000',
+            second_category: firstID + '00',
+            third_category: firstID + '0000',
         });
-        setSecondCategories(secondDB.filter(category => category.ID.startsWith(firstID)));
+        setSecondCategories(JSON.parse(window.sessionStorage.getItem('seconds')).filter(category => category.ID.startsWith(firstID)));
     }
 
     const onSelectSecondCategory = (e) => {
@@ -49,9 +31,9 @@ const SelectCategory = ({ onSelectCategory }) => {
         setCategory({
             ...category,
             second_category: secondID,
-            third_category: secondID+'00',
+            third_category: secondID + '00',
         });
-        setThirdCategories(thirdDB.filter(category => category.ID.startsWith(secondID)));
+        setThirdCategories(JSON.parse(window.sessionStorage.getItem('thirds')).filter(category => category.ID.startsWith(secondID)));
     }
 
     const onSelectThirdCategory = (e) => {
@@ -61,7 +43,8 @@ const SelectCategory = ({ onSelectCategory }) => {
         });
     }
 
-    const onNextStep = () => {
+    const onNextStep = (e) => {
+        setGenOrCon(e.currentTarget.value);
         onSelectCategory(category.first_category, category.second_category, category.third_category);
     }
 
@@ -74,7 +57,7 @@ const SelectCategory = ({ onSelectCategory }) => {
                     </Typography>
                 <Divider />
                 <List>
-                    {firstCategories && firstCategories.map((category) => (
+                    {JSON.parse(window.sessionStorage.getItem('firsts')).map((category) => (
                         <ListItem key={category.FirstCategory}>
                             <Button value={category.ID} onClick={onSelectFirstCategory} className={classes.button} fullWidth >
                                 {category.FirstCategory}</Button>
@@ -89,11 +72,11 @@ const SelectCategory = ({ onSelectCategory }) => {
                     </Typography>
                 <Divider />
                 {category.first_category && secondCategories.map((category) => (
-                        <ListItem key={category.SecondCategory}>
-                            <Button value={category.ID} onClick={onSelectSecondCategory} className={classes.button} fullWidth >
-                                {category.SecondCategory}</Button>
-                        </ListItem>
-                    ))}
+                    <ListItem key={category.SecondCategory}>
+                        <Button value={category.ID} onClick={onSelectSecondCategory} className={classes.button} fullWidth >
+                            {category.SecondCategory}</Button>
+                    </ListItem>
+                ))}
             </Grid>
 
 
@@ -103,16 +86,19 @@ const SelectCategory = ({ onSelectCategory }) => {
                     </Typography>
                 <Divider />
                 {category.second_category && thirdCategories.map((category) => (
-                        <ListItem key={category.ThirdCategory}>
-                            <Button value={category.ID} onClick={onSelectThirdCategory} className={classes.button} fullWidth >
-                                {category.ThirdCategory}</Button>
-                        </ListItem>
-                    ))}
+                    <ListItem key={category.ThirdCategory}>
+                        <Button value={category.ID} onClick={onSelectThirdCategory} className={classes.button} fullWidth >
+                            {category.ThirdCategory}</Button>
+                    </ListItem>
+                ))}
             </Grid>
 
             <Grid container justify="flex-end">
-                <Button onClick={onNextStep} className={classes.next}>
-                    다음
+                <Button value="G" onClick={onNextStep} className={classes.next}>
+                    일반상품
+                  </Button>
+                <Button value="C" onClick={onNextStep} className={classes.next}>
+                    위탁상품
                   </Button>
             </Grid>
         </Grid >

@@ -1,9 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState} from 'react';
 import { Redirect } from 'react-router';
+
 import axios from 'axios';
 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Container, Paper, Typography, Grid, Button, Avatar, TextField } from "@material-ui/core"
+import { getCategories } from '../modules/register';
 
 import useStyles from './Style';
 
@@ -25,7 +27,7 @@ const Login = () => {
   }
 
 
-  const onSubmitForm =  (e) => {
+  const onSubmitForm = (e) => {
     e.preventDefault();
     axios.post('api/auth/log-in', {
       name: form.name,
@@ -34,7 +36,16 @@ const Login = () => {
       .then((res) => {
         if (res.data.message === '로그인 성공') {
           window.sessionStorage.setItem('name', res.data.payLoad.name);
-           setIsLogin(true);
+          setIsLogin(true);
+          axios.get('api/generalCategory', {})
+            .then((res) => {
+              window.sessionStorage.setItem('firsts', JSON.stringify(res.data.first_category));
+              window.sessionStorage.setItem('seconds', JSON.stringify(res.data.second_category));
+              window.sessionStorage.setItem('thirds', JSON.stringify(res.data.third_category));
+            }).catch((error) => {
+              alert('error! 카테고리정보를 불러오지 못했습니다.');
+              console.log(error);
+            });
         } else {
           alert(res.data.message);
         }

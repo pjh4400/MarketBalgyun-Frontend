@@ -9,19 +9,17 @@ import RegisterGeneral from "../components/RegisterGeneral";
 import RegisterConsign from "../components/RegisterConsign";
 import { selectCategory, previousStep } from '../modules/register';
 import Navigation from '../components/Navigation';
-import { ConsignProduct } from '../pages';
-
 
 
 const steps = ['카테고리 선택', '상품 정보 입력'];
 
 const RegisterProduct = () => {
-  const { info, step } = useSelector(({ register }) => ({
+  const  {info, step } = useSelector(({ register }) => ({
     info: register.info,
     step: register.step,
   }));
 
-  const [GenOrCon, setGenOrCon] = useState('G'); // 일반/위탁 구분
+  const [GenOrCon, setGenOrCon] = useState(''); // 일반/위탁 구분
   const dispatch = useDispatch();
   const onSelectCategory = useCallback((first, second, third) => dispatch(selectCategory(first, second, third)), [dispatch]);
   const onPreviousStep = useCallback(() => dispatch(previousStep()), [dispatch]);
@@ -31,7 +29,7 @@ const RegisterProduct = () => {
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <SelectCategory onSelectCategory={onSelectCategory} />;
+        return <SelectCategory onSelectCategory={onSelectCategory} setGenOrCon={setGenOrCon}/>;
       case 1:
         switch (GenOrCon) {
           case 'G':
@@ -44,10 +42,6 @@ const RegisterProduct = () => {
     }
   }
 
-  const onGenOrConHandler = (e) => {
-    setGenOrCon(e.target.value);
-  }
-
 
   return (
     <Container className={classes.root}>
@@ -58,14 +52,6 @@ const RegisterProduct = () => {
           상품등록
                 </Typography>
         <Navigation />
-        <Grid container justify="flex-end">
-          <FormControl>
-            <RadioGroup value={GenOrCon} onChange={onGenOrConHandler} row>
-              <FormControlLabel value="G" control={<Radio className={classes.checkbox} />} label="일반상품" />
-              <FormControlLabel value="C" control={<Radio className={classes.checkbox} />} label="위탁상품" />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
         <Stepper activeStep={step} className={classes.item}>
           {steps.map((label) => (
             <Step key={label}>

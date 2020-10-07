@@ -86,8 +86,9 @@ const RegisterGeneral = ({ info, onPreviousStep }) => {
                     .then((res) => {
                         console.log(res.data);
                         if(res.data){
-                            alert('ID : ' + res.data.id + ' 등록 완료');
+                            alert('등록 되었습니다.\n⊳ ID : ' + res.data);
                             onPreviousStep();
+                            onSelectCategory('00', '0000', '000000');
                         }
                     })
                     .catch((error) => {
