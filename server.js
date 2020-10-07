@@ -1,8 +1,19 @@
 const path = require('path');
 const express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 //create server
 const app = express();
+
+app.use(
+	createProxyMiddleware('http://localhost:8080/api', {
+		target: 'https://marketback.herokuapp.com/',
+		changeOrigin:true,
+		pathRewrite: {
+			'^/api' : '',
+		}
+	})	
+);
 
 //set production env
 app.use(express.static(path.join(__dirname, "./dist")));

@@ -1,11 +1,14 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-module.exports = (app) => {
+module.exports = function(app) {
+	console.log('plzzzzzzzzz');
 	app.use(
-		'/api',
-		createProxyMiddleware({
-			target:'https://marketback.herokuapp.com/',
+		createProxyMiddleware('http://localhost:8080/api', {
+			target: 'https://marketback.herokuapp.com/',
 			changeOrigin:true,
-		})
+			pathRewrite: {
+				'^/api' : '',
+			}
+		})	
 	);
 };
