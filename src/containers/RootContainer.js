@@ -151,11 +151,11 @@ const RootContainer = () => {
   if (userName) {
     return (
       <Container className={classes.root}>
-        <Paper component='main' elevation={3} className={classes.paper}>
-          <Typography component="h1" variant="h4" align="center" className={classes.header}>
+        <Paper elevation={3} className={classes.paper}>
+          <Typography variant="h4" align="center" className={classes.header}>
             마켓발견
           </Typography>
-          <Navigation userName={userName} />
+          <Navigation />
           <Paper variant="outlined" className={classes.item}>
             <Grid container justify="center" className={classes.form}>
               <AccountCircleIcon fontSize="large" />

@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-
-
 import { Paper, Typography, Grid, Button, Avatar } from "@material-ui/core"
 import SignUp from '../pages/SignUp';
 import SignOut from '../pages/SignOut';
-
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from '../pages/Style';
 
 const Admin = () => {

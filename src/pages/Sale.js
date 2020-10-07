@@ -16,7 +16,7 @@ const Sale = ({items, sum_price, handleNext, onAddItem, onDeleteItem, onChangeIn
                 </Typography>
 
             <Navigation />
-            <SearchSaleID onAddItem={onAddItem} onCompleteSale={onCompleteSale}/>
+            <SearchSaleID items={items} onAddItem={onAddItem} onCompleteSale={onCompleteSale}/>
 
             <Grid container spacing={2}>
                 {items && items.map(item => (

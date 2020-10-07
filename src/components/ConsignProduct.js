@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Paper, Grid, Button, TextField, MenuItem, InputAdornment, IconButton, FormControlLabel, Checkbox } from '@material-ui/core';
-import { Link } from 'react-router-dom'
+import { Typography, Paper, Grid, Button, TextField, MenuItem, InputAdornment, IconButton, FormControlLabel, Checkbox, Avatar } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 import useStyles from '../pages/Style';
 
 
-const ConsignProduct = ({ mode, info, onPreviousStep }) => {
+const ConsignProduct = ({ mode, info, onPreviousStep, history }) => {
     const [isSearched, setIsSearched] = useState(false)
     const [product, setProduct] = useState({
         first_category: '',
@@ -117,7 +116,7 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                     alert("해당 상품이 없습니다.");
                 }
                 else {
-                    let tmp = res.data;
+                    let tmp = res.data[0];
                     setProduct({
                         first_category: tmp.first_category,
                         second_category: tmp.second_category,
@@ -145,6 +144,7 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                         boolConsign: tmp.boolConsign,
                     });
                     setIsSearched(true);
+                    console.log(product);
                 }
             })
             .catch((error) => {
@@ -245,6 +245,8 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
             consigner: '',
             phone: '',
             accountable: true,
+            date: '',
+            expire_date: '',
         });
         setConsigner({
             name: '',
@@ -259,12 +261,11 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
     const consignerInfo = () => {
         return (
             <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Typography variant="h5" paragraph>
-                        위탁자 성함 : {consigner.name}
-                    </Typography>
-                </Grid>
-
+                {consigner.name &&
+                    <Grid item xs={12}>
+                        <Typography variant="h6" align="center" color="primary">🜰 {consigner.name} 고객님 🜰</Typography>
+                    </Grid>
+                }
 
                 <Grid item xs={12} sm={3}>
                     <TextField
@@ -302,10 +303,11 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                         onChange={onChangeConsigner}
                     />
                 </Grid>
-                {!consigner.boolConsign &&
+                {mode === 'new' && !consigner.boolConsign &&
                     <>
                         < Paper variant="outlined" className={classes.item}>
-                            <Typography variant="h6" align="center">PASS YOUR COLLECTION 이야기가 있는 마켓발견 맡겨팔기 신청서</Typography>
+                            <Typography variant="h6" align="center" color="primary">PASS YOUR COLLECTION</Typography>
+                            <Typography variant="h6" align="center" color="primary" paragraph>이야기가 있는 마켓발견 맡겨팔기 신청서</Typography>
                             <p>1. 맡겨팔기 가능한 물품: 판매가 5만원 이상/ 의류,잡화 경우 모조품 (이미테이션)은 불가능 함 </p>
                             <p>2. 맡겨팔기 신청서 작성 시 제품관련 참고사항을 작성해 주시면 판매 감정에 도움 됩니다.</p>
                             <p>3.  맡겨팔기신청 후 3개월 이내 판매되지 않는 상품은 개별연락을 통해 맡겨팔기 연장여부를 결정하며 개별 연락 후 1개월 내 연락이 닿지 않는 경우 제품의 소유권은 '마켓발견'에 있습니다 .</p>
@@ -314,7 +316,7 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                             <p>6. 마켓발견 카톡으로 사진을 보내주시면 "마켓발견"에서 맡겨팔기가능 여부를 연락드리며 가격확정시 맡겨팔기가 시작됩니다. </p>
                             <p>7. 수수료는 40% 로 판매시 판매금액의 65%를 마켓발견 포인트로 적립해드립니다. 입금 요청시에는 요청일에 판매금액의 60%가 가까운 25일에 지급됩니다. 본 위탁자는 위의 사항에 동의하였으며 맡겨팔기업무를 마켓발견에 의뢰합니다. </p>
                         </Paper>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12}>
                             <FormControlLabel
                                 control={<Checkbox className={classes.checkbox} onChange={onAgree} />}
                                 label="개인 정보 수집 및 취급 방침에 대하여 동의합니다."
@@ -361,26 +363,28 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                         <Typography variant="h6" align="center" paragraph>
                             위탁자 개인정보
                         </Typography>
-                        <Grid container spacing={2}>
-
+                        <Grid container spacing={2} justify="center">
                             {mode === 'new' &&
-                                <form className={classes.form} onSubmit={onSearchCustomer}>
-                                    <TextField
-                                        type="number"
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-                                        label="위탁자 휴대폰번호 뒤 4자리"
-                                        name="phone"
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment>
-                                                    <IconButton type="submit"><SearchIcon /></IconButton>
-                                                </InputAdornment>
-                                            )
-                                        }}
-                                    />
-                                </form>
+                                <Grid item xs={12} sm={6}>
+                                    <form onSubmit={onSearchCustomer}>
+                                        <TextField
+                                            type="number"
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            label="위탁자 휴대폰번호 뒤 4자리"
+                                            name="phone"
+                                            error
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment>
+                                                        <IconButton type="submit"><SearchIcon /></IconButton>
+                                                    </InputAdornment>
+                                                )
+                                            }}
+                                        />
+                                    </form>
+                                </Grid>
                             }
 
 
@@ -389,9 +393,9 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                             {mode === 'new' &&
                                 <Grid container justify="flex-end">
                                     <Grid item>
-                                        <Link to="/register-customer" variant="body2">
-                                            <Button className={classes.checkbox}>회원이 아니신가요? 회원등록</Button>
-                                        </Link>
+                                        <Button className={classes.checkbox} onClick={() => {
+                                            history.push('/register-customer');
+                                        }}>회원이 아니신가요? 회원등록</Button >
                                     </Grid>
                                 </Grid>
                             }
@@ -417,6 +421,7 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                                         name="name"
                                         value={product.name}
                                         onChange={onChangeHandler}
+                                        error
                                     />
                                 </Grid>
 
@@ -433,6 +438,7 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                                         InputProps={{
                                             inputProps: { min: 0 }
                                         }}
+                                        error
                                     />
                                 </Grid>
 
@@ -446,6 +452,7 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                                         name="price"
                                         value={product.price}
                                         onChange={onChangeHandler}
+                                        error
                                     />
                                 </Grid>
 
@@ -482,6 +489,7 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                                         InputProps={{
                                             inputProps: { min: 0, max: 100 }
                                         }}
+                                        error
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -509,7 +517,7 @@ const ConsignProduct = ({ mode, info, onPreviousStep }) => {
                                     />
                                 </Grid>
 
-                                {mode !== 'new' &&
+                                {mode === 'old' &&
                                     <Grid item xs={12}>
                                         <Typography variant="body1" color="textSecondary">
                                             위탁날짜 : {product.date.split('T')[0]}

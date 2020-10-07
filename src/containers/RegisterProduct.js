@@ -13,8 +13,8 @@ import Navigation from '../components/Navigation';
 
 const steps = ['카테고리 선택', '상품 정보 입력'];
 
-const RegisterProduct = () => {
-  const  {info, step } = useSelector(({ register }) => ({
+const RegisterProduct = ({ history }) => {
+  const { info, step } = useSelector(({ register }) => ({
     info: register.info,
     step: register.step,
   }));
@@ -33,13 +33,13 @@ const RegisterProduct = () => {
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <SelectCategory onSelectCategory={onSelectCategory} setGenOrCon={setGenOrCon}/>;
+        return <SelectCategory onSelectCategory={onSelectCategory} setGenOrCon={setGenOrCon} />;
       case 1:
         switch (GenOrCon) {
           case 'G':
             return <GeneralProuct mode='new' info={info} onPreviousStep={onPreviousStep} />;
           case 'C':
-            return <ConsignProduct mode='new' info={info} onPreviousStep={onPreviousStep} />;
+            return <ConsignProduct history={history} mode='new' info={info} onPreviousStep={onPreviousStep} />;
         }
       default:
         onSetStep(0);
@@ -49,9 +49,7 @@ const RegisterProduct = () => {
 
   return (
     <Container className={classes.root}>
-
       <Paper component='main' elevation={3} className={classes.paper}>
-
         <Typography variant="h4" align="center" className={classes.header}>
           상품등록
                 </Typography>

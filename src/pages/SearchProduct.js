@@ -9,38 +9,15 @@ import useStyles from '../pages/Style';
 
 
 const SearchProduct = () => {
-    const [searchID, setSearchID] = useState('');
-    const [searchName, setSearchName] = useState('');
-    const [searchTrader, setSearchTrader] = useState("");
-    const [searchPlace, setSearchPlace] = useState("");
-
-
     const [products, setProducts] = useState([]);
-
     const classes = useStyles();
 
-    const onSearchIDHandler = (e) => {
-        setSearchID(e.target.value);
-    };
-
-    const onSearchNameHandler = (e) => {
-        setSearchName(e.target.value);
-    }
-
-    const onSearchTraderHandler = (e) => {
-        setSearchTrader(e.target.value);
-    };
-
-    const onSearchPlaceHandler = (e) => {
-        setSearchPlace(e.target.value);
-    };
-
-
     const onSearchByID = (e) => {
-        setSearchName('');
+        e.preventDefault();
+        setProducts([]);
         axios.get('api/searchProduct', {
             params: {
-                id: searchID,
+                id: e.currentTarget.id.value,
             }
         })
             .then((res) => {
@@ -56,10 +33,11 @@ const SearchProduct = () => {
     }
 
     const onSearchByName = (e) => {
-        setSearchID('');
+        e.preventDefault();
+        setProducts([]);
         axios.get('api/searchProduct', {
             params: {
-                name: searchName,
+                name: e.currentTarget.name.value,
             }
         })
             .then((res) => {
@@ -75,14 +53,16 @@ const SearchProduct = () => {
     }
 
     const onSearchByTrader = (e) => {
-        setSearchTrader('');
+        e.preventDefault();
+        setProducts([]);
         axios.get("api/searchProduct", {
             params: {
-                trader: searchTrader,
+                trader: e.currentTarget.trader.value,
             },
         })
             .then((res) => {
-                if (res.data === "No Trader") {
+                console.log(res.data);
+                if (res.data === "해당 매입처의 상품이 없습니다.") {
                     alert(res.data);
                 } else {
                     setProducts(res.data);
@@ -94,10 +74,11 @@ const SearchProduct = () => {
     };
 
     const onSearchByPlace = (e) => {
-        setSearchPlace('');
+        e.preventDefault();
+        setProducts([]);
         axios.get("api/searchProduct", {
             params: {
-                place: searchPlace,
+                place: e.currentTarget.place.value,
             },
         })
             .then((res) => {
@@ -113,7 +94,6 @@ const SearchProduct = () => {
     };
 
     const oneItem = (item) => {
-        console.log(item);
         if (item.id.startsWith('C')) { // 위탁상품
             return (
                 <Card className={classes.card}>
@@ -186,90 +166,90 @@ const SearchProduct = () => {
                     상품검색
         </Typography>
                 <Navigation />
-                <Grid container spacing={2}>
+                <Grid container spacing={2} className={classes.form}>
                     <Grid item xs={12} sm={6}>
-                        <TextField
-                            type="text"
-                            variant="outlined"
-                            fullWidth
-                            label="ID로 검색하기"
-                            name="id"
-                            onChange={onSearchIDHandler}
-                            value={searchID}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment>
-                                        <Button onClick={onSearchByID}><SearchIcon /></Button>
-                                    </InputAdornment>
-                                )
-                            }}
-                        />
+                        <form onSubmit={onSearchByID}>
+                            <TextField
+                                type="text"
+                                variant="outlined"
+                                fullWidth
+                                label="ID로 검색하기"
+                                name="id"
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment>
+                                            <Button type="submit"><SearchIcon /></Button>
+                                        </InputAdornment>
+                                    )
+                                }}
+                            />
+                        </form>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField
-                            type="text"
-                            variant="outlined"
-                            fullWidth
-                            label="이름으로 검색하기"
-                            name="name"
-                            value={searchName}
-                            onChange={onSearchNameHandler}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment>
-                                        <Button onClick={onSearchByName}><SearchIcon /></Button>
-                                    </InputAdornment>
-                                )
-                            }}
-                        />
+                        <form onSubmit={onSearchByName}>
+                            <TextField
+                                type="text"
+                                variant="outlined"
+                                fullWidth
+                                label="이름으로 검색하기"
+                                name="name"
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment>
+                                            <Button type="submit"><SearchIcon /></Button>
+                                        </InputAdornment>
+                                    )
+                                }}
+                            />
+                        </form>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <TextField
-                            type="text"
-                            variant="outlined"
-                            fullWidth
-                            label="거래처로 검색하기"
-                            name="trader"
-                            value={searchTrader}
-                            onChange={onSearchTraderHandler}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment>
-                                        <Button onClick={onSearchByTrader}>
-                                            <SearchIcon />
-                                        </Button>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
+                        <form onSubmit={onSearchByTrader}>
+                            <TextField
+                                type="text"
+                                variant="outlined"
+                                fullWidth
+                                label="거래처로 검색하기"
+                                name="trader"
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment>
+                                            <Button type="submit">
+                                                <SearchIcon />
+                                            </Button>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </form>
                     </Grid>
                     <Grid item xs={12} sm={6}>
+                        <form onSubmit={onSearchByPlace}>
                         <TextField
                             type="text"
                             variant="outlined"
                             fullWidth
                             label="재고위치로 검색하기"
                             name="place"
-                            value={searchPlace}
-                            onChange={onSearchPlaceHandler}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment>
-                                        <Button onClick={onSearchByPlace}>
+                                        <Button type="submit">
                                             <SearchIcon />
                                         </Button>
                                     </InputAdornment>
                                 ),
                             }}
                         />
+                        </form>
                     </Grid>
 
                 </Grid>
 
                 <Grid container spacing={2} className={classes.form}>
                     {products && products.map(item => (
-                        <Grid item xs={12} sm={6} className={classes.card} item={item} key={item.id} value={item.id}>{oneItem(item)}</Grid>
+                        <Grid item xs={12} sm={6} className={classes.card} item={item} key={item.id}>{oneItem(item)}</Grid>
                     ))}
 
                 </Grid>
