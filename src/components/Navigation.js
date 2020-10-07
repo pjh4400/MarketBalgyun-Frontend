@@ -30,7 +30,7 @@ const Navigation = () => {
             <Button component={NavLink} to="/" className={classes.navitem}>홈</Button>
             <Button component={NavLink} to="/sale" className={classes.navitem}>상품판매</Button>
             <Button component={NavLink} to="/register-product" className={classes.navitem}>상품등록</Button>
-            <Button component={NavLink} to="/consign-product" className={classes.navitem}>위탁상품관리</Button>
+            <Button component={NavLink} to="/modify-product" className={classes.navitem}>상품수정삭제</Button>
             <Button component={NavLink} to="/search" className={classes.navitem}>상품검색</Button>
             <Button component={NavLink} to="/register-customer" className={classes.navitem}>회원관리</Button>
             <Button component={NavLink} to="/trader" className={classes.navitem}>매입처관리</Button>

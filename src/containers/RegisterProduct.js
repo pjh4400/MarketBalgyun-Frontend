@@ -5,8 +5,8 @@ import { Container, Grid, Typography, Paper, Stepper, Step, StepLabel, FormContr
 
 import useStyles from '../pages/Style';
 import SelectCategory from "../components/SelectCategory";
-import RegisterGeneral from "../components/RegisterGeneral";
-import RegisterConsign from "../components/RegisterConsign";
+import GeneralProuct from "../components/GeneralProduct";
+import ConsignProduct from "../components/ConsignProduct";
 import { selectCategory, previousStep } from '../modules/register';
 import Navigation from '../components/Navigation';
 
@@ -33,12 +33,12 @@ const RegisterProduct = () => {
       case 1:
         switch (GenOrCon) {
           case 'G':
-            return <RegisterGeneral info={info} onPreviousStep={onPreviousStep} />;
+            return <GeneralProuct mode='new' info={info} onPreviousStep={onPreviousStep} />;
           case 'C':
-            return <RegisterConsign info={info} onPreviousStep={onPreviousStep} />;
+            return <ConsignProduct mode='new' info={info} onPreviousStep={onPreviousStep} />;
         }
       default:
-        throw new Error('Unknown step');
+        setStep(0);
     }
   }
 

@@ -45,7 +45,7 @@ const SaleContainer = () => {
 
 
     return (
-        <Container component="main" maxwidth="xs" className={classes.root}>
+        <Container className={classes.root}>
             <Paper elevation={3} className={classes.paper}>
                 {getStepContent()}
             </Paper>
