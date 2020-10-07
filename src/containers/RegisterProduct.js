@@ -7,7 +7,7 @@ import useStyles from '../pages/Style';
 import SelectCategory from "../components/SelectCategory";
 import GeneralProuct from "../components/GeneralProduct";
 import ConsignProduct from "../components/ConsignProduct";
-import { selectCategory, previousStep } from '../modules/register';
+import { selectCategory, setStep } from '../modules/register';
 import Navigation from '../components/Navigation';
 
 
@@ -22,9 +22,13 @@ const RegisterProduct = () => {
   const [GenOrCon, setGenOrCon] = useState(''); // 일반/위탁 구분
   const dispatch = useDispatch();
   const onSelectCategory = useCallback((first, second, third) => dispatch(selectCategory(first, second, third)), [dispatch]);
-  const onPreviousStep = useCallback(() => dispatch(previousStep()), [dispatch]);
+  const onSetStep = useCallback((step) => dispatch(setStep(step)), [dispatch]);
   const classes = useStyles();
 
+
+  const onPreviousStep = () => {
+    onSetStep(0);
+  }
 
   const getStepContent = (step) => {
     switch (step) {
@@ -38,7 +42,7 @@ const RegisterProduct = () => {
             return <ConsignProduct mode='new' info={info} onPreviousStep={onPreviousStep} />;
         }
       default:
-        setStep(0);
+        onSetStep(0);
     }
   }
 
