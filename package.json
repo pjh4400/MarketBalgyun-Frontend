@@ -4,9 +4,8 @@
   "description": "marketbalgyun webpage",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "test": "node server.js",
-    "build": "webpack -p"
+    "start": "node server.js",
+    "heroku-postbuild": "webpack -p"
   },
   "author": "siren",
   "license": "MIT",
