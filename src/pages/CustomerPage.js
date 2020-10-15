@@ -365,22 +365,27 @@ const CustomerPage = ({ history }) => {
                                         onChange={onChangeHandler}
                                     />
                                 </Grid>
-
+                                { mode === 'new' &&
+                                <>
                                 < Paper variant="outlined" className={classes.item}>
-                                    <Typography variant="h6" align="center">개인정보 이용 및 제공 동의서 및 설문지</Typography>
-                                    <p>㈜마켓발견은 다양한 정보를 제공하기 위해 「개인정보보호법」 제15조 및 제22조에 근거하여 개인정보 수집·이용에 대한 동의를 받고자 합니다. 동의시 ㈜마켓발견에서 진행하는 다양한 정보들이 제공됩니다.</p>
-                                    <p>1. 개인정보 수집 및 이용목적 :㈜마켓발견에서 진행하는 이벤트와 클래스 등 다양한 정보전달과 포인트적립을 위한 목적으로 수집합니다.</p>
-                                    <p>2. 개인정보 수집 항목: 고객 성명, 전화번호, 이메일주소</p>
-                                    <p>3. 개인정보 보유 및 이용기한 : 보유 기간은 3년입니다. 고객 요청시 그 전에 삭제합니다.</p>
-                                    <p>4. 개인정보 수집 및 이용 동의 거부</p>
-                                    <p>본인이 동의하지 않을 경우 수신 거부를 할 수 있으며 귀사의 정보를 제공받을 수 없음을 알려드립니다.</p>
-                                </Paper>
-                                <Grid item xs={12}>
-                                    <FormControlLabel
-                                        control={<Checkbox required className={classes.checkbox} />}
-                                        label="개인 정보 수집 및 취급 방침에 대하여 동의합니다."
-                                    />
-                                </Grid>
+                                <Typography variant="h6" align="center">개인정보 이용 및 제공 동의서 및 설문지</Typography>
+                                <p>㈜마켓발견은 다양한 정보를 제공하기 위해 「개인정보보호법」 제15조 및 제22조에 근거하여 개인정보 수집·이용에 대한 동의를 받고자 합니다. 동의시 ㈜마켓발견에서 진행하는 다양한 정보들이 제공됩니다.</p>
+                                <p>1. 개인정보 수집 및 이용목적 :㈜마켓발견에서 진행하는 이벤트와 클래스 등 다양한 정보전달과 포인트적립을 위한 목적으로 수집합니다.</p>
+                                <p>2. 개인정보 수집 항목: 고객 성명, 전화번호, 이메일주소</p>
+                                <p>3. 개인정보 보유 및 이용기한 : 보유 기간은 3년입니다. 고객 요청시 그 전에 삭제합니다.</p>
+                                <p>4. 개인정보 수집 및 이용 동의 거부</p>
+                                <p>본인이 동의하지 않을 경우 수신 거부를 할 수 있으며 귀사의 정보를 제공받을 수 없음을 알려드립니다.</p>
+                            </Paper>
+                            <Grid item xs={12}>
+                                <FormControlLabel
+                                    control={<Checkbox required className={classes.checkbox} />}
+                                    label="개인 정보 수집 및 취급 방침에 대하여 동의합니다."
+                                />
+                    
+                            </Grid>
+                            </>
+                                }
+                                
                                 <Grid item xs={12}>
                                     <Button className={classes.submit} type="submit" size="large">
                                         {mode === 'new' ? "등록하기" : "수정하기"}
