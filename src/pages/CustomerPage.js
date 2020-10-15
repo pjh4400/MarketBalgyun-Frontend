@@ -148,6 +148,23 @@ const CustomerPage = ({ history }) => {
             })
     }
 
+    const onDeleteCustomer = () => {
+        if (confirm('정말 삭제하시겠습니까?')) {
+            axios.delete('api/customer', {
+                params: { phone: customer.phone }
+            })
+                .then((res) => {
+                    alert('삭제되었습니다.');
+                    setCustomer({});
+                    setMode('new');
+                })
+                .catch((error) => {
+                    alert('서버에러');
+                    console.log(error);
+                })
+        }
+    }
+
     return (
         <Container className={classes.root}>
 
@@ -386,12 +403,25 @@ const CustomerPage = ({ history }) => {
                             </>
                                 }
                                 
-                                <Grid item xs={12}>
+                       
+                                {mode === 'new'
+                            ?
+                            <Button className={classes.submit} size="large" type="submit">회원등록</Button>
+                            :
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
                                     <Button className={classes.submit} type="submit" size="large">
-                                        {mode === 'new' ? "등록하기" : "수정하기"}
-                                    </Button>
+                                        회원수정</Button>
+                                </Grid>
+
+                                <Grid item xs={12} sm={6}>
+                                    <Button className={classes.submit} size="large" onClick={onDeleteCustomer}>
+                                        회원삭제</Button>
                                 </Grid>
                             </Grid>
+                        }
+                                </Grid>
+                           
 
                         </form>
                     }
