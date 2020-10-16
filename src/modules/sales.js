@@ -42,7 +42,7 @@ function sales(state = initialState, action) {
                     max_discount: action.item.max_discount,
                     price: action.item.price,
                     sale_quantity: 1,
-                    discount: 0,
+                    discount: action.item.price,
                     apply_price: action.item.price,
                 }),
                 sum_price: state.sum_price + action.item.price,
@@ -65,7 +65,7 @@ function sales(state = initialState, action) {
             let changedItems = state.items;
             let idx_ch = changedItems.findIndex(item => item.id === action.id);
             changedItems[idx_ch].sale_quantity = action.quantity;
-            changedItems[idx_ch].discount = Math.round((1 - (Number(action.discount) / changedItems[idx_ch].price)) * 100) ;
+            changedItems[idx_ch].discount = action.discount;
             changedItems[idx_ch].apply_price = action.discount * action.quantity;
             state.items.forEach((item) => {
                 sum += item.apply_price;
