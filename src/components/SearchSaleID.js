@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Button, TextField, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
@@ -11,12 +11,13 @@ const SearchSaleID = ({ items, onAddItem, onCompleteSale }) => {
 
     const onSearchItem = (e) => {
         e.preventDefault();
-        if(items.find(item => item.id === e.currentTarget.id.value)){
+        let id = e.currentTarget.id.value.toUpperCase();
+        if(items.find(item => item.id === id)){
             alert('이미 담은 상품입니다.');
         } else{
             axios.get('api/searchProduct', {
                 params: {
-                    id: e.currentTarget.id.value,
+                    id: id,
                 }
             })
                 .then((res) => {
