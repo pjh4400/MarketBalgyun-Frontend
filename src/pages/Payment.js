@@ -8,6 +8,8 @@ import {
   Card,
   CardContent,
   IconButton,
+  Menu,
+  MenuItem,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
@@ -35,6 +37,7 @@ const Payment = ({
   const [point, setPoint] = useState(0);
   const [card, setCard] = useState(0);
   const [cash, setCash] = useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const classes = useStyles();
 
@@ -45,6 +48,14 @@ const Payment = ({
   useEffect(() => {
     setCash(finalPrice - card);
   }, [finalPrice, card]);
+
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = (e) => {
+    setAnchorEl(null);
+  };
 
   const onCardHandler = (e) => {
     if (e.target.value <= finalPrice) {
@@ -96,20 +107,20 @@ const Payment = ({
       })
       .then((res) => {
         switch (res.data) {
-            case "해당 번호의 회원이 여러명입니다. 번호 전체를 입력해주세요.":
-            case "해당 번호의 회원이 없습니다.":
-                alert(res.data);
-                initializeCustomer();
-                break;
-            default:
-                setCustomer({
-                    name: res.data[0].name,
-                    phone: res.data[0].phone,
-                    point: res.data[0].point,
-                  });
-                  setMemberShip(true);
-                  setPoint(0);
-                break;
+          case "해당 번호의 회원이 여러명입니다. 번호 전체를 입력해주세요.":
+          case "해당 번호의 회원이 없습니다.":
+            alert(res.data);
+            initializeCustomer();
+            break;
+          default:
+            setCustomer({
+              name: res.data[0].name,
+              phone: res.data[0].phone,
+              point: res.data[0].point,
+            });
+            setMemberShip(true);
+            setPoint(0);
+            break;
         }
       })
       .catch((error) => {
@@ -164,6 +175,29 @@ const Payment = ({
         상품결제 총 {sum_price} 원
       </Typography>
 
+      <Grid container justify="flex-end" className={classes.form}>
+        <Button onClick={handleClick} className={classes.next}>
+          상품목록 ▼{" "}
+        </Button>
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          {items.map((item) => (
+            <MenuItem
+              item={item}
+              key={item.id}
+              value={item.id}
+              onClick={handleClose}
+            >
+              [{item.name}] {item.discount}원 X {item.sale_quantity} 개 = 총{item.apply_price}원
+            </MenuItem>
+          ))}
+        </Menu>
+      </Grid>
+
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Card className={classes.card}>
@@ -172,7 +206,7 @@ const Payment = ({
                 <Typography component="h3" variant="h5">
                   구매자 정보
                 </Typography>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={8}>
                   <form className={classes.form} onSubmit={onSearchCustomer}>
                     <TextField
                       type="text"
