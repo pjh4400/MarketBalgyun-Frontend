@@ -6,7 +6,7 @@ import Payment from '../pages/Payment';
 import useStyles from '../pages/Style';
 import { addItem, deleteItem, changeInfo, completeSale } from '../modules/sales';
 
-const SaleContainer = () => {
+const SaleContainer = ({history}) => {
     const { items, sum_price } = useSelector(({ sales }) => ({
         items: sales.items,
         sum_price: sales.sum_price,
@@ -35,7 +35,7 @@ const SaleContainer = () => {
             case 0:
                 return <Sale items={items} sum_price={sum_price} handleNext={handleNext} onAddItem={onAddItem} onDeleteItem={onDeleteItem} onChangeInfo={onChangeInfo} onCompleteSale={onCompleteSale} />;
             case 1:
-                return <Payment items={items} sum_price={sum_price} handleBack={handleBack} handleNext={handleNext} onCompleteSale={onCompleteSale} />;
+                return <Payment history={history} items={items} sum_price={sum_price} handleBack={handleBack} handleNext={handleNext} onCompleteSale={onCompleteSale} />;
             default:
                 setStep(0);
                 break;

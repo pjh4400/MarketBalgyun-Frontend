@@ -245,13 +245,27 @@ const CustomerPage = ({ history }) => {
                                         onChange={onChangeHandler}
                                         error
                                     />
-
                                 </Grid>
 
                                 <Grid item xs={12}>
                                     <FormControlLabel
                                         control={<Checkbox onChange={onChangeHandler} name="boolSMS" checked={customer.boolSMS} className={classes.checkbox} />}
                                         label="SMS수신동의"
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <TextField
+                                        type="email"
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        helperText="예) market@naver.com"
+                                        label="이메일"
+                                        name="email"
+                                        value={customer.email}
+                                        onChange={onChangeHandler}
+                                        error
                                     />
                                 </Grid>
 
@@ -317,20 +331,7 @@ const CustomerPage = ({ history }) => {
                                         onChange={onChangeHandler}
                                     />
                                 </Grid>
-
-
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        type="email"
-                                        variant="outlined"
-                                        fullWidth
-                                        helperText="예) market@naver.com"
-                                        label="이메일"
-                                        name="email"
-                                        value={customer.email}
-                                        onChange={onChangeHandler}
-                                    />
-                                </Grid>
+                                
 
                                 <Grid item xs={12} sm={6}>
                                     <TextField
@@ -378,6 +379,8 @@ const CustomerPage = ({ history }) => {
                                         fullWidth
                                         label="비고"
                                         name="something"
+                                        multiline
+                                        rows={3}
                                         value={customer.something}
                                         onChange={onChangeHandler}
                                     />
@@ -401,10 +404,8 @@ const CustomerPage = ({ history }) => {
                     
                             </Grid>
                             </>
-                                }
-                                
-                       
-                                {mode === 'new'
+                            }
+                        {mode === 'new'
                             ?
                             <Button className={classes.submit} size="large" type="submit">회원등록</Button>
                             :
