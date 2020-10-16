@@ -23,6 +23,7 @@ const GeneralProuct = ({ mode, info, onPreviousStep }) => {
         max_discount: 50,
         place: '',
         trader: '',
+        story: '',
     });
     const classes = useStyles();
 
@@ -73,6 +74,7 @@ const GeneralProuct = ({ mode, info, onPreviousStep }) => {
                         max_discount: tmp.max_discount,
                         place: tmp.place,
                         trader: tmp.trader,
+                        story: tmp.story,
                     });
                     setIsExist(true);
                 }
@@ -186,6 +188,7 @@ const GeneralProuct = ({ mode, info, onPreviousStep }) => {
             max_discount: 50,
             place: '',
             trader: '',
+            story: '',
         });
         setIsExist(false);
     }
@@ -335,6 +338,20 @@ const GeneralProuct = ({ mode, info, onPreviousStep }) => {
                                 />
                             </Grid>
 
+                            <Grid item xs={12}>
+                                <TextField
+                                    type="text"
+                                    variant="outlined"
+                                    fullWidth
+                                    label="제품에 대한 사연"
+                                    multiline
+                                    rows={3}
+                                    name="story"
+                                    value={product.story}
+                                    onChange={onChangeHandler}
+                                />
+                            </Grid>
+
                         </Grid>
 
                         {mode === 'new'
@@ -352,8 +369,6 @@ const GeneralProuct = ({ mode, info, onPreviousStep }) => {
                                         상품삭제</Button>
                                 </Grid>
                             </Grid>
-
-
                         }
                     </form>
                     {mode === 'new' &&
