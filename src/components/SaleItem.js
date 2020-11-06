@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { Typography, Grid, TextField, InputAdornment, Card, CardContent, IconButton, CardActionArea } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/clear';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -68,7 +68,7 @@ const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
             가격 : {item.price} 원
             </Typography>
 
-          <Grid item xs={12} sm={7} className={classes.form}>
+          <Grid item xs={12} sm={8} className={classes.form}>
             <form noValidate onSubmit={onQuantityHandler}>
               <TextField
                 type="number"
@@ -87,7 +87,7 @@ const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
               />
             </form>
           </Grid>
-          <Grid item xs={12} sm={7} className={classes.form}>
+          <Grid item xs={12} sm={8} className={classes.form}>
             <form noValidate onSubmit={onDiscountHandler}>
               <TextField
                 type="number"
