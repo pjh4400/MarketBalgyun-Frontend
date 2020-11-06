@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Button, TextField, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
@@ -8,10 +8,14 @@ import useStyles from '../pages/Style';
 
 const SearchSaleID = ({ items, onAddItem, onCompleteSale }) => {
     const classes = useStyles();
+    const [id, setID] = useState('');
+
+    const onChangeID = (e) => {
+        setID(e.target.value);
+    }
 
     const onSearchItem = (e) => {
         e.preventDefault();
-        let id = e.currentTarget.id.value.toUpperCase();
         if(items.find(item => item.id === id)){
             alert('이미 담은 상품입니다.');
         } else{
@@ -29,6 +33,7 @@ const SearchSaleID = ({ items, onAddItem, onCompleteSale }) => {
                         } else {
                             onAddItem(res.data[0]);
                         }
+                        setID('');
                     }
                 })
                 .catch((error) => {
@@ -55,6 +60,8 @@ const SearchSaleID = ({ items, onAddItem, onCompleteSale }) => {
                         fullWidth
                         label="ID"
                         name="id"
+                        value={id}
+                        onChange={onChangeID}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment>
