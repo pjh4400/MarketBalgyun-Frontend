@@ -81,11 +81,11 @@ const CustomerPage = ({ history }) => {
           axios
             .post("api/customer", customer)
             .then((res) => {
-              if (res.data === "이미 등록된 번호입니다.") {
-                alert(res.data);
-              } else {
+              if (res.data === "Posting Success") {
                 alert("정상적으로 등록되었습니다.");
                 history.push("/");
+              } else {
+                alert(res.data);
               }
             })
             .catch((error) => {
@@ -180,12 +180,15 @@ const CustomerPage = ({ history }) => {
   const onPostEmail = () => {
     console.log(customer.email);
     axios
-      .post("api/emailAuth", customer.email)
+      .post("api/emailAuth", {
+        email: customer.email,
+      })
       .then((res) => {
-        console.log(res);
+        alert(res.data);
       })
       .catch((error) => {
         console.log(error);
+        alert("서버에러");
       });
   };
 
@@ -314,32 +317,47 @@ const CustomerPage = ({ history }) => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
-                  <TextField
-                    type="email"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    helperText="예) market@naver.com"
-                    label="이메일"
-                    name="email"
-                    value={customer.email}
-                    onChange={onChangeHandler}
-                    error
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment>
-                          <Button
-                            className={classes.next}
-                            onClick={onPostEmail}
-                          >
-                            인증하기
-                          </Button>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Grid>
+                {mode === "new" ? (
+                  <Grid item xs={12}>
+                    <TextField
+                      type="email"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      helperText="예) market@naver.com"
+                      label="이메일"
+                      name="email"
+                      value={customer.email}
+                      onChange={onChangeHandler}
+                      error
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment>
+                            <Button
+                              className={classes.next}
+                              onClick={onPostEmail}
+                            >
+                              인증하기
+                            </Button>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Grid>
+                ) : (
+                  <Grid item xs={12}>
+                    <TextField
+                      type="email"
+                      variant="outlined"
+                      fullWidth
+                      label="이메일"
+                      name="email"
+                      value={customer.email}
+                      disabled
+                      error
+                    />
+                  </Grid>
+                )}
 
                 <Grid item xs={12} sm={3}>
                   <TextField
