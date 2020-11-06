@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   Container,
   Paper,
@@ -9,17 +10,21 @@ import {
   InputAdornment,
   Card,
   CardContent,
-  CardActionArea,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import axios from "axios";
 import Navigation from "../components/Navigation";
+import { addItem } from "../modules/sales";
 
 import useStyles from "../pages/Style";
 
-const SearchProduct = () => {
+const SearchProduct = ({ history }) => {
   const [products, setProducts] = useState([]);
   const classes = useStyles();
+
+  const dispatch = useDispatch();
+  const onAddItem = useCallback((item) => dispatch(addItem(item)), [dispatch]);
 
   const onSearchByID = (e) => {
     e.preventDefault();
@@ -106,87 +111,92 @@ const SearchProduct = () => {
       });
   };
 
+  const onAddToCart = (item) => {
+    onAddItem(item);
+    history.push("/sale");
+  };
+
   const oneItem = (item) => {
     if (item.id.startsWith("C")) {
       // 위탁상품
       return (
-        <Card className={classes.card}>
-          <CardContent className={classes.cardDetails}>
-            <Typography variant="subtitle1" color="primary">
-              위탁상품 : {item.id}
-            </Typography>
-            <Typography component="h3" variant="h5" paragraph>
-              {item.name || "상품명 없음"}
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              위탁자 : {item.consigner || "정보없음"}
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              가격 : {item.price} 원
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              수량 : {item.quantity}
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              재고위치 : {item.place || "정보없음"}
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              위탁날짜 : {item.date.split("T")[0]}
-            </Typography>
-            <TextField
-                type="text"
-                variant="outlined"
-                fullWidth
-                label="사연"
-                name="story"
-                value={item.story}
-                multiline
-                disabled
-                className={classes.form}
-              />
-          </CardContent>
-        </Card>
+        <>
+          <Typography variant="subtitle1" color="primary">
+            위탁상품 : {item.id}
+          </Typography>
+          <Typography component="h3" variant="h5" paragraph>
+            {item.name || "상품명 없음"}
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            {item.first_category} - {item.second_category} -{" "}
+            {item.third_category}
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            위탁자 : {item.consigner || "정보없음"}
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            가격 : {item.price} 원
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            수량 : {item.quantity}
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            재고위치 : {item.place || "정보없음"}
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            위탁날짜 : {item.date.split("T")[0]}
+          </Typography>
+          <TextField
+            type="text"
+            variant="outlined"
+            fullWidth
+            label="사연"
+            name="story"
+            value={item.story}
+            multiline
+            disabled
+            className={classes.form}
+          />
+        </>
       );
     } else {
       // 일반상품
       return (
-        <Card className={classes.card}>
-          <CardContent className={classes.cardDetails}>
-            <Typography variant="subtitle1" color="secondary">
-              일반상품 : {item.id}
-            </Typography>
-            <Typography component="h3" variant="h5" paragraph>
-              {item.name}
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              {item.first_category} - {item.second_category} -{" "}
-              {item.third_category}
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              가격 : {item.price} 원
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              수량 : {item.quantity}
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              재고위치 : {item.place || "정보없음"}
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              매입처 : {item.trader || "정보없음"}
-            </Typography>
-            <TextField
-                type="text"
-                variant="outlined"
-                fullWidth
-                label="사연"
-                name="story"
-                value={item.story}
-                multiline
-                disabled
-                className={classes.form}
-              />
-          </CardContent>
-        </Card>
+        <>
+          <Typography variant="subtitle1" color="secondary">
+            일반상품 : {item.id}
+          </Typography>
+          <Typography component="h3" variant="h5" paragraph>
+            {item.name}
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            {item.first_category} - {item.second_category} -{" "}
+            {item.third_category}
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            가격 : {item.price} 원
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            수량 : {item.quantity}
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            재고위치 : {item.place || "정보없음"}
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            매입처 : {item.trader || "정보없음"}
+          </Typography>
+          <TextField
+            type="text"
+            variant="outlined"
+            fullWidth
+            label="사연"
+            name="story"
+            value={item.story}
+            multiline
+            disabled
+            className={classes.form}
+          />
+        </>
       );
     }
   };
@@ -303,7 +313,19 @@ const SearchProduct = () => {
                 item={item}
                 key={item.id}
               >
-                {oneItem(item)}
+                <Card className={classes.card}>
+                  <CardContent className={classes.cardDetails}>
+                    {oneItem(item)}
+                    <Grid container justify="flex-end" style={{ marginTop: 5 }}>
+                      <Button
+                        className={classes.next}
+                        onClick={(e) => onAddToCart(item)}
+                      >
+                        <ShoppingCartIcon /> 담기
+                      </Button>
+                    </Grid>
+                  </CardContent>
+                </Card>
               </Grid>
             ))}
         </Grid>
