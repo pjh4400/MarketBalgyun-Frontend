@@ -7,7 +7,7 @@ const app = express();
 
 app.use(
 	createProxyMiddleware('http://localhost:8080/api', {
-		target: 'https://marketback.herokuapp.com/',
+		target: 'http://market-balgyeon-back.herokuapp.com/',
 		changeOrigin:true,
 		pathRewrite: {
 			'^/api' : '',
