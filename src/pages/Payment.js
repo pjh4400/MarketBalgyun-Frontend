@@ -37,6 +37,7 @@ const Payment = ({
   const [point, setPoint] = useState(0);
   const [card, setCard] = useState(0);
   const [cash, setCash] = useState(0);
+  const [getCash, setGetCash] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const classes = useStyles();
@@ -47,7 +48,8 @@ const Payment = ({
 
   useEffect(() => {
     setCash(finalPrice - card);
-  }, [finalPrice, card]);
+  }, [finalPrice]);
+
 
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -60,14 +62,21 @@ const Payment = ({
   const onCardHandler = (e) => {
     if (e.target.value <= finalPrice) {
       setCard(e.target.value);
+      setCash(finalPrice - e.target.value);
     }
   };
 
   const onCashHandler = (e) => {
     if (e.target.value <= finalPrice) {
       setCash(e.target.value);
+      setGetCash(e.target.value);
+      setCard(finalPrice - e.target.value);
     }
   };
+
+  const onGetCashHandler = (e) => {
+    setGetCash(e.target.value);
+  }
 
   const onExchange = () => {
     setCard(cash);
@@ -130,7 +139,6 @@ const Payment = ({
 
   const onSubmitPay = () => {
     if (confirm("판매하시겠습니까?")) {
-      console.log(items);
       axios
         .post("api/saledProduct", {
           items: items,
@@ -192,7 +200,8 @@ const Payment = ({
               value={item.id}
               onClick={handleClose}
             >
-              [{item.name}] {item.discount}원 X {item.sale_quantity} 개 = 총{item.apply_price}원
+              [{item.name}] {item.discount}원 X {item.sale_quantity} 개 = 총
+              {item.apply_price}원
             </MenuItem>
           ))}
         </Menu>
@@ -202,26 +211,56 @@ const Payment = ({
         <Grid item xs={12}>
           <Card className={classes.card}>
             <CardContent className={classes.cardDetails}>
-              <div>
-                <Typography component="h3" variant="h5">
-                  구매자 정보
-                </Typography>
-                <Grid item xs={12} sm={8}>
-                  <form className={classes.form} onSubmit={onSearchCustomer}>
+              <Typography component="h3" variant="h5">
+                구매자 정보
+              </Typography>
+              <Grid item xs={12} sm={8}>
+                <form className={classes.form} onSubmit={onSearchCustomer}>
+                  <TextField
+                    type="text"
+                    variant="outlined"
+                    fullWidth
+                    label="전화번호 뒤 네자리"
+                    name="phone"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment>
+                          <IconButton type="submit">
+                            <SearchIcon />
+                          </IconButton>
+                          <IconButton onClick={initializeCustomer}>
+                            <ClearIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </form>
+              </Grid>
+              <Typography variant="subtitle1">
+                이름 : {membership && customer.name}{" "}
+              </Typography>
+              <Typography variant="subtitle1">
+                전화번호 : {membership && customer.phone}{" "}
+              </Typography>
+              <Typography variant="subtitle1">
+                포인트 : {membership && customer.point}
+              </Typography>
+
+              {!membership || (
+                <Grid item xs={12} sm={6}>
+                  <form className={classes.form} onSubmit={onApplyPoint}>
                     <TextField
-                      type="text"
+                      type="number"
                       variant="outlined"
                       fullWidth
-                      label="전화번호 뒤 네자리"
-                      name="phone"
+                      label="포인트 적용 (p)"
+                      name="point"
                       InputProps={{
                         endAdornment: (
                           <InputAdornment>
                             <IconButton type="submit">
-                              <SearchIcon />
-                            </IconButton>
-                            <IconButton onClick={initializeCustomer}>
-                              <ClearIcon />
+                              <CheckCircleIcon />
                             </IconButton>
                           </InputAdornment>
                         ),
@@ -229,39 +268,7 @@ const Payment = ({
                     />
                   </form>
                 </Grid>
-                <Typography variant="subtitle1">
-                  이름 : {membership && customer.name}{" "}
-                </Typography>
-                <Typography variant="subtitle1">
-                  전화번호 : {membership && customer.phone}{" "}
-                </Typography>
-                <Typography variant="subtitle1">
-                  포인트 : {membership && customer.point}
-                </Typography>
-
-                {!membership || (
-                  <Grid item xs={12} sm={6}>
-                    <form className={classes.form} onSubmit={onApplyPoint}>
-                      <TextField
-                        type="number"
-                        variant="outlined"
-                        fullWidth
-                        label="포인트 적용 (p)"
-                        name="point"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment>
-                              <IconButton type="submit">
-                                <CheckCircleIcon />
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </form>
-                  </Grid>
-                )}
-              </div>
+              )}
             </CardContent>
           </Card>
         </Grid>
@@ -269,45 +276,81 @@ const Payment = ({
         <Grid item xs={12}>
           <Card className={classes.card}>
             <CardContent className={classes.cardDetails}>
-              <div>
-                <Typography component="h3" variant="h5" paragraph>
-                  결제 방식 ( 포인트 : {point} )
-                </Typography>
-                <Grid item xs={12} sm={4} className={classes.inlineComponents}>
-                  <TextField
-                    type="number"
-                    variant="outlined"
-                    size="small"
-                    required
-                    fullWidth
-                    label="카드 (원)"
-                    name="card"
-                    onChange={onCardHandler}
-                    value={card}
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12} sm={2} className={classes.inlineComponents}>
-                  <IconButton onClick={onExchange}>
-                    <SwapHorizIcon />
-                  </IconButton>
-                </Grid>
+              <Typography component="h3" variant="h5" paragraph>
+                결제 방식 ( 포인트 : {point} )
+              </Typography>
+              <Grid item xs={12} sm={4} className={classes.inlineComponents}>
+                <TextField
+                  type="number"
+                  variant="outlined"
+                  size="small"
+                  required
+                  fullWidth
+                  label="카드 (원)"
+                  name="card"
+                  onChange={onCardHandler}
+                  value={card}
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12} sm={2} className={classes.inlineComponents}>
+                <IconButton onClick={onExchange}>
+                  <SwapHorizIcon />
+                </IconButton>
+              </Grid>
 
-                <Grid item xs={12} sm={4} className={classes.inlineComponents}>
-                  <TextField
-                    type="number"
-                    variant="outlined"
-                    size="small"
-                    required
-                    fullWidth
-                    label="현금 (원)"
-                    name="cash"
-                    onChange={onCashHandler}
-                    value={cash}
-                    autoFocus
-                  />
-                </Grid>
-              </div>
+              <Grid item xs={12} sm={4} className={classes.inlineComponents}>
+                <TextField
+                  type="number"
+                  variant="outlined"
+                  size="small"
+                  required
+                  fullWidth
+                  label="현금 (원)"
+                  name="cash"
+                  onChange={onCashHandler}
+                  value={cash}
+                  autoFocus
+                />
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Card className={classes.card}>
+            <CardContent className={classes.cardDetails}>
+              <Typography component="h3" variant="h5" paragraph>
+                잔돈 계산
+              </Typography>
+              <Grid item xs={12} sm={4} className={classes.inlineComponents}>
+                <TextField
+                  type="number"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  label="받은 금액(원)"
+                  name="getCash"
+                  onChange={onGetCashHandler}
+                  value={getCash}
+                  inputProps={{ step: 1000 }}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={4} className={classes.inlineComponents}>
+                <TextField
+                  type="number"
+                  variant="standard"
+                  size="small"
+                  fullWidth
+                  label="거스름돈(원)"
+                  name="change"
+                  value={getCash-cash>0 ? getCash-cash : 0}
+                  endAdornment={<InputAdornment position="end">원</InputAdornment>}
+                  disabled
+                  error
+                />
+              </Grid>
             </CardContent>
           </Card>
         </Grid>

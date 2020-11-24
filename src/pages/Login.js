@@ -1,12 +1,8 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router';
-
 import axios from 'axios';
-
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Container, Paper, Typography, Grid, Button, Avatar, TextField } from "@material-ui/core"
-import { getCategories } from '../modules/register';
-
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from './Style';
 
 const Login = () => {

@@ -238,6 +238,7 @@ const Trader = ({ history }) => {
                                     name="name"
                                     value={traderItem.name}
                                     onChange={onChangeHandler}
+                                    error
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -272,6 +273,7 @@ const Trader = ({ history }) => {
                                     name="business"
                                     value={traderItem.business}
                                     onChange={onChangeHandler}
+                                    error
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>

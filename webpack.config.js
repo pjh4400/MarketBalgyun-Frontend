@@ -7,7 +7,7 @@ const port = process.env.PORT || 8080;
 
 module.exports = {
     name: 'market-balgyun',
-    mode: 'development', // 실서비스 할 때: production
+    mode: 'production', // 실서비스 할 때: production
     devtool: 'eval', 
     resolve: {
         extensions: ['.jsx', '.js'],

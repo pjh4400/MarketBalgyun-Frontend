@@ -47,6 +47,7 @@ const CustomerPage = ({ history }) => {
       phone: "",
       taste: "",
       boolSMS: false,
+      boolSpace: false,
       boolLecture: false,
       likeCategory: "",
       something: "",
@@ -133,6 +134,7 @@ const CustomerPage = ({ history }) => {
               phone: "",
               taste: "",
               boolSMS: false,
+              boolSpace: false,
               boolLecture: false,
               likeCategory: "",
               something: "",
@@ -303,7 +305,7 @@ const CustomerPage = ({ history }) => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={6}>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -314,6 +316,20 @@ const CustomerPage = ({ history }) => {
                       />
                     }
                     label="SMS수신동의"
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={onChangeHandler}
+                        name="boolSpace"
+                        checked={customer.boolSpace}
+                        className={classes.checkbox}
+                      />
+                    }
+                    label="공간대여"
                   />
                 </Grid>
 
@@ -457,7 +473,7 @@ const CustomerPage = ({ history }) => {
                         className={classes.checkbox}
                       />
                     }
-                    label="강좌관심여부"
+                    label="클래스"
                   />
                 </Grid>
 

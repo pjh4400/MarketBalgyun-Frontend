@@ -43,7 +43,7 @@ const GeneralProuct = ({ mode, info, onPreviousStep }) => {
                     setExists(res.data);
                 })
                 .catch((error) => {
-                    alert('서버 에러');
+                    alert('기존 상품명을 불러오지 못했습니다.');
                     console.log(error);
                 })
         }
