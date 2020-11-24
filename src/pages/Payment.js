@@ -37,6 +37,7 @@ const Payment = ({
   const [point, setPoint] = useState(0);
   const [card, setCard] = useState(0);
   const [cash, setCash] = useState(0);
+  const [account, setAccount] = useState(0);
   const [getCash, setGetCash] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -47,9 +48,12 @@ const Payment = ({
   }, [point]);
 
   useEffect(() => {
-    setCash(finalPrice - card);
+    setCard(finalPrice - account - cash);
   }, [finalPrice]);
 
+  useEffect(() => {
+    setCash(finalPrice - account - card);
+  }, [card]);
 
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -60,23 +64,30 @@ const Payment = ({
   };
 
   const onCardHandler = (e) => {
-    if (e.target.value <= finalPrice) {
+    if (e.target.value <= finalPrice - account) {
       setCard(e.target.value);
-      setCash(finalPrice - e.target.value);
+      setCash(finalPrice - account - e.target.value);
     }
   };
 
   const onCashHandler = (e) => {
-    if (e.target.value <= finalPrice) {
+    if (e.target.value <= finalPrice - account) {
       setCash(e.target.value);
       setGetCash(e.target.value);
+      setCard(finalPrice - account - e.target.value);
+    }
+  };
+
+  const onAccountHandler = (e) => {
+    if (e.target.value <= finalPrice) {
+      setAccount(e.target.value);
       setCard(finalPrice - e.target.value);
     }
   };
 
   const onGetCashHandler = (e) => {
     setGetCash(e.target.value);
-  }
+  };
 
   const onExchange = () => {
     setCard(cash);
@@ -148,6 +159,7 @@ const Payment = ({
           point: point,
           card: card,
           cash: cash,
+          account: account,
           staff: window.sessionStorage.getItem("name"),
         })
         .then((res) => {
@@ -264,6 +276,7 @@ const Payment = ({
                             </IconButton>
                           </InputAdornment>
                         ),
+                        step: 1000,
                       }}
                     />
                   </form>
@@ -279,6 +292,22 @@ const Payment = ({
               <Typography component="h3" variant="h5" paragraph>
                 결제 방식 ( 포인트 : {point} )
               </Typography>
+              <Grid item xs={12}>
+                <Grid item xs={12} sm={4} className={classes.inlineComponents}>
+                  <TextField
+                    type="number"
+                    variant="outlined"
+                    size="small"
+                    required
+                    fullWidth
+                    label="계좌이체 (원)"
+                    name="account"
+                    onChange={onAccountHandler}
+                    value={account}
+                    inputProps={{ step: 1000 }}
+                  />
+                </Grid>
+              </Grid>
               <Grid item xs={12} sm={4} className={classes.inlineComponents}>
                 <TextField
                   type="number"
@@ -310,7 +339,7 @@ const Payment = ({
                   name="cash"
                   onChange={onCashHandler}
                   value={cash}
-                  autoFocus
+                  inputProps={{ step: 1000 }}
                 />
               </Grid>
             </CardContent>
@@ -345,8 +374,10 @@ const Payment = ({
                   fullWidth
                   label="거스름돈(원)"
                   name="change"
-                  value={getCash-cash>0 ? getCash-cash : 0}
-                  endAdornment={<InputAdornment position="end">원</InputAdornment>}
+                  value={getCash - cash > 0 ? getCash - cash : 0}
+                  endAdornment={
+                    <InputAdornment position="end">원</InputAdornment>
+                  }
                   disabled
                   error
                 />
@@ -356,7 +387,7 @@ const Payment = ({
         </Grid>
 
         <Button className={classes.submit} size="large" onClick={onSubmitPay}>
-          총 {finalPrice} 원 판매하기
+          총 {sum_price - point} 원 판매하기
         </Button>
       </Grid>
     </>
