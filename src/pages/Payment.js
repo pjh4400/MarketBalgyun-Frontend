@@ -192,7 +192,7 @@ const Payment = ({
         align="center"
         className={classes.header}
       >
-        상품결제 총 {sum_price} 원
+        상품결제 총 {sum_price.toLocaleString()} 원
       </Typography>
 
       <Grid container justify="flex-end" className={classes.form}>
@@ -256,7 +256,7 @@ const Payment = ({
                 전화번호 : {membership && customer.phone}{" "}
               </Typography>
               <Typography variant="subtitle1">
-                포인트 : {membership && customer.point}
+                포인트 : {membership && customer.point.toLocaleString()}
               </Typography>
 
               {!membership || (
@@ -387,7 +387,7 @@ const Payment = ({
         </Grid>
 
         <Button className={classes.submit} size="large" onClick={onSubmitPay}>
-          총 {sum_price - point} 원 판매하기
+          총 {finalPrice.toLocaleString()} 원 판매하기
         </Button>
       </Grid>
     </>

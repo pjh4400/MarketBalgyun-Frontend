@@ -1,5 +1,5 @@
 import React, { useState} from "react";
-import { Typography, Grid, TextField, InputAdornment, Card, CardContent, IconButton, CardActionArea } from '@material-ui/core';
+import { Typography, Grid, TextField, InputAdornment, Card, CardContent, IconButton } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/clear';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import useStyles from '../pages/Style';
@@ -107,7 +107,7 @@ const SaleItem = ({ item, onDeleteItem, onChangeInfo }) => {
             </form>
           </Grid>
           <Typography variant="subtitle1" color="primary">
-            총 적용 가격 : {item.apply_price} 원
+            총 적용 가격 : {item.apply_price.toLocaleString()} 원
             </Typography>
         </CardContent>
       </Card>
