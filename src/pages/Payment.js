@@ -18,9 +18,9 @@ import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import axios from "axios";
 import useStyles from "./Style";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Navigation from "../components/Navigation";
 
 const Payment = ({
-  history,
   items,
   sum_price,
   handleNext,
@@ -181,11 +181,6 @@ const Payment = ({
 
   return (
     <>
-      <Grid container justify="flex-start">
-        <Button className={classes.next} size="large" onClick={handleBack}>
-          <ShoppingCartIcon /> 다시담기
-        </Button>
-      </Grid>
       <Typography
         component="h1"
         variant="h4"
@@ -194,8 +189,12 @@ const Payment = ({
       >
         상품결제 총 {sum_price.toLocaleString()} 원
       </Typography>
+      <Navigation />
 
       <Grid container justify="flex-end" className={classes.form}>
+        <Button className={classes.next} size="large" onClick={handleBack}>
+          <ShoppingCartIcon /> 다시담기
+        </Button>
         <Button onClick={handleClick} className={classes.next}>
           상품목록 ▼{" "}
         </Button>
