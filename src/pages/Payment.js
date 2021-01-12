@@ -18,9 +18,9 @@ import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import axios from "axios";
 import useStyles from "./Style";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Navigation from "../components/Navigation";
 
 const Payment = ({
-  history,
   items,
   sum_price,
   handleNext,
@@ -37,6 +37,7 @@ const Payment = ({
   const [point, setPoint] = useState(0);
   const [card, setCard] = useState(0);
   const [cash, setCash] = useState(0);
+  const [account, setAccount] = useState(0);
   const [getCash, setGetCash] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -47,9 +48,12 @@ const Payment = ({
   }, [point]);
 
   useEffect(() => {
-    setCash(finalPrice - card);
+    setCard(finalPrice - account - cash);
   }, [finalPrice]);
 
+  useEffect(() => {
+    setCash(finalPrice - account - card);
+  }, [card]);
 
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -60,23 +64,30 @@ const Payment = ({
   };
 
   const onCardHandler = (e) => {
-    if (e.target.value <= finalPrice) {
+    if (e.target.value <= finalPrice - account) {
       setCard(e.target.value);
-      setCash(finalPrice - e.target.value);
+      setCash(finalPrice - account - e.target.value);
     }
   };
 
   const onCashHandler = (e) => {
-    if (e.target.value <= finalPrice) {
+    if (e.target.value <= finalPrice - account) {
       setCash(e.target.value);
       setGetCash(e.target.value);
+      setCard(finalPrice - account - e.target.value);
+    }
+  };
+
+  const onAccountHandler = (e) => {
+    if (e.target.value <= finalPrice) {
+      setAccount(e.target.value);
       setCard(finalPrice - e.target.value);
     }
   };
 
   const onGetCashHandler = (e) => {
     setGetCash(e.target.value);
-  }
+  };
 
   const onExchange = () => {
     setCard(cash);
@@ -148,6 +159,7 @@ const Payment = ({
           point: point,
           card: card,
           cash: cash,
+          account: account,
           staff: window.sessionStorage.getItem("name"),
         })
         .then((res) => {
@@ -169,21 +181,20 @@ const Payment = ({
 
   return (
     <>
-      <Grid container justify="flex-start">
-        <Button className={classes.next} size="large" onClick={handleBack}>
-          <ShoppingCartIcon /> 다시담기
-        </Button>
-      </Grid>
       <Typography
         component="h1"
         variant="h4"
         align="center"
         className={classes.header}
       >
-        상품결제 총 {sum_price} 원
+        상품결제 총 {sum_price.toLocaleString()} 원
       </Typography>
+      <Navigation />
 
       <Grid container justify="flex-end" className={classes.form}>
+        <Button className={classes.next} size="large" onClick={handleBack}>
+          <ShoppingCartIcon /> 다시담기
+        </Button>
         <Button onClick={handleClick} className={classes.next}>
           상품목록 ▼{" "}
         </Button>
@@ -244,7 +255,7 @@ const Payment = ({
                 전화번호 : {membership && customer.phone}{" "}
               </Typography>
               <Typography variant="subtitle1">
-                포인트 : {membership && customer.point}
+                포인트 : {membership && customer.point.toLocaleString()}
               </Typography>
 
               {!membership || (
@@ -264,6 +275,7 @@ const Payment = ({
                             </IconButton>
                           </InputAdornment>
                         ),
+                        step: 1000,
                       }}
                     />
                   </form>
@@ -279,6 +291,22 @@ const Payment = ({
               <Typography component="h3" variant="h5" paragraph>
                 결제 방식 ( 포인트 : {point} )
               </Typography>
+              <Grid item xs={12}>
+                <Grid item xs={12} sm={4} className={classes.inlineComponents}>
+                  <TextField
+                    type="number"
+                    variant="outlined"
+                    size="small"
+                    required
+                    fullWidth
+                    label="계좌이체 (원)"
+                    name="account"
+                    onChange={onAccountHandler}
+                    value={account}
+                    inputProps={{ step: 1000 }}
+                  />
+                </Grid>
+              </Grid>
               <Grid item xs={12} sm={4} className={classes.inlineComponents}>
                 <TextField
                   type="number"
@@ -310,7 +338,7 @@ const Payment = ({
                   name="cash"
                   onChange={onCashHandler}
                   value={cash}
-                  autoFocus
+                  inputProps={{ step: 1000 }}
                 />
               </Grid>
             </CardContent>
@@ -345,8 +373,10 @@ const Payment = ({
                   fullWidth
                   label="거스름돈(원)"
                   name="change"
-                  value={getCash-cash>0 ? getCash-cash : 0}
-                  endAdornment={<InputAdornment position="end">원</InputAdornment>}
+                  value={getCash - cash > 0 ? getCash - cash : 0}
+                  endAdornment={
+                    <InputAdornment position="end">원</InputAdornment>
+                  }
                   disabled
                   error
                 />
@@ -356,7 +386,7 @@ const Payment = ({
         </Grid>
 
         <Button className={classes.submit} size="large" onClick={onSubmitPay}>
-          총 {finalPrice} 원 판매하기
+          총 {finalPrice.toLocaleString()} 원 판매하기
         </Button>
       </Grid>
     </>

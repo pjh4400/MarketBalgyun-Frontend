@@ -24,7 +24,7 @@ const Sale = ({items, sum_price, handleNext, onAddItem, onDeleteItem, onChangeIn
                 ))}
             </Grid>
 
-            <Button className={classes.submit} size="large" onClick={handleNext}>총 {sum_price} 원 판매하기</Button>
+            <Button className={classes.submit} size="large" onClick={handleNext}>총 {sum_price.toLocaleString()} 원 판매하기</Button>
         </>
 
     );
