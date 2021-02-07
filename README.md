@@ -1,14 +1,12 @@
 # MARKET BALGYUN POS WEB PROJECT
 ## About Project
-&nbsp;본 프로젝트는 JAKorea-SAP가 주최하는 사회적기업 디지털 전환 프로젝트의 일환입니다.  
-&nbsp;사회적기업 디지털 전환 프로젝트는 JAKorea와 SAP가 함께하여 디지털화가 필요한 사회적기업에
-IT 전공 대학생들이 자신의 전공을 활용하여 기업 맞춤형 솔루션을 제공하는 프로젝트입니다.  
-&nbsp; 본 프로젝트는 Front-End와 Back-End(Web API 서버)로 구성된 웹 프로젝트이며 본 레포지토리는 Front-End 레포지토리입니다.
+&nbsp;본 프로젝트는 JAKorea-SAP가 주최하는 **사회적기업 디지털 전환 프로젝트**의 일환입니다. 사회적기업 디지털 전환 프로젝트는 JAKorea와 SAP가 함께하여 디지털화가 필요한 사회적기업에 IT 전공 대학생들이 자신의 전공을 활용하여 기업 맞춤형 솔루션을 제공하는 프로젝트입니다. 
 
-## 마켓 발견
-<img src="https://user-images.githubusercontent.com/42201356/103173485-a417fc00-489e-11eb-9c3d-3fcb69bf4ac3.png" alt="마켓발견" width="45%" height="45%">
+본 프로젝트는 Front-End와 Back-End(Web API 서버)로 구성된 웹 프로젝트이며 본 레포지토리는 Front-End 레포지토리입니다.
 
-&nbsp;마켓발견은 경기도 의왕시에 위치한 기업이다. 마켓발견은 물건뿐만 아니라 사람도 업사이클링(update+ recycling)한다는 철학을 가진 기업으로써, 기부된 물건을 판매하고, 판매가 어려운 물건은 업사이클링하여 판매한다. 또한, 도자기만들기, 헌옷으로 머리끈만들기 등 강좌를 제공하는 사람과 배우고자하는 사람을 연결해주고, 장소를 대여해주며 사람들이 새로운 도전을 하도록 격려하는 사회적 기업이다.
+
+
+
 
 ### 요구사항
   1. 항상 정해진 물건만 판매하는 일반적인 매장과 달리 마켓 발견은 항상 다른 종류의 상품이 들어오기 때문에 매번 새로운 상품을 POS에 등록해야한다. 하지만 일반적인 POS 기기 특성상 상품을 매번 등록하기에는 시간이 많이 때문에 이를 효과적으로 줄일 수 있는 체계가 필요하다.  
@@ -24,18 +22,21 @@ IT 전공 대학생들이 자신의 전공을 활용하여 기업 맞춤형 솔�
   6. 솔루션 관리 비용 최소화  
   
   7. 통계를 위한 판매로그 작성 및 엑셀 파일로 출력 가능
+
   
-  
-  
+
+
+
 ### 솔루션  
-  1. 재고 등록 시간의 단축을 위해 터치 기반 태블릿 도입, 다수의 직원이 휴대하며 동시에 재고, 회원 등록이 가능하게 함  
-  
-  2. 기존 POS를 대체하는 웹 기반 마켓발견 맞춤형 재고, 회원 관리 시스템 개발, 태블릿 사용을 전제로 터치에 용의하도록 설계
-  
-  3. 위탁 상품, 유사 상품 등을 관리하기 위한 새로운 상품 ID체계 도입, 데이터베이스 설계  
-  
-  4. 솔루션 관리 비용을 최소화 하기 위해 무료 호스팅 서비스 사용  
-  
+    1. 재고 등록 시간의 단축을 위해 터치 기반 태블릿 도입, 다수의 직원이 휴대하며 동시에 재고, 회원 등록이 가능하게 함 
+    2. 기존 POS를 대체하는 웹 기반 마켓발견 맞춤형 재고, 회원 관리 시스템 개발, 태블릿 사용을 전제로 터치에 용의하도록 설계
+    3. 위탁 상품, 유사 상품 등을 관리하기 위한 새로운 상품 ID체계 도입, 데이터베이스 설계  
+    4. 솔루션 관리 비용을 최소화 하기 위해 무료 호스팅 서비스 사용  
+
+
+
+
+
 
 ## 프로젝트 구성
 ### 개발 환경 및 개발 언어
@@ -49,39 +50,103 @@ IT 전공 대학생들이 자신의 전공을 활용하여 기업 맞춤형 솔�
 
 
 
+
+
 ### 프로젝트 구조도
 <img src="https://user-images.githubusercontent.com/42201356/103192044-9738ee00-491a-11eb-912d-3eed499bdc2f.png" alt="프로젝트 구조도" width="75%" height="75%">  
-  
+
+
+
+
+
 ## Web API 서버
+
 https://marketback.herokuapp.com/  
 
 <a href="https://github.com/wlgjs8/MarketBalgyun-Backend">Back-End 레포지토리</a>  
 
+
+
+
+
 ## 클라이언트 페이지
+
 https://market-balgyun.herokuapp.com/  
 
-#### 웹사이트 화면 예시  
-
-#### 로그인 화면
-<img src="https://user-images.githubusercontent.com/42201356/103192733-14fdf900-491d-11eb-92ae-2349c61d2d07.png" alt="로그인 화면" width="50%" height="50%">  
-
-#### 메인 화면
-<img src="https://user-images.githubusercontent.com/42201356/103176775-16e1a100-48b8-11eb-90ac-7ca6508d63d1.png" alt="웹사이트 화면 예시" width="50%" height="50%">  
-
-#### 상품 등록  
-<img src="https://user-images.githubusercontent.com/42201356/103192914-d3ba1900-491d-11eb-9a07-bc438aba3414.png" alt="상품 등록 페이지1" width="50%" hegith="50%">  
 
 
-<img src="https://user-images.githubusercontent.com/42201356/103193059-75da0100-491e-11eb-9d2b-edd7ae0889a6.png" alt="상품 등록 페이지2" width="50%" height="50%">  
+#### 페이지 기능 설명
+
+#### 📃 로그인 페이지
+
+<img src="https://user-images.githubusercontent.com/54929552/107138362-5095d500-6957-11eb-8222-6b2b3928e91b.png" alt="image-20210207150620441" width="50%" />
 
 
-#### 상품 검색
-<img src="https://user-images.githubusercontent.com/42201356/103193214-1defca00-491f-11eb-8782-f46f5c6a1588.png" alt="상품 검색" width="50%" height="50%">  
 
 
-## Made By
-- [숭실대 소프트웨어학부 18 김지헌]
-- [숭실대 소프트웨어학부 18 변지현]
+
+#### 📃 메인 페이지
+
+<img src="https://user-images.githubusercontent.com/54929552/107138602-bc2c7200-6958-11eb-8a8d-2130a3f521aa.png" alt="image-20210207150300223" width="50%" />
+
+- 관리자 계정에서 직원 등록 및 삭제 가능
+- 판매 및 재고관련 엑셀파일 다운로드 기능
+
+
+
+#### 📃 상품 등록
+
+<img src="https://user-images.githubusercontent.com/54929552/107138414-8cc93580-6957-11eb-9b66-919ba21db376.png" alt="image-20210207151046705" width="50%" />
+
+<img src="https://user-images.githubusercontent.com/54929552/107138417-9b175180-6957-11eb-8aa0-c38713131be3.png" alt="image-20210207151136904" width="50%" />
+
+- 카테고리 선택 후 상품 상세 정보 기입, 등록
+
+
+
+
+#### 📃 상품 검색
+<img src="https://user-images.githubusercontent.com/54929552/107138682-10cfed00-6959-11eb-9f21-92de505c9837.png" alt="image-20210207150445822" width="50%" />
+
+- 상품 정보를 통한 상품 검색, 장바구니 연동
+
+
+
+#### 📃 상품 판매
+
+<img src="https://user-images.githubusercontent.com/54929552/107138371-63100e80-6957-11eb-9a4e-5c49d65aa371.png" alt="image-20210207150721623" width="50%" />
+
+- ID를 이용한 상품 검색
+- 장바구니 기능, 수량 & 판매가 수량 기능
+
+
+
+<img src="https://user-images.githubusercontent.com/54929552/107138383-76bb7500-6957-11eb-885b-f0529f03f771.png" alt="image-20210207150906168" width="50%" />
+
+- 전화번호 검색을 통한 구매자 정보 조회 및 포인트(적립금) 사용 기능
+- 결제 방식에 따른 거스름돈 계산
+
+
+
+#### 📃 회원 관리
+
+<img src="https://user-images.githubusercontent.com/54929552/107138484-02350600-6958-11eb-9a13-66f89e5417bf.png" alt="image" width="50%" />
+
+<img src="https://user-images.githubusercontent.com/54929552/107138445-c306b500-6957-11eb-8fb7-cc185c70d1e4.png" alt="image-20210207151339490" width="50%" />
+
+- 회원 정보 기입 후 회원 등록
+
+
+
+## FRONTEND DEVELOPER
+
 - [숭실대 소프트웨어학부 18 박재희]
 - [숭실대 컴퓨터학부 18 손예진]
+
+
+
+## BACKEND DEVELOPER
+
+- [숭실대 소프트웨어학부 18 김지헌]
+- [숭실대 소프트웨어학부 18 변지현]
 
